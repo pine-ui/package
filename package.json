@@ -1,6 +1,6 @@
 {
   "name": "com.kbenim.pine",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "displayName": "Pine",
   "description": "A typed reactive UI library for code-created Unity uGUI.",
   "unity": "6000.3",

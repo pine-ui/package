@@ -151,6 +151,6 @@ internal static class Program
             invalid = false; try { UI.Spring(() => 0d, period: new Value<double>(0)); } catch (ArgumentOutOfRangeException) { invalid = true; } Check(invalid, "Invalid period rejected");
         })) { }
         bool disposed = false; try { _ = spring.Value; } catch (ObjectDisposedException) { disposed = true; } Check(disposed, "Spring owned disposal");
-        Check(UI.Version == new Version(0, 2, 0), "Pine version");
+        Check(UI.Version == new Version(1, 0, 0), "Pine version");
     }
 }

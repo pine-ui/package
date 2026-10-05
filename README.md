@@ -32,7 +32,7 @@ Compose plain functions directly, or declare a public instance `Create(...)` on 
 
 ## Install
 
-Install with Unity Package Manager using https://github.com/pine-ui/package.git#v0.2.0, or install the matching com.kbenim.pine-0.2.0.tgz release artifact and verify its SHA256 checksum. The manifest declares Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1; Unity resolves its Editor-compatible uGUI core package. See [compatibility](COMPATIBILITY.md) for the exact verified versions and scope.
+Install with Unity Package Manager using https://github.com/pine-ui/package.git#v1.0.0, or install the matching com.kbenim.pine-1.0.0.tgz release artifact and verify its SHA256 checksum. The manifest declares Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1; Unity resolves its Editor-compatible uGUI core package. See [compatibility](COMPATIBILITY.md) for the exact verified versions and scope.
 
 The package bundles an accented-Latin font and missing-only TMP setup. It preserves existing TMP settings, compatible external EventSystems/action assets and parent canvases. Generated defaults retain project-owned resource copies for safe package removal. Desktop legacy-only projects enable Both with an Editor restart; legacy-only Android uses the compatible legacy UI fallback because Android does not support Both. When switching targets, Pine restores only its own original legacy backend choice; external Both configurations remain unchanged and receive a diagnostic. Setup diagnoses incompatible external configurations without rewriting gameplay.
 

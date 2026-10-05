@@ -1,4 +1,4 @@
-# Pine 0.2.0 compatibility
+# Pine 1.0.0 compatibility
 
 Minimum declared Unity version: 6000.3. The manifest declares uGUI 2.0.0 and Input System 1.20.1; Unity resolves the Editor-compatible uGUI core package.
 
@@ -13,4 +13,4 @@ Windows, Android, iOS, WebGL/browser, IL2CPP, physical input and native keyboard
 
 Use Pine from Unity's main thread. Additional glyph coverage requires code-configured fonts. Existing input/UI ownership is preserved; platform/backend incompatibilities produce diagnostics.
 
-Pine 0.2.0 is an early release with pre-1.0 API changes.
+Pine 1.0.0 establishes the stable public API. Breaking API changes require a new major version.

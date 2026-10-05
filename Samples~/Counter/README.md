@@ -4,4 +4,4 @@ Import this sample through Package Manager and press Play. App.cs returns the tr
 
 The canvas persists across scenes by default. Set CanvasOptions.Persistent=false through an optional App.Options property for scene lifetime. Destroying its root releases bindings and handlers. Explicit UI.Mount remains available for early disposal and external parents.
 
-Follow the matching 0.2.0 installation guide for input setup and any Editor restart.
+Follow the matching 1.0.0 installation guide for input setup and any Editor restart.

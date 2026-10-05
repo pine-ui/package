@@ -18,7 +18,7 @@ namespace Pine
         /// UnityEngine.Debug.Log(UI.Version);
         /// ]]></code>
         /// </example>
-        public static Version Version => new(0, 2, 0);
+        public static Version Version => new(1, 0, 0);
         /// <summary>Global explicit reactive motion preference. True snaps spring targets and removes native selectable/dropdown transition fades; false allows declared motion. Applications can bind their settings/platform preference to this source.</summary>
         /// <example>
         /// <code><![CDATA[

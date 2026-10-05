@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 — 2026-10-06
+## 1.0.0 — 2026-10-06
 
 - Rename the static facade to `UI` and the mounted lifetime to `Mount`; use one `using Pine;` import.
 - Automatically start App.cs / App.Mount with the bundled source generator; default persistent canvas and optional scene lifetime through CanvasOptions.
@@ -15,4 +15,4 @@
 - Include compiler rejection cases, native lifecycle/control checks, a stripped macOS player workload, source synchronization and reproducible artifacts.
 - Document every public API declaration with XML summaries/examples and a complete current web reference.
 
-This early release changes the pre-1.0 API. See [compatibility](COMPATIBILITY.md) for the exact verified scope.
+This release establishes the 1.0 public API. See [compatibility](COMPATIBILITY.md) for the exact verified scope.
