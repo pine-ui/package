@@ -166,7 +166,7 @@ namespace Pine.Tests
             while (Time.frameCount < inactiveFrame + 3) yield return null;
             Check(inactive.Scope.IsDisposed, "Destroying a never-enabled UI root ends its mount scope.");
             var isolatedScene = UnityEngine.SceneManagement.SceneManager.CreateScene("Pine lifetime check");
-            var sceneMount = UI.Mount(() => UI.Label("Scene owned"));
+            var sceneMount = UI.Mount(() => UI.Label("Scene owned"), options: new CanvasOptions { Persistent = false });
             UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(sceneMount.Canvas.gameObject, isolatedScene);
             var unload = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(isolatedScene);
             while (!unload.isDone) yield return null;

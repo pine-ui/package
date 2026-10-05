@@ -11,9 +11,13 @@ namespace PineComposition.Examples
         )
         {
             return UI.Column(
-                8,
-                UI.Label(title, UI.FontSize(24), UI.Size(420, 36)),
-                UI.Column(8, children)
+                gap: 8,
+                UI.Label(
+                    text: title,
+                    UI.FontSize(size: 24),
+                    UI.Size(width: 420, height: 36)
+                ),
+                UI.Column(gap: 8, children)
             );
         }
     }

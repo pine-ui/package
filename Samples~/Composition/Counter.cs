@@ -3,18 +3,25 @@ using UnityEngine;
 
 namespace PineComposition.Examples
 {
-    public static class Counter
+    public sealed class Counter : MonoBehaviour
     {
-        public static RectTransform Create(
-            string title = "Counter",
+        public RectTransform Create(
+            Value<string> title,
             Source<int> count = null
         )
         {
-            count ??= UI.Source(0);
+            count ??= UI.Source(value: 0);
             return UI.Column(
-                8,
-                UI.Label(() => $"{title}: {count.Value}", UI.Size(420, 32)),
-                UI.Button("Increment", () => count.Value++, UI.Size(420, 40))
+                gap: 8,
+                UI.Label(
+                    text: () => $"{title.Read()}: {count.Value}",
+                    UI.Size(width: 420, height: 32)
+                ),
+                UI.Button(
+                    text: "Increment",
+                    click: () => count.Value++,
+                    UI.Size(width: 420, height: 40)
+                )
             );
         }
     }

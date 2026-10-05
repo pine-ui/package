@@ -9,10 +9,10 @@ namespace PineComposition.Examples
         public static Button Save(Value<bool> canSave, Action save)
         {
             return UI.Button(
-                "Save",
-                save,
-                UI.Enabled(canSave),
-                UI.Size(420, 40)
+                text: "Save",
+                click: save,
+                UI.Enabled(enabled: canSave),
+                UI.Size(width: 420, height: 40)
             );
         }
     }

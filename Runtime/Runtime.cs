@@ -11,15 +11,25 @@ namespace Pine
     /// <summary>Typed reactive configuration for a Pine-owned canvas. Fields accept literals, sources, derived values, springs and Value-wrapped getters. Options only configure canvases created by Pine; an explicit parent retains ownership of its existing canvas. Camera and world-space rendering are selected in code.</summary>
     /// <example>
     /// <code><![CDATA[
-    /// UI.Mount(() => UI.Label("Overlay"), options: new CanvasOptions
-    /// {
-    ///     ReferenceResolution = new UnityEngine.Vector2(1280, 720),
-    ///     SafeArea = true
-    /// });
+    /// UI.Mount(
+    ///     () => UI.Label(text: "Overlay"),
+    ///     options: new CanvasOptions
+    ///     {
+    ///         ReferenceResolution = new UnityEngine.Vector2(x: 1280, y: 720),
+    ///         SafeArea = true,
+    ///     }
+    /// );
     /// ]]></code>
     /// </example>
     public sealed class CanvasOptions
     {
+        /// <summary>Whether a Pine-owned canvas survives scene changes. Defaults to true and is read once when mounting. Set false for scene-lived UI. Persistence never takes ownership of an external parent or canvas; explicitly requesting it with an external parent is rejected.</summary>
+        /// <example>
+        /// <code><![CDATA[
+        /// var options = new CanvasOptions { Persistent = false };
+        /// ]]></code>
+        /// </example>
+        public bool Persistent = true;
         /// <summary>Reactive name for a Pine-owned canvas; defaults to Canvas.</summary>
         /// <example>
         /// <code><![CDATA[
@@ -30,7 +40,10 @@ namespace Pine
         /// <summary>Reactive positive reference resolution for native canvas scaling; defaults to 1920 by 1080 with a 0.5 width/height match.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// var options = new CanvasOptions { ReferenceResolution = new UnityEngine.Vector2(1280, 720) };
+        /// var options = new CanvasOptions
+        /// {
+        ///     ReferenceResolution = new UnityEngine.Vector2(x: 1280, y: 720),
+        /// };
         /// ]]></code>
         /// </example>
         public Value<Vector2> ReferenceResolution = new Vector2(1920, 1080);
@@ -44,7 +57,10 @@ namespace Pine
         /// <summary>Reactive rendering mode: overlay by default, camera or world-space when explicitly selected.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// var options = new CanvasOptions { RenderMode = UnityEngine.RenderMode.ScreenSpaceOverlay };
+        /// var options = new CanvasOptions
+        /// {
+        ///     RenderMode = UnityEngine.RenderMode.ScreenSpaceOverlay,
+        /// };
         /// ]]></code>
         /// </example>
         public Value<RenderMode> RenderMode = UnityEngine.RenderMode.ScreenSpaceOverlay;
@@ -72,21 +88,30 @@ namespace Pine
         /// <summary>Reactive world canvas position, applied in WorldSpace mode. Defaults to world zero.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// var options = new CanvasOptions { WorldPosition = new UnityEngine.Vector3(0, 1, 2) };
+        /// var options = new CanvasOptions
+        /// {
+        ///     WorldPosition = new UnityEngine.Vector3(x: 0, y: 1, z: 2),
+        /// };
         /// ]]></code>
         /// </example>
         public Value<Vector3> WorldPosition = Vector3.zero;
         /// <summary>Reactive world canvas rotation, applied in WorldSpace mode. Defaults to identity.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// var options = new CanvasOptions { WorldRotation = UnityEngine.Quaternion.identity };
+        /// var options = new CanvasOptions
+        /// {
+        ///     WorldRotation = UnityEngine.Quaternion.identity,
+        /// };
         /// ]]></code>
         /// </example>
         public Value<Quaternion> WorldRotation = Quaternion.identity;
         /// <summary>Reactive finite non-negative world canvas dimensions before its scale multiplier. Defaults to 800 by 600.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// var options = new CanvasOptions { WorldSize = new UnityEngine.Vector2(200, 100) };
+        /// var options = new CanvasOptions
+        /// {
+        ///     WorldSize = new UnityEngine.Vector2(x: 200, y: 100),
+        /// };
         /// ]]></code>
         /// </example>
         public Value<Vector2> WorldSize = new Vector2(800, 600);
@@ -111,15 +136,15 @@ namespace Pine
             if (TMP_Settings.defaultFontAsset != null) return TMP_Settings.defaultFontAsset;
             throw new InvalidOperationException("Pine's bundled Latin font is missing. Reinstall Pine or supply UI.DefaultFont in code.");
         }
-        /// <summary>An explicit mounted interface lifetime. Scope owns bindings and created native objects; Root identifies the returned interface and Canvas identifies its containing canvas. Dispose removes the interface; destroying Root also disposes its scope. Mount the whole tree once at startup. The returned Mount may be ignored for a scene-lived interface: root destruction or scene unload disposes its scope. Retain it only for early disposal or explicit persistence; disabling the creating component does not remove or rebuild UI.</summary>
+        /// <summary>An explicit mounted interface lifetime. Scope owns bindings and created native objects; Root identifies the returned interface and Canvas identifies its containing canvas. Dispose removes the interface; destroying Root also disposes its scope. App.Mount returns the whole tree once at startup; generated startup calls this method automatically. Pine-owned canvases persist across scenes by default. CanvasOptions.Persistent=false opts into scene lifetime. Destroying the root or disposing the result ends its scope; disabling a caller does not rebuild UI.</summary>
         /// <param name="component">Builder returning the live native root in the mount scope.</param>
         /// <param name="parent">Optional external native parent; null creates a Pine-owned canvas.</param>
         /// <param name="options">Code-configured typed reactive canvas options, used only for Pine-owned canvases.</param>
-        /// <returns>The mounted tree’s scope, native root and containing canvas. Ignore this optional result for scene-lived UI; retain it for early disposal or explicit persistence.</returns>
+        /// <returns>The mounted tree’s scope, native root and containing canvas. Keep this optional result only for explicit early disposal. Persistence is configured with CanvasOptions.</returns>
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// Mount mount = UI.Mount(() => UI.Label("Hello"));
+        /// Mount mount = UI.Mount(component: () => UI.Label(text: "Hello"));
         /// mount.Dispose();
         /// ]]></code>
         /// </example>
@@ -128,21 +153,23 @@ namespace Pine
             if (component == null) throw new ArgumentNullException(nameof(component));
             return Mount(() => component()?.gameObject ?? throw new InvalidOperationException("A mount must return a live component."), parent, options);
         }
-        /// <summary>An explicit mounted interface lifetime. Scope owns bindings and created native objects; Root identifies the returned interface and Canvas identifies its containing canvas. Dispose removes the interface; destroying Root also disposes its scope. Mount the whole tree once at startup. The returned Mount may be ignored for a scene-lived interface: root destruction or scene unload disposes its scope. Retain it only for early disposal or explicit persistence; disabling the creating component does not remove or rebuild UI.</summary>
+        /// <summary>An explicit mounted interface lifetime. Scope owns bindings and created native objects; Root identifies the returned interface and Canvas identifies its containing canvas. Dispose removes the interface; destroying Root also disposes its scope. App.Mount returns the whole tree once at startup; generated startup calls this method automatically. Pine-owned canvases persist across scenes by default. CanvasOptions.Persistent=false opts into scene lifetime. Destroying the root or disposing the result ends its scope; disabling a caller does not rebuild UI.</summary>
         /// <param name="component">Builder returning the live native root in the mount scope.</param>
         /// <param name="parent">Optional external native parent; null creates a Pine-owned canvas.</param>
         /// <param name="options">Code-configured typed reactive canvas options, used only for Pine-owned canvases.</param>
-        /// <returns>The mounted tree’s scope, native root and containing canvas. Ignore this optional result for scene-lived UI; retain it for early disposal or explicit persistence.</returns>
+        /// <returns>The mounted tree’s scope, native root and containing canvas. Keep this optional result only for explicit early disposal. Persistence is configured with CanvasOptions.</returns>
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// Mount mount = UI.Mount(() => UI.Label("Hello"));
+        /// Mount mount = UI.Mount(component: () => UI.Label(text: "Hello"));
         /// mount.Dispose();
         /// ]]></code>
         /// </example>
         public static Mount Mount(Func<GameObject> component, Transform parent = null, CanvasOptions options = null)
         {
             if (component == null) throw new ArgumentNullException(nameof(component));
+            if (parent != null && options?.Persistent == true)
+                throw new ArgumentException("Persistent mounting requires a Pine-owned canvas. Set CanvasOptions.Persistent to false when using an external parent.", nameof(options));
             RuntimeHost.Ensure(); var mount = new Mount();
             mount.Scope = Root(() =>
             {
@@ -182,6 +209,8 @@ namespace Pine
                 Cleanup(mount.Root); mount.Root.transform.SetParent(target, false);
                 mount.Canvas ??= target.GetComponentInParent<Canvas>();
             });
+            if (parent == null && options.Persistent && Application.isPlaying)
+                UnityEngine.Object.DontDestroyOnLoad(mount.Canvas.gameObject);
             mount.Root.AddComponent<MountLifetime>().Scope = mount.Scope; RuntimeHost.Observe(mount); return mount;
         }
         static partial void ConfigureSpringSpaces()

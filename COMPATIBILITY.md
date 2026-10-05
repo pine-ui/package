@@ -4,10 +4,10 @@ Minimum declared Unity version: 6000.3. The manifest declares uGUI 2.0.0 and Inp
 
 | Unity Editor | uGUI | Input System | Verified scope |
 | --- | --- | --- | --- |
-| 6000.3.25f1 | 2.0.0 | 1.20.1 | macOS Editor native controls, typed declarations, composition, setup and cleanup |
-| 6000.6.4f1 | 2.6.0 | 1.20.1 | macOS Editor native controls, composition, setup and cleanup |
+| 6000.3.25f1 | 2.0.0 | 1.20.1 | macOS Editor native controls, typed declarations, automatic app startup, generated behaviour callbacks/lifetime, reload-safe startup, setup and cleanup |
+| 6000.6.4f1 | 2.6.0 | 1.20.1 | macOS Editor native controls, composition, automatic app startup (including a custom asmdef), generated behaviour callbacks/lifetime, setup and cleanup |
 
-A stripped macOS Mono player passed the controlled Pine workload check on Apple M4 Pro: 300 visible controls, 100 binding changes/frame and 50 springs; zero measured idle Pine allocations and Pine update p95 0.7435 ms. This is not an overall frame-time or universal device guarantee.
+A stripped macOS Mono player verified generated app/component startup and passed the controlled Pine workload check on Apple M4 Pro: 300 visible controls, 100 binding changes/frame and 50 springs; zero measured idle Pine allocations and Pine update p95 0.6961 ms. This is not an overall frame-time or universal device guarantee.
 
 Windows, Android, iOS, WebGL/browser, IL2CPP, physical input and native keyboard/IME execution have not been certified by these checks. Validate your target build and hardware before shipping.
 

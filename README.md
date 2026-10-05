@@ -1,35 +1,34 @@
 # Pine
 
-Typed, reactive native Unity UI in C#. Import `Pine` and use `UI`; mount the entire tree once from `Start()`. Pine owns the Canvas, native control wiring and scoped bindings. Scene unload or root destruction removes the interface.
+Typed, reactive native Unity UI in C#. Declare App.cs and return the tree from App.Mount. Pine starts it automatically; no scene owner, attribute, Start callback or mount variable is required. The canvas persists by default; destroying its root disposes the interface.
 
-```csharp
+```csharp title="App.cs"
 using Pine;
 using UnityEngine;
 
-public sealed class Counter : MonoBehaviour
+public static class App
 {
-    private readonly Source<int> _count = UI.Source(0);
+    public static RectTransform Mount()
+    {
+        var count = UI.Source(value: 0);
 
-    [RuntimeInitializeOnLoadMethod]
-    private static void StartUI() =>
-        new GameObject("Counter owner").AddComponent<Counter>();
-
-    private void Start() => UI.Mount(Build);
-
-    private Component Build() =>
-        UI.Column(
-            UI.Size(360, 120),
-            UI.Children(
-                UI.Label(() => $"Count: {_count.Value}", UI.Size(360, 48)),
-                UI.Button("Increment", () => _count.Value++, UI.Size(360, 48))
+        return UI.Column(
+            gap: 12,
+            UI.Label(text: () => $"Count: {count.Value}"),
+            UI.Button(text: "Increment", click: () => count.Value++),
+            UI.Button(
+                text: "Reset",
+                click: () => count.Value = 0,
+                UI.Enabled(enabled: () => count.Value > 0)
             )
         );
+    }
 }
 ```
 
 ## Component composition
 
-Mount `App.Create` once from a root startup file. Component functions in separate files return native components and call other components; they inherit the active mount or dynamic branch scope. Use `UI.Column(12, childA, childB)` or `UI.Row(8, childA, childB)` for fixed-spacing containers. Ordinary typed parameters support local/shared state, callbacks and caller-provided children. Import the **Component composition** sample for the complete five-file example, or read [component composition](https://pine-ui.com/docs/tutorials/components/).
+Compose plain functions directly, or declare a public instance `Create(...)` on a `MonoBehaviour` for Unity callbacks. Pine generates typed `Components.Counter(title: "Count")` calls from the behaviour's signature. No render lambda, registration or base class is required. Components can call other components at any depth. Use `UI.Column(gap: 12, childA, childB)` for compact containers or typed properties for reactive layout. Import the four-file **Component composition** sample or read [components](https://pine-ui.com/docs/tutorials/components/).
 
 ## Install
 
@@ -41,7 +40,7 @@ The package bundles an accented-Latin font and missing-only TMP setup. It preser
 
 - Compile-safe native properties, groups, events and custom composition.
 - Retained components with sources, derived values, effects, batching and scoped context.
-- Mount the whole tree once; optional `Mount` for explicit early disposal.
+- Automatic App.cs startup; optional explicit `Mount` for early disposal.
 - Exact Size, explicit Fill/Auto axes, reactive uniform Grid and explicit clipping.
 - Frame/row/column/grid, label, image/raw image, button, toggle, slider, scrollbar, text field, dropdown, scroll view and progress.
 - Read-only dynamic results/presence/indices, stable row identity and retained exits.

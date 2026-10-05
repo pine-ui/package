@@ -12,5 +12,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: |
+            8.0.x
+            10.0.400
       - run: dotnet run --project Tests~/Core/Pine.Tests.csproj
+      - run: dotnet run --project Tests~/Generator/Pine.Generator.Tests.csproj
+      - run: python3 Tools~/check_generator.py

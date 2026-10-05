@@ -7,9 +7,11 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var width = UI.Source(240f);
-    /// Value<UnityEngine.Vector2> size = new(() => new UnityEngine.Vector2(width.Value, 48));
-    /// UI.Frame(UI.Size(size));
+    /// var width = UI.Source(value: 240f);
+    /// Value<UnityEngine.Vector2> size = new(() =>
+    ///     new UnityEngine.Vector2(x: width.Value, y: 48)
+    /// );
+    /// UI.Frame(UI.Size(size: size));
     /// ]]></code>
     /// </example>
     public readonly struct Value<T>
@@ -20,9 +22,11 @@ namespace Pine
         /// <param name="literal">The typed literal input (T); literals and supported reactive adapters follow this overload&#x27;s documented behavior.</param>
         /// <example>
         /// <code><![CDATA[
-        /// var width = UI.Source(240f);
-        /// Value<UnityEngine.Vector2> size = new(() => new UnityEngine.Vector2(width.Value, 48));
-        /// UI.Frame(UI.Size(size));
+        /// var width = UI.Source(value: 240f);
+        /// Value<UnityEngine.Vector2> size = new(() =>
+        ///     new UnityEngine.Vector2(x: width.Value, y: 48)
+        /// );
+        /// UI.Frame(UI.Size(size: size));
         /// ]]></code>
         /// </example>
         public Value(T literal) { _literal = literal; _read = null; }
@@ -30,9 +34,11 @@ namespace Pine
         /// <param name="read">The getter whose source reads establish reactive dependencies; supply a stable native result where required.</param>
         /// <example>
         /// <code><![CDATA[
-        /// var width = UI.Source(240f);
-        /// Value<UnityEngine.Vector2> size = new(() => new UnityEngine.Vector2(width.Value, 48));
-        /// UI.Frame(UI.Size(size));
+        /// var width = UI.Source(value: 240f);
+        /// Value<UnityEngine.Vector2> size = new(() =>
+        ///     new UnityEngine.Vector2(x: width.Value, y: 48)
+        /// );
+        /// UI.Frame(UI.Size(size: size));
         /// ]]></code>
         /// </example>
         public Value(Func<T> read) { _literal = default; _read = read ?? throw new ArgumentNullException(nameof(read)); }
@@ -56,7 +62,7 @@ namespace Pine
         /// <returns>A typed Value adapter that reads this reactive value when evaluated; the conversion does not write to its source.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// Value<int> value = UI.Source(0);
+        /// Value<int> value = UI.Source(value: 0);
         /// ]]></code>
         /// </example>
         public static implicit operator Value<T>(T value) => new(value);
@@ -65,7 +71,7 @@ namespace Pine
         /// <returns>A typed Value adapter that reads this reactive value when evaluated; the conversion does not write to its source.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// Value<int> value = UI.Source(0);
+        /// Value<int> value = UI.Source(value: 0);
         /// ]]></code>
         /// </example>
         public static implicit operator Value<T>(Func<T> getter) => new(getter);
@@ -74,7 +80,7 @@ namespace Pine
         /// <returns>A typed Value adapter that reads this reactive value when evaluated; the conversion does not write to its source.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// Value<int> value = UI.Source(0);
+        /// Value<int> value = UI.Source(value: 0);
         /// ]]></code>
         /// </example>
         public static implicit operator Value<T>(Source<T> source) => new(() => source.Value);
@@ -83,7 +89,7 @@ namespace Pine
         /// <returns>A typed Value adapter that reads this reactive value when evaluated; the conversion does not write to its source.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// Value<int> value = UI.Source(0);
+        /// Value<int> value = UI.Source(value: 0);
         /// ]]></code>
         /// </example>
         public static implicit operator Value<T>(ReadOnly<T> source) => new(() => source.Value);
@@ -92,7 +98,7 @@ namespace Pine
         /// <returns>A typed Value adapter that reads this reactive value when evaluated; the conversion does not write to its source.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// Value<int> value = UI.Source(0);
+        /// Value<int> value = UI.Source(value: 0);
         /// ]]></code>
         /// </example>
         public static implicit operator Value<T>(Derived<T> source) => new(() => source.Value);
@@ -101,7 +107,7 @@ namespace Pine
         /// <returns>A typed Value adapter that reads this reactive value when evaluated; the conversion does not write to its source.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// Value<int> value = UI.Source(0);
+        /// Value<int> value = UI.Source(value: 0);
         /// ]]></code>
         /// </example>
         public static implicit operator Value<T>(Spring<T> source) => new(() => source.Value);
@@ -111,9 +117,11 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var rows = UI.Values(() => new[] { "A" }, (value, index) =>
-    ///     UI.Label(() => $"{index.Value}: {value}"));
-    /// UI.Column(UI.Children(() => rows.Value));
+    /// var rows = UI.Values(
+    ///     read: () => new[] { "A" },
+    ///     build: (value, index) => UI.Label(text: () => $"{index.Value}: {value}")
+    /// );
+    /// UI.Column(UI.Children(read: () => rows.Value));
     /// ]]></code>
     /// </example>
     public sealed class ReadOnly<T>
@@ -123,7 +131,7 @@ namespace Pine
         /// <summary>Reads the framework-owned value with dependency tracking. There is no public setter; update the controlling collection or selector instead.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label(() => index.Value.ToString());
+        /// UI.Label(text: () => index.Value.ToString());
         /// ]]></code>
         /// </example>
         public T Value => _source.Value;
@@ -141,8 +149,8 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var count = UI.Source(0);
-    /// UI.Label(() => count.Value.ToString());
+    /// var count = UI.Source(value: 0);
+    /// UI.Label(text: () => count.Value.ToString());
     /// count.Value++;
     /// ]]></code>
     /// </example>
@@ -203,9 +211,9 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var count = UI.Source(2);
-    /// var doubled = UI.Derive(() => count.Value * 2);
-    /// UI.Label(() => doubled.Value.ToString());
+    /// var count = UI.Source(value: 2);
+    /// var doubled = UI.Derive(compute: () => count.Value * 2);
+    /// UI.Label(text: () => doubled.Value.ToString());
     /// ]]></code>
     /// </example>
     public sealed class Derived<T> : IDisposable
@@ -216,11 +224,11 @@ namespace Pine
         /// <summary>Returns the current cached pure result and tracks downstream reads. Within a batch it first settles stale upstream derived calculations.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label(() => total.Value.ToString());
+        /// UI.Label(text: () => total.Value.ToString());
         /// ]]></code>
         /// </example>
         public T Value => _observer.Value;
-        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Application code disposes a mount when its owner ends.</summary>
+        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Explicit owners may dispose their mount early; automatic applications end when their root is destroyed.</summary>
         /// <example>
         /// <code><![CDATA[
         /// total.Dispose();

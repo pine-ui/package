@@ -5,30 +5,34 @@ namespace PineComposition.Examples
 {
     public static class App
     {
-        public static RectTransform Create()
+        public static RectTransform Mount()
         {
-            var shared = UI.Source(0);
-            var panel = UI.Column(
-                12,
-                UI.Label("Component composition", UI.Size(420, 40)),
-                Card.Create(
-                    "Independent counters",
-                    Counter.Create("First"),
-                    Counter.Create("Second")
-                ),
-                Card.Create(
-                    "Shared state",
-                    Counter.Create("Shared A", shared),
-                    Counter.Create("Shared B", shared)
-                ),
-                Actions.Save(
-                    UI.Derive(() => shared.Value > 0),
-                    () => shared.Value = 0
+            var shared = UI.Source(value: 0);
+            return UI.Column(
+                UI.Name(name: "Pine Composition"),
+                UI.Size(width: 420, height: 640),
+                UI.Vertical(spacing: 12),
+                UI.Children(
+                    UI.Label(
+                        text: "Component composition",
+                        UI.Size(width: 420, height: 40)
+                    ),
+                    Card.Create(
+                        title: "Independent counters",
+                        Components.Counter(title: "First"),
+                        Components.Counter(title: "Second")
+                    ),
+                    Card.Create(
+                        title: "Shared state",
+                        Components.Counter(title: "Shared A", count: shared),
+                        Components.Counter(title: "Shared B", count: shared)
+                    ),
+                    Actions.Save(
+                        canSave: UI.Derive(compute: () => shared.Value > 0),
+                        save: () => shared.Value = 0
+                    )
                 )
             );
-
-            UI.Apply(panel, UI.Name("Pine Composition"), UI.Size(420, 640));
-            return panel;
         }
     }
 }

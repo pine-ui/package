@@ -8,8 +8,13 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// UI.Show(() => true, present => new Branch<UnityEngine.Component>(
-    ///     UI.Label(() => present.Value ? "Present" : "Leaving"), 0.2));
+    /// UI.Show(
+    ///     condition: () => true,
+    ///     build: present => new Branch<UnityEngine.Component>(
+    ///         UI.Label(text: () => present.Value ? "Present" : "Leaving"),
+    ///         0.2
+    ///     )
+    /// );
     /// ]]></code>
     /// </example>
     public readonly struct Branch<T>
@@ -33,8 +38,13 @@ namespace Pine
         /// <param name="exitDelay">Finite non-negative seconds to retain a branch after presence becomes false.</param>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Show(() => true, present => new Branch<UnityEngine.Component>(
-        ///     UI.Label(() => present.Value ? "Present" : "Leaving"), 0.2));
+        /// UI.Show(
+        ///     condition: () => true,
+        ///     build: present => new Branch<UnityEngine.Component>(
+        ///         UI.Label(text: () => present.Value ? "Present" : "Leaving"),
+        ///         0.2
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public Branch(T value, double exitDelay = 0)
@@ -64,8 +74,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var result = UI.Show(() => visible.Value, () => UI.Label("Visible"));
-        /// UI.Frame(UI.Children(() => result.Value));
+        /// var result = UI.Show(
+        ///     condition: () => visible.Value,
+        ///     build: () => UI.Label(text: "Visible")
+        /// );
+        /// UI.Frame(UI.Children(read: () => result.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Show<TResult>(Func<bool> condition, Func<TResult> build, Func<TResult> fallback = null)
@@ -80,8 +93,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var result = UI.Switch(() => page.Value, key => UI.Label(key));
-        /// UI.Frame(UI.Children(() => result.Value));
+        /// var result = UI.Switch(
+        ///     select: () => page.Value,
+        ///     build: key => UI.Label(text: key)
+        /// );
+        /// UI.Frame(UI.Children(read: () => result.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Switch<TKey, TResult>(Func<TKey> select, Func<TKey, TResult> build, IEqualityComparer<TKey> comparer = null)
@@ -95,8 +111,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var rows = UI.Indexes(() => items.Value, (index, item) => UI.Label(() => item.Value));
-        /// UI.Column(UI.Children(() => rows.Value));
+        /// var rows = UI.Indexes(
+        ///     read: () => items.Value,
+        ///     build: (index, item) => UI.Label(text: () => item.Value)
+        /// );
+        /// UI.Column(UI.Children(read: () => rows.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Indexes<TValue, TResult>(Func<IReadOnlyList<TValue>> read, Func<int, ReadOnly<TValue>, TResult> build)
@@ -111,8 +130,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var rows = UI.Values(() => items.Value, (item, index) => UI.Label(() => $"{index.Value}: {item}"));
-        /// UI.Column(UI.Children(() => rows.Value));
+        /// var rows = UI.Values(
+        ///     read: () => items.Value,
+        ///     build: (item, index) => UI.Label(text: () => $"{index.Value}: {item}")
+        /// );
+        /// UI.Column(UI.Children(read: () => rows.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Values<TValue, TResult>(Func<IReadOnlyList<TValue>> read, Func<TValue, ReadOnly<int>, TResult> build, IEqualityComparer<TValue> comparer = null)
@@ -127,8 +149,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var result = UI.Switch(() => page.Value, key => UI.Label(key));
-        /// UI.Frame(UI.Children(() => result.Value));
+        /// var result = UI.Switch(
+        ///     select: () => page.Value,
+        ///     build: key => UI.Label(text: key)
+        /// );
+        /// UI.Frame(UI.Children(read: () => result.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Switch<TKey, TResult>(Func<TKey> select, Func<TKey, ReadOnly<bool>, Branch<TResult>> build, IEqualityComparer<TKey> comparer = null)
@@ -148,8 +173,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var result = UI.Switch(() => page.Value, key => UI.Label(key));
-        /// UI.Frame(UI.Children(() => result.Value));
+        /// var result = UI.Switch(
+        ///     select: () => page.Value,
+        ///     build: key => UI.Label(text: key)
+        /// );
+        /// UI.Frame(UI.Children(read: () => result.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Switch<TKey, TResult>(Func<TKey> select, IReadOnlyDictionary<TKey, Func<ReadOnly<bool>, Branch<TResult>>> branches, Func<ReadOnly<bool>, Branch<TResult>> fallback = null)
@@ -164,8 +192,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var result = UI.Show(() => visible.Value, () => UI.Label("Visible"));
-        /// UI.Frame(UI.Children(() => result.Value));
+        /// var result = UI.Show(
+        ///     condition: () => visible.Value,
+        ///     build: () => UI.Label(text: "Visible")
+        /// );
+        /// UI.Frame(UI.Children(read: () => result.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Show<TResult>(Func<bool> condition, Func<ReadOnly<bool>, Branch<TResult>> build, Func<ReadOnly<bool>, Branch<TResult>> fallback = null)
@@ -190,8 +221,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var result = UI.Show(() => visible.Value, () => UI.Label("Visible"));
-        /// UI.Frame(UI.Children(() => result.Value));
+        /// var result = UI.Show(
+        ///     condition: () => visible.Value,
+        ///     build: () => UI.Label(text: "Visible")
+        /// );
+        /// UI.Frame(UI.Children(read: () => result.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Show<T, TResult>(Func<T> read, Predicate<T> truthy, Func<ReadOnly<T>, ReadOnly<bool>, Branch<TResult>> build, Func<ReadOnly<bool>, Branch<TResult>> fallback = null)
@@ -215,8 +249,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var rows = UI.Indexes(() => items.Value, (index, item) => UI.Label(() => item.Value));
-        /// UI.Column(UI.Children(() => rows.Value));
+        /// var rows = UI.Indexes(
+        ///     read: () => items.Value,
+        ///     build: (index, item) => UI.Label(text: () => item.Value)
+        /// );
+        /// UI.Column(UI.Children(read: () => rows.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Indexes<TKey, TValue, TResult>(Func<IEnumerable<KeyValuePair<TKey, TValue>>> read, Func<TKey, ReadOnly<TValue>, ReadOnly<bool>, Branch<TResult>> build, IEqualityComparer<TKey> comparer = null)
@@ -235,8 +272,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var rows = UI.Indexes(() => items.Value, (index, item) => UI.Label(() => item.Value));
-        /// UI.Column(UI.Children(() => rows.Value));
+        /// var rows = UI.Indexes(
+        ///     read: () => items.Value,
+        ///     build: (index, item) => UI.Label(text: () => item.Value)
+        /// );
+        /// UI.Column(UI.Children(read: () => rows.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Indexes<TValue, TResult>(Func<IReadOnlyList<TValue>> read, Func<int, ReadOnly<TValue>, ReadOnly<bool>, Branch<TResult>> build)
@@ -251,8 +291,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var rows = UI.Values(() => items.Value, (item, index) => UI.Label(() => $"{index.Value}: {item}"));
-        /// UI.Column(UI.Children(() => rows.Value));
+        /// var rows = UI.Values(
+        ///     read: () => items.Value,
+        ///     build: (item, index) => UI.Label(text: () => $"{index.Value}: {item}")
+        /// );
+        /// UI.Column(UI.Children(read: () => rows.Value));
         /// ]]></code>
         /// </example>
         public static ReadOnly<IReadOnlyList<TResult>> Values<TValue, TResult>(Func<IReadOnlyList<TValue>> read, Func<TValue, ReadOnly<int>, ReadOnly<bool>, Branch<TResult>> build, IEqualityComparer<TValue> comparer = null)

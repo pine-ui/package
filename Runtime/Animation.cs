@@ -80,7 +80,10 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var space = new SpringSpace<float>(v => new[] { (double)v }, lanes => (float)lanes[0]);
+    /// var space = new SpringSpace<float>(
+    ///     v => new[] { (double)v },
+    ///     lanes => (float)lanes[0]
+    /// );
     /// UI.Spring(() => 10f, space: space);
     /// ]]></code>
     /// </example>
@@ -105,7 +108,10 @@ namespace Pine
         /// <param name="unpack">Mapping from those same ordered lanes back to the typed value.</param>
         /// <example>
         /// <code><![CDATA[
-        /// var space = new SpringSpace<float>(v => new[] { (double)v }, lanes => (float)lanes[0]);
+        /// var space = new SpringSpace<float>(
+        ///     v => new[] { (double)v },
+        ///     lanes => (float)lanes[0]
+        /// );
         /// UI.Spring(() => 10f, space: space);
         /// ]]></code>
         /// </example>
@@ -165,9 +171,15 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var target = UI.Source(0f);
-        /// var motion = UI.Spring(() => target.Value, period: 0.4, dampingRatio: 0.8);
-        /// UI.Image(UI.Position(() => new UnityEngine.Vector2(motion.Value, 0)));
+        /// var target = UI.Source(value: 0f);
+        /// var motion = UI.Spring(
+        ///     target: () => target.Value,
+        ///     period: 0.4,
+        ///     dampingRatio: 0.8
+        /// );
+        /// UI.Image(
+        ///     UI.Position(position: () => new UnityEngine.Vector2(x: motion.Value, y: 0))
+        /// );
         /// ]]></code>
         /// </example>
         public static Spring<T> Spring<T>(Func<T> target, Value<double>? period = null, Value<double>? dampingRatio = null, SpringSpace<T> space = null)
@@ -181,9 +193,15 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var target = UI.Source(0f);
-    /// var motion = UI.Spring(() => target.Value, period: 0.4, dampingRatio: 0.8);
-    /// UI.Image(UI.Position(() => new UnityEngine.Vector2(motion.Value, 0)));
+    /// var target = UI.Source(value: 0f);
+    /// var motion = UI.Spring(
+    ///     target: () => target.Value,
+    ///     period: 0.4,
+    ///     dampingRatio: 0.8
+    /// );
+    /// UI.Image(
+    ///     UI.Position(position: () => new UnityEngine.Vector2(x: motion.Value, y: 0))
+    /// );
     /// ]]></code>
     /// </example>
     public sealed class Spring<T> : IDisposable
@@ -325,7 +343,7 @@ namespace Pine
                 vx = r1 * r2 * (e2 - e1) / denominator; vv = (r1 * e1 - r2 * e2) / denominator;
             }
         }
-        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Application code disposes a mount when its owner ends.</summary>
+        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Explicit owners may dispose their mount early; automatic applications end when their root is destroyed.</summary>
         /// <example>
         /// <code><![CDATA[
         /// motion.Dispose();

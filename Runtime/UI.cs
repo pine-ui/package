@@ -11,8 +11,8 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// IProperty<TMPro.TMP_Text> text = UI.Text("Hello");
-    /// UI.Label("Initial", text);
+    /// IProperty<TMPro.TMP_Text> text = UI.Text(text: "Hello");
+    /// UI.Label(text: "Initial", text);
     /// ]]></code>
     /// </example>
     public interface IProperty<in T> where T : Component
@@ -22,7 +22,7 @@ namespace Pine
         /// <returns>The typed result described above; reactive reads participate in the active observer.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Apply(label, UI.Text("Applied"));
+        /// UI.Apply(target: label, UI.Text(text: "Applied"));
         /// ]]></code>
         /// </example>
         void Apply(T target);
@@ -50,7 +50,11 @@ namespace Pine
     /// <summary>A color binding shared by native Graphics and Selectables. On a Selectable it configures targetGraphic rather than requiring the control itself to inherit Graphic. The factory uses this intersection contract to keep Tint available on text, images and controls while rejecting plain frames.</summary>
     /// <example>
     /// <code><![CDATA[
-    /// UI.Button("Save", () => {}, UI.Tint(UnityEngine.Color.green));
+    /// UI.Button(
+    ///     text: "Save",
+    ///     click: () => { },
+    ///     UI.Tint(color: UnityEngine.Color.green)
+    /// );
     /// ]]></code>
     /// </example>
     public sealed class GraphicProperty : IProperty<Graphic>, IProperty<Selectable>, IOperation
@@ -60,7 +64,7 @@ namespace Pine
         /// <summary>The named native operation used by strict duplicate diagnostics. Obtain instances from UI.Tint; the operation is shared across graphic and selectable targets.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// var tint = UI.Tint(UnityEngine.Color.white);
+        /// var tint = UI.Tint(color: UnityEngine.Color.white);
         /// string name = tint.Identity;
         /// ]]></code>
         /// </example>
@@ -72,10 +76,10 @@ namespace Pine
         void IProperty<Selectable>.Apply(Selectable target) => _apply(target.targetGraphic != null ? target.targetGraphic : UI.Require<Graphic>(target.gameObject));
     }
 
-    /// <summary>An explicit mounted interface lifetime. Scope owns bindings and created native objects; Root identifies the returned interface and Canvas identifies its containing canvas. Dispose removes the interface; destroying Root also disposes its scope. The result is optional for scene-lived UI; scene unload or root destruction ends the scope. Retain it for early disposal. Disabling the creating component does not remove or remount the tree.</summary>
+    /// <summary>An explicit mounted interface lifetime. Scope owns bindings and created native objects; Root identifies the returned interface and Canvas identifies its containing canvas. Dispose removes the interface; destroying Root also disposes its scope. Pine-owned canvases persist by default; CanvasOptions.Persistent=false selects scene lifetime. The result is optional; retain it for early disposal. Destroying Root ends its scope.</summary>
     /// <example>
     /// <code><![CDATA[
-    /// Mount mount = UI.Mount(() => UI.Label("Hello"));
+    /// Mount mount = UI.Mount(component: () => UI.Label(text: "Hello"));
     /// mount.Dispose();
     /// ]]></code>
     /// </example>
@@ -84,7 +88,7 @@ namespace Pine
         /// <summary>The scope owning this mounted interface, including bindings and native objects. Enter it with Run to apply further declarations after construction.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// mount.Scope.Run(() => UI.Apply(label, UI.Text("Updated")));
+        /// mount.Scope.Run(() => UI.Apply(target: label, UI.Text(text: "Updated")));
         /// ]]></code>
         /// </example>
         public Scope Scope { get; internal set; }
@@ -102,7 +106,7 @@ namespace Pine
         /// ]]></code>
         /// </example>
         public Canvas Canvas { get; internal set; }
-        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Application code disposes a mount when its owner ends.</summary>
+        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Explicit owners may dispose their mount early; automatic applications end when their root is destroyed.</summary>
         /// <example>
         /// <code><![CDATA[
         /// mount.Dispose();
@@ -118,7 +122,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Cleanup(() => UnityEngine.Debug.Log("Interface removed"));
+        /// UI.Cleanup(cleanup: () => UnityEngine.Debug.Log("Interface removed"));
         /// ]]></code>
         /// </example>
         public static void Cleanup(UnityEngine.Object target) => Cleanup(() => DestroyObject(target));
@@ -135,7 +139,10 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var label = UI.Create<TMPro.TextMeshProUGUI>(UI.Text("Created"), UI.Size(240, 48));
+        /// var label = UI.Create<TMPro.TextMeshProUGUI>(
+        ///     UI.Text(text: "Created"),
+        ///     UI.Size(width: 240, height: 48)
+        /// );
         /// ]]></code>
         /// </example>
         public static T Create<T>(params IProperty<T>[] properties) where T : Component
@@ -156,7 +163,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var copy = UI.Clone(label, UI.Text("Copy"));
+        /// var copy = UI.Clone(template: label, UI.Text(text: "Copy"));
         /// ]]></code>
         /// </example>
         public static T Clone<T>(T template, params IProperty<T>[] properties) where T : Component
@@ -176,7 +183,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Apply(label, UI.Text(() => count.Value.ToString()));
+        /// UI.Apply(target: label, UI.Text(text: () => count.Value.ToString()));
         /// ]]></code>
         /// </example>
         public static T Apply<T>(T target, params IProperty<T>[] properties) where T : Component
@@ -191,8 +198,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var textStyle = UI.Group<TMPro.TMP_Text>(UI.FontSize(24), UI.Text("Styled"));
-        /// UI.Label("Initial", textStyle);
+        /// var textStyle = UI.Group<TMPro.TMP_Text>(
+        ///     UI.FontSize(size: 24),
+        ///     UI.Text(text: "Styled")
+        /// );
+        /// UI.Label(text: "Initial", textStyle);
         /// ]]></code>
         /// </example>
         public static IProperty<T> Group<T>(params IProperty<T>[] properties) where T : Component
@@ -205,7 +215,12 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Action<UnityEngine.RectTransform>(frame => frame.name = "Action", priority: 0));
+        /// UI.Frame(
+        ///     UI.Action<UnityEngine.RectTransform>(
+        ///         action: frame => frame.name = "Action",
+        ///         priority: 0
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> Action<T>(Action<T> action, int priority = 1) where T : Component
@@ -217,7 +232,12 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Centered", UI.Configure<TMPro.TextMeshProUGUI>(label => label.alignment = TMPro.TextAlignmentOptions.Center));
+        /// UI.Label(
+        ///     text: "Centered",
+        ///     UI.Configure<TMPro.TextMeshProUGUI>(configure: label =>
+        ///         label.alignment = TMPro.TextAlignmentOptions.Center
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> Configure<T>(Action<T> configure) where T : Component
@@ -232,7 +252,14 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Value", UI.Set<TMPro.TMP_Text, float>("Spacing", (label, value) => label.characterSpacing = value, 2f));
+        /// UI.Label(
+        ///     text: "Value",
+        ///     UI.Set<TMPro.TMP_Text, float>(
+        ///         name: "Spacing",
+        ///         set: (label, value) => label.characterSpacing = value,
+        ///         value: 2f
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> Set<T, TValue>(string name, Action<T, TValue> set, Value<TValue> value) where T : Component
@@ -251,7 +278,14 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Value", UI.Set<TMPro.TMP_Text, float>("Spacing", (label, value) => label.characterSpacing = value, 2f));
+        /// UI.Label(
+        ///     text: "Value",
+        ///     UI.Set<TMPro.TMP_Text, float>(
+        ///         name: "Spacing",
+        ///         set: (label, value) => label.characterSpacing = value,
+        ///         value: 2f
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> Set<T, TValue>(string name, Action<T, TValue> set, Func<TValue> read) where T : Component
@@ -275,7 +309,10 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// label.Bind(() => count.Value.ToString(), (target, value) => target.text = value);
+        /// label.Bind(
+        ///     () => count.Value.ToString(),
+        ///     (target, value) => target.text = value
+        /// );
         /// ]]></code>
         /// </example>
         public static T Bind<T, TValue>(this T component, Func<TValue> read, Action<T, TValue> apply) where T : Component
@@ -286,7 +323,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Name("Panel"));
+        /// UI.Frame(UI.Name(name: "Panel"));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Name(Value<string> name) => Set<Component, string>("Name", (target, value) => target.name = value, name);
@@ -296,7 +333,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Name("Panel"));
+        /// UI.Frame(UI.Name(name: "Panel"));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Name(Func<string> name) => Name(new Value<string>(name));
@@ -306,7 +343,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Active(() => visible.Value));
+        /// UI.Frame(UI.Active(active: () => visible.Value));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Active(Value<bool> active) => Set<Component, bool>("Active", (target, value) => target.gameObject.SetActive(value), active);
@@ -316,7 +353,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Active(() => visible.Value));
+        /// UI.Frame(UI.Active(active: () => visible.Value));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Active(Func<bool> active) => Active(new Value<bool>(active));
@@ -326,7 +363,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Parent(canvas.transform));
+        /// UI.Frame(UI.Parent(parent: canvas.transform));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Parent(Value<Transform> parent) => new Property<Component>(target =>
@@ -337,7 +374,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Parent(canvas.transform));
+        /// UI.Frame(UI.Parent(parent: canvas.transform));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Parent(Func<Transform> parent) => Parent(new Value<Transform>(parent));
@@ -347,7 +384,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Column(UI.Children(UI.Label("One"), UI.Label("Two")));
+        /// UI.Column(UI.Children(UI.Label(text: "One"), UI.Label(text: "Two")));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Children(params Component[] children) => new Property<Component>(target =>
@@ -374,7 +411,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Column(UI.Children(UI.Label("One"), UI.Label("Two")));
+        /// UI.Column(UI.Children(UI.Label(text: "One"), UI.Label(text: "Two")));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Children(Func<IEnumerable<Component>> read) => Children(() => ComponentsToObjects(read()));
@@ -386,7 +423,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Column(UI.Children(UI.Label("One"), UI.Label("Two")));
+        /// UI.Column(UI.Children(UI.Label(text: "One"), UI.Label(text: "Two")));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Children(Func<IEnumerable<GameObject>> read)
@@ -430,7 +467,14 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Save", () => {}, UI.On<UnityEngine.UI.Button>(b => b.onClick, () => UnityEngine.Debug.Log("Clicked")));
+        /// UI.Button(
+        ///     text: "Save",
+        ///     click: () => { },
+        ///     UI.On<UnityEngine.UI.Button>(
+        ///         select: b => b.onClick,
+        ///         action: () => UnityEngine.Debug.Log("Clicked")
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> On<T>(Func<T, UnityEvent> select, Action action) where T : Component
@@ -449,7 +493,14 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Save", () => {}, UI.On<UnityEngine.UI.Button>(b => b.onClick, () => UnityEngine.Debug.Log("Clicked")));
+        /// UI.Button(
+        ///     text: "Save",
+        ///     click: () => { },
+        ///     UI.On<UnityEngine.UI.Button>(
+        ///         select: b => b.onClick,
+        ///         action: () => UnityEngine.Debug.Log("Clicked")
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> On<T, TValue>(Func<T, UnityEvent<TValue>> select, Action<TValue> action) where T : Component
@@ -465,7 +516,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Save", () => UnityEngine.Debug.Log("Saved"));
+        /// UI.Button(text: "Save", click: () => UnityEngine.Debug.Log("Saved"));
         /// ]]></code>
         /// </example>
         public static IProperty<Button> OnClick(Action action) => On<Button>(target => target.onClick, action);
@@ -480,7 +531,13 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Create<UnityEngine.UI.Toggle>(UI.Changed<UnityEngine.UI.Toggle, bool>(t => t.isOn, value => UnityEngine.Debug.Log(value), t => t.onValueChanged));
+        /// UI.Create<UnityEngine.UI.Toggle>(
+        ///     UI.Changed<UnityEngine.UI.Toggle, bool>(
+        ///         read: t => t.isOn,
+        ///         changed: value => UnityEngine.Debug.Log(value),
+        ///         events: t => t.onValueChanged
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<T> Changed<T, TValue>(Func<T, TValue> read, Action<TValue> changed, Func<T, UnityEvent<TValue>> events = null, IEqualityComparer<TValue> comparer = null) where T : Component
@@ -504,7 +561,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Toggle(isEnabled, "Enabled");
+        /// UI.Toggle(value: isEnabled, text: "Enabled");
         /// ]]></code>
         /// </example>
         public static IProperty<Toggle> ToggleValue(Source<bool> source) => Group<Toggle>(
@@ -516,7 +573,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Slider(volume, 0f, 1f);
+        /// UI.Slider(value: volume, minimum: 0f, maximum: 1f);
         /// ]]></code>
         /// </example>
         public static IProperty<Slider> SliderValue(Source<float> source) => Group<Slider>(
@@ -528,7 +585,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.TextField(playerName, "Player name");
+        /// UI.TextField(value: playerName, placeholder: "Player name");
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_InputField> InputValue(Source<string> source) => Group<TMP_InputField>(
@@ -540,7 +597,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Initial", UI.Text(() => count.Value.ToString()));
+        /// UI.Label(text: "Initial", UI.Text(text: () => count.Value.ToString()));
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_Text> Text(Value<string> text) => Set<TMP_Text, string>("Text", (target, value) => target.text = value, text);
@@ -550,7 +607,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Initial", UI.Text(() => count.Value.ToString()));
+        /// UI.Label(text: "Initial", UI.Text(text: () => count.Value.ToString()));
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_Text> Text(Func<string> text) => Text(new Value<string>(text));
@@ -560,7 +617,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Heading", UI.FontSize(32));
+        /// UI.Label(text: "Heading", UI.FontSize(size: 32));
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_Text> FontSize(Value<float> size) => Set<TMP_Text, float>("FontSize", (target, value) => target.fontSize = value, size);
@@ -570,7 +627,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Heading", UI.FontSize(32));
+        /// UI.Label(text: "Heading", UI.FontSize(size: 32));
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_Text> FontSize(Func<float> size) => FontSize(new Value<float>(size));
@@ -580,7 +637,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Localized", UI.Font(fontAsset));
+        /// UI.Label(text: "Localized", UI.Font(font: fontAsset));
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_Text> Font(Value<TMP_FontAsset> font) => Set<TMP_Text, TMP_FontAsset>("Font", (target, value) => target.font = value != null ? value : ResolveFont(), font);
@@ -590,7 +647,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Localized", UI.Font(fontAsset));
+        /// UI.Label(text: "Localized", UI.Font(font: fontAsset));
         /// ]]></code>
         /// </example>
         public static IProperty<TMP_Text> Font(Func<TMP_FontAsset> font) => Font(new Value<TMP_FontAsset>(font));
@@ -600,7 +657,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Image(UI.Tint(UnityEngine.Color.green));
+        /// UI.Image(UI.Tint(color: UnityEngine.Color.green));
         /// ]]></code>
         /// </example>
         public static GraphicProperty Tint(Value<Color> color) => new(target => BindValue(target, color, (item, value) => item.color = value), "Graphic.Color");
@@ -610,7 +667,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Image(UI.Tint(UnityEngine.Color.green));
+        /// UI.Image(UI.Tint(color: UnityEngine.Color.green));
         /// ]]></code>
         /// </example>
         public static GraphicProperty Tint(Func<Color> color) => Tint(new Value<Color>(color));
@@ -620,7 +677,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Save", () => {}, UI.Enabled(() => canSave.Value));
+        /// UI.Button(
+        ///     text: "Save",
+        ///     click: () => { },
+        ///     UI.Enabled(enabled: () => canSave.Value)
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<Selectable> Enabled(Value<bool> enabled) => Set<Selectable, bool>("Interactable", (target, value) => target.interactable = value, enabled);
@@ -630,7 +691,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Save", () => {}, UI.Enabled(() => canSave.Value));
+        /// UI.Button(
+        ///     text: "Save",
+        ///     click: () => { },
+        ///     UI.Enabled(enabled: () => canSave.Value)
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<Selectable> Enabled(Func<bool> enabled) => Enabled(new Value<bool>(enabled));
@@ -640,7 +705,16 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Next", () => {}, UI.Navigation(new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.Automatic }));
+        /// UI.Button(
+        ///     text: "Next",
+        ///     click: () => { },
+        ///     UI.Navigation(
+        ///         navigation: new UnityEngine.UI.Navigation
+        ///         {
+        ///             mode = UnityEngine.UI.Navigation.Mode.Automatic,
+        ///         }
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<Selectable> Navigation(Value<Navigation> navigation) => Set<Selectable, Navigation>("Navigation", (target, value) => target.navigation = value, navigation);
@@ -650,7 +724,16 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Next", () => {}, UI.Navigation(new UnityEngine.UI.Navigation { mode = UnityEngine.UI.Navigation.Mode.Automatic }));
+        /// UI.Button(
+        ///     text: "Next",
+        ///     click: () => { },
+        ///     UI.Navigation(
+        ///         navigation: new UnityEngine.UI.Navigation
+        ///         {
+        ///             mode = UnityEngine.UI.Navigation.Mode.Automatic,
+        ///         }
+        ///     )
+        /// );
         /// ]]></code>
         /// </example>
         public static IProperty<Selectable> Navigation(Func<Navigation> navigation) => Navigation(new Value<Navigation>(navigation));
@@ -659,7 +742,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Button("Start", () => {}, UI.Focus());
+        /// UI.Button(text: "Start", click: () => { }, UI.Focus());
         /// ]]></code>
         /// </example>
         public static IProperty<Selectable> Focus() => Action<Selectable>(target => target.Select(), int.MaxValue);
@@ -669,7 +752,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Opacity(0.5f));
+        /// UI.Frame(UI.Opacity(opacity: 0.5f));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Opacity(Value<float> opacity) => new Property<Component>(target => BindValue(GetOrAdd<CanvasGroup>(target.gameObject), opacity, (item, value) => item.alpha = Mathf.Clamp01(value)), "Opacity");
@@ -679,7 +762,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Opacity(0.5f));
+        /// UI.Frame(UI.Opacity(opacity: 0.5f));
         /// ]]></code>
         /// </example>
         public static IProperty<Component> Opacity(Func<float> opacity) => Opacity(new Value<float>(opacity));
@@ -689,7 +772,10 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Frame(UI.Size(300, 100), UI.Children(UI.Label("Panel")));
+        /// UI.Frame(
+        ///     UI.Size(width: 300, height: 100),
+        ///     UI.Children(UI.Label(text: "Panel"))
+        /// );
         /// ]]></code>
         /// </example>
         public static RectTransform Frame(params IProperty<RectTransform>[] properties) => Create<RectTransform>(properties);
@@ -699,7 +785,10 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Column(UI.Vertical(12), UI.Children(UI.Label("First"), UI.Label("Second")));
+        /// UI.Column(
+        ///     UI.Vertical(12),
+        ///     UI.Children(UI.Label(text: "First"), UI.Label(text: "Second"))
+        /// );
         /// ]]></code>
         /// </example>
         public static RectTransform Column(params IProperty<RectTransform>[] properties)
@@ -711,12 +800,14 @@ namespace Pine
         /// <remarks>Call inside UI.Mount, a dynamic branch builder or a live Scope.Run. Hiding keeps the instance; removing a Pine-owned branch ends its bindings. Supply state from outside a removable branch to preserve it across reconstruction.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Mount(() =>
+        /// UI.Mount(component: () =>
         /// {
-        ///     var count = UI.Source(0);
-        ///     return UI.Column(12,
-        ///         UI.Label(() => $"Count: {count.Value}"),
-        ///         UI.Button("Increment", () => count.Value++));
+        ///     var count = UI.Source(value: 0);
+        ///     return UI.Column(
+        ///         gap: 12,
+        ///         UI.Label(text: () => $"Count: {count.Value}"),
+        ///         UI.Button(text: "Increment", click: () => count.Value++)
+        ///     );
         /// });
         /// ]]></code>
         /// </example>
@@ -727,7 +818,10 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Row(UI.Horizontal(12), UI.Children(UI.Label("Left"), UI.Label("Right")));
+        /// UI.Row(
+        ///     UI.Horizontal(12),
+        ///     UI.Children(UI.Label(text: "Left"), UI.Label(text: "Right"))
+        /// );
         /// ]]></code>
         /// </example>
         public static RectTransform Row(params IProperty<RectTransform>[] properties)
@@ -739,9 +833,11 @@ namespace Pine
         /// <remarks>Call inside UI.Mount, a dynamic branch builder or a live Scope.Run. Retained children update through their bindings; ordinary state changes do not rebuild the complete factory.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Row(8,
-        ///     UI.Button("Save", () => Save()),
-        ///     UI.Button("Cancel", () => Cancel()));
+        /// UI.Row(
+        ///     gap: 8,
+        ///     UI.Button(text: "Save", click: () => Save()),
+        ///     UI.Button(text: "Cancel", click: () => Cancel())
+        /// );
         /// ]]></code>
         /// </example>
         public static RectTransform Row(float gap, params Component[] children) => Row(Horizontal(gap), Children(children));
@@ -752,7 +848,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label(() => count.Value.ToString(), UI.FontSize(24), UI.Size(240, 48));
+        /// UI.Label(
+        ///     text: () => count.Value.ToString(),
+        ///     UI.FontSize(size: 24),
+        ///     UI.Size(width: 240, height: 48)
+        /// );
         /// ]]></code>
         /// </example>
         public static TextMeshProUGUI Label(Value<string> text, params IProperty<TextMeshProUGUI>[] properties)
@@ -764,7 +864,11 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label(() => count.Value.ToString(), UI.FontSize(24), UI.Size(240, 48));
+        /// UI.Label(
+        ///     text: () => count.Value.ToString(),
+        ///     UI.FontSize(size: 24),
+        ///     UI.Size(width: 240, height: 48)
+        /// );
         /// ]]></code>
         /// </example>
         public static TextMeshProUGUI Label(Func<string> text, params IProperty<TextMeshProUGUI>[] properties) => Label(new Value<string>(text), properties);
@@ -774,7 +878,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Image(UI.Sprite(icon), UI.Size(48, 48));
+        /// UI.Image(UI.Sprite(sprite: icon), UI.Size(width: 48, height: 48));
         /// ]]></code>
         /// </example>
         public static Image Image(params IProperty<Image>[] properties) => Create<Image>(properties);
@@ -784,7 +888,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.RawImage(UI.Texture(texture), UI.Size(320, 180));
+        /// UI.RawImage(UI.Texture(texture: texture), UI.Size(width: 320, height: 180));
         /// ]]></code>
         /// </example>
         public static RawImage RawImage(params IProperty<RawImage>[] properties) => Create<RawImage>(properties);
@@ -794,7 +898,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Image(UI.Sprite(icon));
+        /// UI.Image(UI.Sprite(sprite: icon));
         /// ]]></code>
         /// </example>
         public static IProperty<Image> Sprite(Value<Sprite> sprite) => Set<Image, Sprite>("Sprite", (target, value) => target.sprite = value, sprite);
@@ -804,7 +908,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Image(UI.Sprite(icon));
+        /// UI.Image(UI.Sprite(sprite: icon));
         /// ]]></code>
         /// </example>
         public static IProperty<Image> Sprite(Func<Sprite> sprite) => Sprite(new Value<Sprite>(sprite));
@@ -814,7 +918,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.RawImage(UI.Texture(texture));
+        /// UI.RawImage(UI.Texture(texture: texture));
         /// ]]></code>
         /// </example>
         public static IProperty<RawImage> Texture(Value<Texture> texture) => Set<RawImage, Texture>("Texture", (target, value) => target.texture = value, texture);
@@ -824,7 +928,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.RawImage(UI.Texture(texture));
+        /// UI.RawImage(UI.Texture(texture: texture));
         /// ]]></code>
         /// </example>
         public static IProperty<RawImage> Texture(Func<Texture> texture) => Texture(new Value<Texture>(texture));

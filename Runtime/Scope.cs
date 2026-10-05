@@ -6,8 +6,10 @@ namespace Pine
     /// <summary>A lifetime container for reactive observers, callbacks and native resources. Run temporarily enters this scope so new operations inherit its ownership and context. Dispose is idempotent, attempts resources in reverse registration order, and aggregates cleanup failures. Independent Root scopes require explicit disposal.</summary>
     /// <example>
     /// <code><![CDATA[
-    /// using var scope = UI.Root(() => UI.Effect(() => UnityEngine.Debug.Log("Ready")));
-    /// scope.Run(() => UI.Cleanup(() => UnityEngine.Debug.Log("Disposed")));
+    /// using var scope = UI.Root(build: () =>
+    ///     UI.Effect(action: () => UnityEngine.Debug.Log("Ready"))
+    /// );
+    /// scope.Run(() => UI.Cleanup(cleanup: () => UnityEngine.Debug.Log("Disposed")));
     /// ]]></code>
     /// </example>
     public sealed class Scope : IDisposable
@@ -25,7 +27,8 @@ namespace Pine
         /// <summary>Reports whether cleanup has begun/completed for this scope. Disposal is idempotent.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// if (!mount.Scope.IsDisposed) mount.Scope.Run(() => UI.Apply(label, UI.Text("Live")));
+        /// if (!mount.Scope.IsDisposed)
+        ///     mount.Scope.Run(() => UI.Apply(target: label, UI.Text(text: "Live")));
         /// ]]></code>
         /// </example>
         public bool IsDisposed { get; private set; }
@@ -38,7 +41,7 @@ namespace Pine
         /// <param name="action">Callback/action executed in the documented phase or event scope.</param>
         /// <example>
         /// <code><![CDATA[
-        /// mount.Scope.Run(() => UI.Apply(label, UI.Text("Updated")));
+        /// mount.Scope.Run(() => UI.Apply(target: label, UI.Text(text: "Updated")));
         /// ]]></code>
         /// </example>
         public void Run(Action action)
@@ -54,7 +57,7 @@ namespace Pine
         /// <returns>The typed result described above; reactive reads participate in the active observer.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// mount.Scope.Run(() => UI.Apply(label, UI.Text("Updated")));
+        /// mount.Scope.Run(() => UI.Apply(target: label, UI.Text(text: "Updated")));
         /// ]]></code>
         /// </example>
         public T Run<T>(Func<T> action)
@@ -86,7 +89,7 @@ namespace Pine
             try { Dispose(); }
             finally { IsDisposed = false; }
         }
-        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Application code disposes a mount when its owner ends.</summary>
+        /// <summary>Ends this owned lifetime idempotently. Dependencies and native event/clock registrations are released; Scope/Mount cleanup attempts all resources and aggregates failures. Explicit owners may dispose their mount early; automatic applications end when their root is destroyed.</summary>
         /// <example>
         /// <code><![CDATA[
         /// scope.Dispose();
@@ -122,8 +125,11 @@ namespace Pine
     /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
     /// <example>
     /// <code><![CDATA[
-    /// var theme = UI.Context(UnityEngine.Color.white);
-    /// theme.Provide(UnityEngine.Color.green, () => UI.Label("Theme", UI.Tint(theme.Value)));
+    /// var theme = UI.Context(fallback: UnityEngine.Color.white);
+    /// theme.Provide(
+    ///     UnityEngine.Color.green,
+    ///     () => UI.Label(text: "Theme", UI.Tint(color: theme.Value))
+    /// );
     /// ]]></code>
     /// </example>
     public sealed class Context<T>
@@ -133,7 +139,7 @@ namespace Pine
         /// <summary>Returns the nearest scoped provider value or the configured fallback. It does not independently track reactive dependencies; a reactive context value can expose its own tracked state.</summary>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Label("Theme", UI.Tint(theme.Value));
+        /// UI.Label(text: "Theme", UI.Tint(color: theme.Value));
         /// ]]></code>
         /// </example>
         public T Value
@@ -150,7 +156,10 @@ namespace Pine
         /// <param name="build">Construction callback executed in its documented ownership scope; declare owned resources here.</param>
         /// <example>
         /// <code><![CDATA[
-        /// theme.Provide(UnityEngine.Color.green, () => UI.Label("Theme", UI.Tint(theme.Value)));
+        /// theme.Provide(
+        ///     UnityEngine.Color.green,
+        ///     () => UI.Label(text: "Theme", UI.Tint(color: theme.Value))
+        /// );
         /// ]]></code>
         /// </example>
         public void Provide(T value, Action build)
@@ -167,7 +176,10 @@ namespace Pine
         /// <returns>The typed result described above; reactive reads participate in the active observer.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// theme.Provide(UnityEngine.Color.green, () => UI.Label("Theme", UI.Tint(theme.Value)));
+        /// theme.Provide(
+        ///     UnityEngine.Color.green,
+        ///     () => UI.Label(text: "Theme", UI.Tint(color: theme.Value))
+        /// );
         /// ]]></code>
         /// </example>
         public TResult Provide<TResult>(T value, Func<TResult> build)

@@ -6,8 +6,8 @@ namespace Pine
     /// <summary>Creates retained Unity UI and reactive state in typed C# declarations. Import the Pine namespace and call its static members. Construct owned UI inside UI.Mount or UI.Root; mutable bindings update native components without rebuilding the declaration.</summary>
     /// <example>
     /// <code><![CDATA[
-    /// var count = UI.Source(0);
-    /// UI.Mount(() => UI.Label(() => count.Value.ToString()));
+    /// var count = UI.Source(value: 0);
+    /// UI.Mount(component: () => UI.Label(text: () => count.Value.ToString()));
     /// ]]></code>
     /// </example>
     public static partial class UI
@@ -55,7 +55,7 @@ namespace Pine
         /// <returns>A new mutable typed source; sources can be stored independently of a UI scope.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// var count = UI.Source(0);
+        /// var count = UI.Source(value: 0);
         /// count.Value++;
         /// ]]></code>
         /// </example>
@@ -129,7 +129,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// var total = UI.Derive(() => count.Value * 2);
+        /// var total = UI.Derive(compute: () => count.Value * 2);
         /// ]]></code>
         /// </example>
         public static Derived<T> Derive<T>(Func<T> compute, IEqualityComparer<T> comparer = null)
@@ -146,7 +146,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Effect(() => UnityEngine.Debug.Log(count.Value));
+        /// UI.Effect(action: () => UnityEngine.Debug.Log(count.Value));
         /// ]]></code>
         /// </example>
         public static IDisposable Effect(Action action)
@@ -165,7 +165,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Effect(() => UnityEngine.Debug.Log(count.Value));
+        /// UI.Effect(action: () => UnityEngine.Debug.Log(count.Value));
         /// ]]></code>
         /// </example>
         public static IDisposable Effect<T>(Func<T, T> action, T initial)
@@ -180,7 +180,9 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// using var root = UI.Root(() => UI.Effect(() => UnityEngine.Debug.Log("Active")));
+        /// using var root = UI.Root(build: () =>
+        ///     UI.Effect(action: () => UnityEngine.Debug.Log("Active"))
+        /// );
         /// ]]></code>
         /// </example>
         public static Scope Root(Action build) => BuildRoot(new Scope(null, false), build);
@@ -190,7 +192,9 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// using var root = UI.Root(() => UI.Effect(() => UnityEngine.Debug.Log("Active")));
+        /// using var root = UI.Root(build: () =>
+        ///     UI.Effect(action: () => UnityEngine.Debug.Log("Active"))
+        /// );
         /// ]]></code>
         /// </example>
         public static Scope Root(Action<Action> build)
@@ -206,7 +210,9 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// using var root = UI.Root(() => UI.Effect(() => UnityEngine.Debug.Log("Active")));
+        /// using var root = UI.Root(build: () =>
+        ///     UI.Effect(action: () => UnityEngine.Debug.Log("Active"))
+        /// );
         /// ]]></code>
         /// </example>
         public static (Scope Scope, T Value) Root<T>(Func<Action, T> build)
@@ -229,8 +235,11 @@ namespace Pine
         /// <returns>A typed context key with its fallback value; providers resolve through the active scope.</returns>
         /// <example>
         /// <code><![CDATA[
-        /// var theme = UI.Context(UnityEngine.Color.white);
-        /// theme.Provide(UnityEngine.Color.green, () => UI.Label("Theme", UI.Tint(theme.Value)));
+        /// var theme = UI.Context(fallback: UnityEngine.Color.white);
+        /// theme.Provide(
+        ///     UnityEngine.Color.green,
+        ///     () => UI.Label(text: "Theme", UI.Tint(color: theme.Value))
+        /// );
         /// ]]></code>
         /// </example>
         public static Context<T> Context<T>(T fallback = default) => new(fallback);
@@ -239,7 +248,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Cleanup(() => UnityEngine.Debug.Log("Interface removed"));
+        /// UI.Cleanup(cleanup: () => UnityEngine.Debug.Log("Interface removed"));
         /// ]]></code>
         /// </example>
         public static void Cleanup(Action cleanup) => RequireScope().Own(new CleanupAction(cleanup));
@@ -248,7 +257,7 @@ namespace Pine
         /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Cleanup(() => UnityEngine.Debug.Log("Interface removed"));
+        /// UI.Cleanup(cleanup: () => UnityEngine.Debug.Log("Interface removed"));
         /// ]]></code>
         /// </example>
         public static void Cleanup(IDisposable disposable) => RequireScope().Own(disposable);
@@ -257,7 +266,11 @@ namespace Pine
         /// <param name="action">Callback/action executed in the documented phase or event scope.</param>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Batch(() => { count.Value++; score.Value = 0; });
+        /// UI.Batch(action: () =>
+        /// {
+        ///     count.Value++;
+        ///     score.Value = 0;
+        /// });
         /// ]]></code>
         /// </example>
         public static void Batch(Action action)
@@ -302,7 +315,7 @@ namespace Pine
         /// <param name="deltaTime">Finite non-negative seconds by which to advance the shared clock manually.</param>
         /// <example>
         /// <code><![CDATA[
-        /// UI.Step(1.0 / 60.0);
+        /// UI.Step(deltaTime: 1.0 / 60.0);
         /// ]]></code>
         /// </example>
         public static void Step(double deltaTime) => Clock.Step(deltaTime, true);
