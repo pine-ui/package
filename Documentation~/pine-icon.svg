@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 48">
+  <defs>
+    <linearGradient id="pine-shading" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop stop-color="#68dba6"/>
+      <stop offset="0.5" stop-color="#45bc87"/>
+      <stop offset="1" stop-color="#2d9569"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#pine-shading)" d="M20 1 7 18h6L3 32h12v14h10V32h12L27 18h6Z"/>
+  <path fill="#125439" opacity="0.14" d="M20 1v45h5V32h12L27 18h6Z"/>
+</svg>
