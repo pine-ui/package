@@ -33,7 +33,7 @@ Mount `App.Create` once from a root startup file. Component functions in separat
 
 ## Install
 
-This is the locally prepared, unpublished `0.2.0` candidate; there is no public `v0.2.0` Git tag yet. Install its matching `package.json` from disk in Unity Package Manager, or install `com.kbenim.pine-0.2.0.tgz` from tarball. Check the accompanying SHA256 checksum. Historical `v0.1.0` remains unchanged. The manifest declares Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1; the Editor resolves its compatible uGUI core package.
+Install with Unity Package Manager using https://github.com/pine-ui/package.git#v0.2.0, or install the matching com.kbenim.pine-0.2.0.tgz release artifact and verify its SHA256 checksum. The manifest declares Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1; Unity resolves its Editor-compatible uGUI core package. See [compatibility](COMPATIBILITY.md) for the exact verified versions and scope.
 
 The package bundles an accented-Latin font and missing-only TMP setup. It preserves existing TMP settings, compatible external EventSystems/action assets and parent canvases. Generated defaults retain project-owned resource copies for safe package removal. Desktop legacy-only projects enable Both with an Editor restart; legacy-only Android uses the compatible legacy UI fallback because Android does not support Both. When switching targets, Pine restores only its own original legacy backend choice; external Both configurations remain unchanged and receive a diagnostic. Setup diagnoses incompatible external configurations without rewriting gameplay.
 
@@ -49,6 +49,8 @@ The package bundles an accented-Latin font and missing-only TMP setup. It preser
 - Overlay, camera and world-space canvases configured in code.
 - Verbose XML summaries/examples for every public/protected API declaration.
 
+[Documentation](https://pine-ui.com) · [source](https://github.com/pine-ui/package) · [compatibility](COMPATIBILITY.md).
 
 ## Source and licenses
 
+Pine source is MIT. Bundled Liberation Sans is SIL OFL; Unity TMP shader/style/line-breaking resources use the Unity Companion License. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

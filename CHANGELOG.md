@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 — local unpublished candidate
+## 0.2.0 — 2026-10-05
 
 - Rename the static facade to `UI` and the mounted lifetime to `Mount`; use one `using Pine;` import.
 - Mount the complete retained tree once at startup, with optional early disposal and automatic scene/root cleanup. No owner base class is required.
@@ -14,6 +14,7 @@
 - Include compiler rejection cases, native lifecycle/control checks, a stripped macOS player workload, source synchronization and reproducible artifacts.
 - Document every public API declaration with XML summaries/examples and a complete current web reference.
 
+This early release changes the pre-1.0 API. See [compatibility](COMPATIBILITY.md) for the exact verified scope.
 
 ## 0.1.0 — 2026-10-05
 
