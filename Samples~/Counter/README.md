@@ -1,9 +1,9 @@
 # Counter sample
 
-Import this sample through Package Manager. Add `PineCounter` to a GameObject, configure a TextMeshPro default font, enable the Input System backend and enter Play Mode. The Canvas, input host, counter, retained history and spring marker are built in C#.
+Import this sample through Package Manager and enter Play Mode. `PineCounter` creates its owner automatically through `RuntimeInitializeOnLoadMethod`; `Start()` mounts its counter once. No manual GameObject attachment is needed. Pine builds the Canvas, input host, counter and increment/reset controls in C#.
 
-Import **TMP Essential Resources** from **Window → TextMeshPro** and configure `TMP_Settings.defaultFontAsset` for text creation.
+Pine supplies missing-only TMP defaults and its bundled accented-Latin text resources while preserving existing project settings. Follow the matching 0.2.0 installation instructions for input-backend setup and any Editor restart.
 
-Alternatively, launch a player with `-pine-example`, or set `PINE_EXAMPLE=1`, to run the static sample bootstrap. Choose one startup method.
+Alternatively, launch a player with `-pine-example`, or set `PINE_EXAMPLE=1`, to run the separate static example bootstrap. Choose one example startup path when testing.
 
-Disable the `PineCounter` GameObject to dispose its mount and release the interface.
+Disabling or destroying the creating component does not dispose its separate mounted tree. Scene unload or destruction of the mounted root releases it. Keep the returned `Mount` if your own code needs explicit early disposal.

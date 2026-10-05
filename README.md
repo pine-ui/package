@@ -1,61 +1,54 @@
-<p align="center"><img src="Documentation~/pine-icon.svg" alt="Pine tree" width="120"></p>
+# Pine
 
-# Pine 0.1.0
-
-A reactive C# library for code-created Unity uGUI.
-
-Build retained interfaces with typed sources, derived values, effects, contexts, scoped native bindings, keyed rows and springs.
-
-## Installation
-
-In Unity's Package Manager, choose **Install package from Git URL** and enter:
-
-```text
-https://github.com/pine-ui/package.git#v0.1.0
-```
-
-The repository root is the UPM package `com.kbenim.pine`. For a local checkout, choose **Install package from disk** and select `package.json`.
-
-The manifest declares **Unity 6000.7.0b2**, **uGUI 2.7.0** and **Input System 6.7.0**. Enable the Input System backend in PlayerSettings and configure TMP settings/default font before creating text.
-
-## Build UI
+Typed, reactive native Unity UI in C#. Import `Pine` and use `UI`; mount the entire tree once from `Start()`. Pine owns the Canvas, native control wiring and scoped bindings. Scene unload or root destruction removes the interface.
 
 ```csharp
 using Pine;
-using UI = Pine.Pine;
+using UnityEngine;
 
-var count = UI.Source(0);
-MountHandle mount = UI.Mount(() => UI.Column(
-    UI.Size(400, 180),
-    UI.Label(() => $"Count: {count.Value}"),
-    UI.Button("Increment", () => count.Value++)
-));
+public sealed class Counter : MonoBehaviour
+{
+    private readonly Source<int> _count = UI.Source(0);
 
-// Dispose when the interface owner ends.
-mount.Dispose();
+    [RuntimeInitializeOnLoadMethod]
+    private static void StartUI() =>
+        new GameObject("Counter owner").AddComponent<Counter>();
+
+    private void Start() => UI.Mount(Build);
+
+    private Component Build() =>
+        UI.Column(
+            UI.Size(360, 120),
+            UI.Children(
+                UI.Label(() => $"Count: {_count.Value}", UI.Size(360, 48)),
+                UI.Button("Increment", () => _count.Value++, UI.Size(360, 48))
+            )
+        );
+}
 ```
 
-Run Pine on Unity's main thread. A parentless mount creates an overlay Canvas, scaler and raycaster. Pine reuses an existing EventSystem or creates one with an Input System UI module. Supply a native Canvas parent to mount inside an existing hierarchy. Destroying the mounted root disposes its scope.
+## Component composition
 
-Import the **Counter** sample through Package Manager for retained history and spring animation. Its README covers component and code-driven startup.
+Mount `App.Create` once from a root startup file. Component functions in separate files return native components and call other components; they inherit the active mount or dynamic branch scope. Use `UI.Column(12, childA, childB)` or `UI.Row(8, childA, childB)` for fixed-spacing containers. Ordinary typed parameters support local/shared state, callbacks and caller-provided children. Import the **Component composition** sample for the complete five-file example, or read [component composition](https://pine-ui.com/docs/tutorials/components/).
+
+## Install
+
+This is the locally prepared, unpublished `0.2.0` candidate; there is no public `v0.2.0` Git tag yet. Install its matching `package.json` from disk in Unity Package Manager, or install `com.kbenim.pine-0.2.0.tgz` from tarball. Check the accompanying SHA256 checksum. Historical `v0.1.0` remains unchanged. The manifest declares Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1; the Editor resolves its compatible uGUI core package.
+
+The package bundles an accented-Latin font and missing-only TMP setup. It preserves existing TMP settings, compatible external EventSystems/action assets and parent canvases. Generated defaults retain project-owned resource copies for safe package removal. Desktop legacy-only projects enable Both with an Editor restart; legacy-only Android uses the compatible legacy UI fallback because Android does not support Both. When switching targets, Pine restores only its own original legacy backend choice; external Both configurations remain unchanged and receive a diagnostic. Setup diagnoses incompatible external configurations without rewriting gameplay.
 
 ## Features
 
-- Explicit typed sources, derived values, effects, batching and contexts.
-- Native Frame, Column, Row, Label, Image and Button builders.
-- Scoped component creation, cloning, properties, events and two-way native control bindings.
-- Reactive children, conditional branches, keyed rows and retained exit transitions.
-- Springs for scalar, array and Unity value types, with automatic or manual stepping.
-- Owned cleanup for bindings, resources, branches and native objects.
-
-## Documentation and checks
-
-
-```sh
-dotnet run --project Tests~/Core/Pine.Tests.csproj
-```
+- Compile-safe native properties, groups, events and custom composition.
+- Retained components with sources, derived values, effects, batching and scoped context.
+- Mount the whole tree once; optional `Mount` for explicit early disposal.
+- Exact Size, explicit Fill/Auto axes, reactive uniform Grid and explicit clipping.
+- Frame/row/column/grid, label, image/raw image, button, toggle, slider, scrollbar, text field, dropdown, scroll view and progress.
+- Read-only dynamic results/presence/indices, stable row identity and retained exits.
+- Springs, custom spaces, reduced motion, native navigation/focus and safe areas.
+- Overlay, camera and world-space canvases configured in code.
+- Verbose XML summaries/examples for every public/protected API declaration.
 
 
-## License
+## Source and licenses
 
-[MIT](LICENSE). Dependency licenses are recorded in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

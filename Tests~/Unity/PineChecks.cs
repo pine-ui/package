@@ -7,7 +7,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using P = Pine.Pine;
 
 namespace Pine.Verification
 {
@@ -42,25 +41,51 @@ namespace Pine.Verification
 
         private static void AdapterChecks()
         {
-            Source<string> caption = P.Source("before");
+            Source<string> caption = UI.Source("before");
             TextMeshProUGUI label = null;
-            MountHandle mount = P.Mount(() => label = P.Label(caption));
+            Mount mount = UI.Mount(() => label = UI.Label(caption));
             try
             {
-                Check(mount.Canvas != null && mount.Root.transform.parent == mount.Canvas.transform, "Mount owns a Canvas and parents its root.");
+                Check(mount.Canvas != null && mount.Root.GetComponentInParent<Canvas>() == mount.Canvas, "Mount owns a Canvas and parents its root.");
                 caption.Value = "after";
                 Check(label.text == "after", "Reactive text updates the native component.");
-                Check(EventSystem.current != null, "Mount supplies or reuses an EventSystem.");
+                Check(UnityEngine.Object.FindAnyObjectByType<EventSystem>() != null, "Mount supplies or reuses an EventSystem.");
             }
             finally { mount.Dispose(); }
             Check(mount.Scope.IsDisposed && mount.Root == null && mount.Canvas == null, "Disposal removes the mounted objects.");
+
+            var size = UI.Source(new Vector2(360, 180));
+            RectTransform frame = null;
+            TextMeshProUGUI child = null;
+            int builds = 0;
+            mount = UI.Mount(() =>
+            {
+                builds++;
+                frame = UI.Frame(UI.Name("Saved frame"));
+                child = UI.Label("Saved child");
+                return UI.Apply(frame, UI.Size(size), UI.Children(child));
+            });
+            try
+            {
+                Check(frame == mount.Root.GetComponent<RectTransform>() && child.transform.parent == frame,
+                    "Saved builder results are the mounted native components.");
+                size.Value = new Vector2(480, 240);
+                Check(frame.sizeDelta == size.Value && builds == 1,
+                    "A reactive Apply binding updates the saved component without rebuilding it.");
+                mount.Scope.Run(() => UI.Apply(frame, UI.Name("Updated frame")));
+                Check(frame.name == "Updated frame", "Apply can configure a saved component in its live scope.");
+                frame.anchoredPosition = new Vector2(12, 24);
+                Check(frame.anchoredPosition == new Vector2(12, 24), "Saved native properties remain directly accessible.");
+            }
+            finally { mount.Dispose(); }
+            Check(frame == null && child == null, "Scope disposal destroys its saved native objects.");
 
             GameObject external = new("Pine event check", typeof(RectTransform), typeof(Button));
             try
             {
                 Button button = external.GetComponent<Button>();
                 int clicks = 0;
-                Scope scope = P.Root(() => P.Apply(button, P.OnClick(() => clicks++)));
+                Scope scope = UI.Root(() => UI.Apply(button, UI.OnClick(() => clicks++)));
                 try { button.onClick.Invoke(); Check(clicks == 1, "Native events invoke bindings."); }
                 finally { scope.Dispose(); }
                 button.onClick.Invoke();
@@ -117,16 +142,16 @@ namespace Pine.Verification
 
         private static IEnumerator PlayChecks()
         {
-            var target = P.Source(0f);
+            var target = UI.Source(0f);
             Spring<float> spring = null;
             Button button = null;
             TextMeshProUGUI label = null;
-            MountHandle mount = P.Mount(() =>
+            Mount mount = UI.Mount(() =>
             {
-                spring = P.Spring(() => target.Value, period: 0.1);
-                label = P.Label("Pine geometry", P.PreferredSize(400, 50));
-                button = P.Button("Pine raycast", () => { }, P.PreferredSize(400, 50));
-                return P.Column(P.Size(400, 200), P.Children(label, button));
+                spring = UI.Spring(() => target.Value, period: 0.1);
+                label = UI.Label("Pine geometry", UI.Size(400, 50));
+                button = UI.Button("Pine raycast", () => { }, UI.Size(400, 50));
+                return UI.Column(UI.Size(400, 200), UI.Children(label, button));
             });
             try
             {

@@ -1,19 +1,30 @@
 using Pine;
 using UnityEngine;
-using UI = Pine.Pine;
 
 namespace Pine.Samples
 {
     public sealed class PineCounter : MonoBehaviour
     {
-        private MountHandle _mount;
+        private readonly Source<int> _count = UI.Source(0);
 
-        private void OnEnable() => _mount = UI.Mount(PineExample.Build);
+        [RuntimeInitializeOnLoadMethod]
+        private static void StartUI() => new GameObject("Pine counter").AddComponent<PineCounter>();
 
-        private void OnDisable()
-        {
-            _mount?.Dispose();
-            _mount = null;
-        }
+        private void Start() => UI.Mount(Build);
+
+        private Component Build() =>
+            UI.Column(
+                UI.Size(360, 180),
+                UI.Children(
+                    UI.Label(() => $"Count: {_count.Value}", UI.Size(360, 48)),
+                    UI.Button("Increment", () => _count.Value++, UI.Size(360, 48)),
+                    UI.Button(
+                        "Reset",
+                        () => _count.Value = 0,
+                        UI.Enabled(() => _count.Value > 0),
+                        UI.Size(360, 48)
+                    )
+                )
+            );
     }
 }

@@ -1,10 +1,9 @@
 {
   "name": "com.kbenim.pine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "Pine",
   "description": "A typed reactive UI library for code-created Unity uGUI.",
-  "unity": "6000.7",
-  "unityRelease": "0b2",
+  "unity": "6000.3",
   "license": "MIT",
   "author": {
     "name": "KbeniM",
@@ -14,14 +13,19 @@
   "changelogUrl": "https://github.com/pine-ui/package/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/pine-ui/package/blob/main/LICENSE",
   "dependencies": {
-    "com.unity.ugui": "2.7.0",
-    "com.unity.inputsystem": "6.7.0"
+    "com.unity.ugui": "2.0.0",
+    "com.unity.inputsystem": "1.20.1"
   },
   "samples": [
     {
       "displayName": "Counter",
-      "description": "A code-created counter with reactive text, conditional history, keyed rows, and springs.",
+      "description": "A code-created counter with reactive text, increment/reset buttons, and automatic startup.",
       "path": "Samples~/Counter"
+    },
+    {
+      "displayName": "Component composition",
+      "description": "One startup mount, nested component files, independent counters, shared state and caller-provided children.",
+      "path": "Samples~/Composition"
     }
   ]
 }
