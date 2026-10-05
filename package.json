@@ -10,9 +10,9 @@
     "name": "KbeniM",
     "url": "https://github.com/KbeniM"
   },
-  "documentationUrl": "https://github.com/pine-ui/pine-docs/tree/v0.1.0",
-  "changelogUrl": "https://github.com/pine-ui/pine/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/pine-ui/pine/blob/main/LICENSE",
+  "documentationUrl": "https://github.com/pine-ui/docs/tree/v0.1.0",
+  "changelogUrl": "https://github.com/pine-ui/package/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/pine-ui/package/blob/main/LICENSE",
   "dependencies": {
     "com.unity.ugui": "2.7.0",
     "com.unity.inputsystem": "6.7.0"

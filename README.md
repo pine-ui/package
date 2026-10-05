@@ -11,7 +11,7 @@ Build retained interfaces with typed sources, derived values, effects, contexts,
 In Unity's Package Manager, choose **Install package from Git URL** and enter:
 
 ```text
-https://github.com/pine-ui/pine.git#v0.1.0
+https://github.com/pine-ui/package.git#v0.1.0
 ```
 
 The repository root is the UPM package `com.kbenim.pine`. For a local checkout, choose **Install package from disk** and select `package.json`.
