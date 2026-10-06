@@ -3,135 +3,36 @@ using System.Collections.Generic;
 
 namespace Pine
 {
-    /// <summary>Creates retained Unity UI and reactive state in typed C# declarations. Import the Pine namespace and call its static members. Construct owned UI inside UI.Mount or UI.Root; mutable bindings update native components without rebuilding the declaration.</summary>
-    /// <example>
-    /// <code><![CDATA[
-    /// var count = UI.Source(value: 0);
-    /// UI.Mount(component: () => UI.Label(text: () => count.Value.ToString()));
-    /// ]]></code>
-    /// </example>
-    public static partial class UI
+    /// <summary>Creates retained Unity UI and reactive state in typed C# declarations.</summary>
+    public static partial class P
     {
-        /// <summary>Returns the working API base version; prerelease distribution metadata lives in package.json.</summary>
-        /// <example>
-        /// <code><![CDATA[
-        /// UnityEngine.Debug.Log(UI.Version);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Returns the API version.</summary>
         public static Version Version => new(1, 0, 0);
-        /// <summary>Global explicit reactive motion preference. True snaps spring targets and removes native selectable/dropdown transition fades; false allows declared motion. Applications can bind their settings/platform preference to this source.</summary>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.ReducedMotion.Value = true;
-        /// ]]></code>
-        /// </example>
+        /// <summary>Global explicit reactive motion preference.</summary>
         public static Source<bool> ReducedMotion { get; } = new(false, null);
-        /// <summary>Controls duplicate named-property diagnostics within groups and duplicate child transform diagnostics. It defaults to true and does not disable compiler target/value safety or reactive ownership guards.</summary>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Strict = true;
-        /// ]]></code>
-        /// </example>
+        /// <summary>Controls duplicate named-property diagnostics within groups and duplicate child transform diagnostics.</summary>
         public static bool Strict { get; set; } = true;
-        /// <summary>Controls native defaults for newly created components, including text/font/raycast and selectable graphics/navigation. Set false before creation only when configuring those native requirements explicitly. Default is true.</summary>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Defaults = true;
-        /// ]]></code>
-        /// </example>
+        /// <summary>Controls required native wiring for the imperative Create API.</summary>
         public static bool Defaults { get; set; } = true;
-        /// <summary>Controls whether nested groups are traversed after outer declarations within property ordering phases. Actions always follow priority and parenting remains after ordinary assignments. Default is true.</summary>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.DeferNestedProperties = true;
-        /// ]]></code>
-        /// </example>
+        /// <summary>Controls whether nested groups are traversed after outer declarations within property ordering phases.</summary>
         public static bool DeferNestedProperties { get; set; } = true;
 
-        /// <summary>Creates mutable typed state, usable outside any ownership scope. Value reads track dependencies; writes notify under the default or supplied equality policy. Store sources on the application owner to preserve state across remounting.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="value">The typed value or reactive input to read/apply; sources remain observable for the owning lifetime.</param>
-        /// <param name="comparer">Optional equality/identity comparer; null selects the documented default policy.</param>
-        /// <returns>A new mutable typed source; sources can be stored independently of a UI scope.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// var count = UI.Source(value: 0);
-        /// count.Value++;
-        /// ]]></code>
-        /// </example>
+        /// <summary>Creates mutable typed state, usable outside any ownership scope.</summary>
         public static Source<T> Source<T>(T value = default, IEqualityComparer<T> comparer = null) => new(value, comparer);
-        /// <summary>Reads a typed literal or reactive adapter. Getter/source/derived/read-only overloads retain normal dependency tracking; use Peek or Untrack when a snapshot must not subscribe. A Value getter is invoked rather than returning its wrapper.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="value">The typed value or reactive input to read/apply; sources remain observable for the owning lifetime.</param>
-        /// <returns>The current typed input value. Getter/source reads establish dependencies in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int current = UI.Read(count);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(Value<T> value) => value.Read();
-        /// <summary>Reads a typed literal or reactive adapter. Getter/source/derived/read-only overloads retain normal dependency tracking; use Peek or Untrack when a snapshot must not subscribe. A Value getter is invoked rather than returning its wrapper.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="getter">The typed getter to evaluate with normal dependency tracking.</param>
-        /// <returns>The current typed input value. Getter/source reads establish dependencies in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int current = UI.Read(count);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(Func<T> getter) => getter();
-        /// <summary>Reads a typed literal or reactive adapter. Getter/source/derived/read-only overloads retain normal dependency tracking; use Peek or Untrack when a snapshot must not subscribe. A Value getter is invoked rather than returning its wrapper.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="source">Mutable typed source used by this two-way native binding.</param>
-        /// <returns>The current typed input value. Getter/source reads establish dependencies in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int current = UI.Read(count);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(Source<T> source) => source.Value;
-        /// <summary>Reads a typed literal or reactive adapter. Getter/source/derived/read-only overloads retain normal dependency tracking; use Peek or Untrack when a snapshot must not subscribe. A Value getter is invoked rather than returning its wrapper.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="source">Mutable typed source used by this two-way native binding.</param>
-        /// <returns>The current typed input value. Getter/source reads establish dependencies in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int current = UI.Read(count);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(ReadOnly<T> source) => source.Value;
-        /// <summary>Reads a typed literal or reactive adapter. Getter/source/derived/read-only overloads retain normal dependency tracking; use Peek or Untrack when a snapshot must not subscribe. A Value getter is invoked rather than returning its wrapper.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="derived">The typed derived input (Derived&lt;T&gt;); literals and supported reactive adapters follow this overload&#x27;s documented behavior.</param>
-        /// <returns>The current typed input value. Getter/source reads establish dependencies in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int current = UI.Read(count);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(Derived<T> derived) => derived.Value;
-        /// <summary>Reads a typed literal or reactive adapter. Getter/source/derived/read-only overloads retain normal dependency tracking; use Peek or Untrack when a snapshot must not subscribe. A Value getter is invoked rather than returning its wrapper.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="value">The typed value or reactive input to read/apply; sources remain observable for the owning lifetime.</param>
-        /// <returns>The current typed input value. Getter/source reads establish dependencies in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int current = UI.Read(count);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(T value) => value;
 
-        /// <summary>Creates an owned eager cached calculation. Dependencies are discovered from reads and refreshed each evaluation; equal outputs suppress downstream observers. The getter must be pure: writing sources from a derived calculation throws. Construction requires a stable scope.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="compute">The pure calculation whose tracked reads establish dependencies; source writes are rejected.</param>
-        /// <param name="comparer">Optional equality/identity comparer; null selects the documented default policy.</param>
-        /// <returns>An owned cached derived value whose dependencies are tracked and released on disposal.</returns>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// var total = UI.Derive(compute: () => count.Value * 2);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Creates an owned eager cached calculation.</summary>
         public static Derived<T> Derive<T>(Func<T> compute, IEqualityComparer<T> comparer = null)
         {
             RequireStable();
@@ -140,15 +41,7 @@ namespace Pine
             catch { derived.Dispose(); throw; }
         }
 
-        /// <summary>Runs an owned side effect immediately and again after its tracked inputs change. Prior execution cleanup runs before reevaluation. The previous-result overload passes the last callback result into the next run. Independent observer failures are aggregated after queued work is attempted.</summary>
-        /// <param name="action">Callback/action executed in the documented phase or event scope.</param>
-        /// <returns>The owned effect subscription. Dispose stops observation and cleans up resources created by its latest execution.</returns>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Effect(action: () => UnityEngine.Debug.Log(count.Value));
-        /// ]]></code>
-        /// </example>
+        /// <summary>Runs an owned side effect immediately and again after its tracked inputs change.</summary>
         public static IDisposable Effect(Action action)
         {
             RequireStable();
@@ -157,64 +50,23 @@ namespace Pine
             catch { effect.Dispose(); throw; }
         }
 
-        /// <summary>Runs an owned side effect immediately and again after its tracked inputs change. Prior execution cleanup runs before reevaluation. The previous-result overload passes the last callback result into the next run. Independent observer failures are aggregated after queued work is attempted.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="action">Callback/action executed in the documented phase or event scope.</param>
-        /// <param name="initial">Initial previous-result value passed to the first evaluation.</param>
-        /// <returns>The owned effect subscription. Dispose stops observation and cleans up resources created by its latest execution.</returns>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Effect(action: () => UnityEngine.Debug.Log(count.Value));
-        /// ]]></code>
-        /// </example>
+        /// <summary>Runs an owned side effect immediately and again after its tracked inputs change.</summary>
         public static IDisposable Effect<T>(Func<T, T> action, T initial)
         {
             T previous = initial;
             return Effect(() => previous = action(previous));
         }
 
-        /// <summary>Constructs an independent ownership scope and runs its builder without dependency tracking. Dispose the returned scope explicitly; roots do not become parent-owned merely because they were created inside another root. Callback overloads supply the disposal action and the result overload also returns the built value.</summary>
-        /// <param name="build">Construction callback executed in its documented ownership scope; declare owned resources here.</param>
-        /// <returns>An independent scope, or a tuple containing that scope and the builder result. Dispose the scope explicitly.</returns>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// using var root = UI.Root(build: () =>
-        ///     UI.Effect(action: () => UnityEngine.Debug.Log("Active"))
-        /// );
-        /// ]]></code>
-        /// </example>
+        /// <summary>Constructs an independent ownership scope and runs its builder without dependency tracking.</summary>
         public static Scope Root(Action build) => BuildRoot(new Scope(null, false), build);
-        /// <summary>Constructs an independent ownership scope and runs its builder without dependency tracking. Dispose the returned scope explicitly; roots do not become parent-owned merely because they were created inside another root. Callback overloads supply the disposal action and the result overload also returns the built value.</summary>
-        /// <param name="build">Construction callback executed in its documented ownership scope; declare owned resources here.</param>
-        /// <returns>An independent scope, or a tuple containing that scope and the builder result. Dispose the scope explicitly.</returns>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// using var root = UI.Root(build: () =>
-        ///     UI.Effect(action: () => UnityEngine.Debug.Log("Active"))
-        /// );
-        /// ]]></code>
-        /// </example>
+        /// <summary>Constructs an independent ownership scope and runs its builder without dependency tracking.</summary>
         public static Scope Root(Action<Action> build)
         {
             Scope scope = new(null, false);
             return BuildRoot(scope, () => build(scope.Dispose));
         }
 
-        /// <summary>Constructs an independent ownership scope and runs its builder without dependency tracking. Dispose the returned scope explicitly; roots do not become parent-owned merely because they were created inside another root. Callback overloads supply the disposal action and the result overload also returns the built value.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="build">Construction callback executed in its documented ownership scope; declare owned resources here.</param>
-        /// <returns>An independent scope, or a tuple containing that scope and the builder result. Dispose the scope explicitly.</returns>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// using var root = UI.Root(build: () =>
-        ///     UI.Effect(action: () => UnityEngine.Debug.Log("Active"))
-        /// );
-        /// ]]></code>
-        /// </example>
+        /// <summary>Constructs an independent ownership scope and runs its builder without dependency tracking.</summary>
         public static (Scope Scope, T Value) Root<T>(Func<Action, T> build)
         {
             T result = default;
@@ -229,50 +81,14 @@ namespace Pine
             catch { scope.Dispose(); throw; }
         }
 
-        /// <summary>A scoped typed dependency with a fallback outside providers. Provide creates a parent-owned scope whose value is available to declarations and later effects or native callbacks created inside it. The nearest provider wins; context values are not reactive by themselves. Supply reactive state as the context value when needed.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="fallback">Optional construction callback used when the selected primary branch is absent.</param>
-        /// <returns>A typed context key with its fallback value; providers resolve through the active scope.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// var theme = UI.Context(fallback: UnityEngine.Color.white);
-        /// theme.Provide(
-        ///     UnityEngine.Color.green,
-        ///     () => UI.Label(text: "Theme", UI.Tint(color: theme.Value))
-        /// );
-        /// ]]></code>
-        /// </example>
+        /// <summary>A scoped typed dependency with a fallback outside providers.</summary>
         public static Context<T> Context<T>(T fallback = default) => new(fallback);
-        /// <summary>Registers a callback, disposable or Unity object with the active scope. Cleanup occurs in reverse registration order when the scope ends or an effect reruns. Unity objects are destroyed at the end of the frame in Play Mode and immediately in Edit Mode; callback failures do not skip other resources.</summary>
-        /// <param name="cleanup">Callback attempted when the active scope cleans up.</param>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Cleanup(cleanup: () => UnityEngine.Debug.Log("Interface removed"));
-        /// ]]></code>
-        /// </example>
+        /// <summary>Registers a callback, disposable or Unity object with the active scope.</summary>
         public static void Cleanup(Action cleanup) => RequireScope().Own(new CleanupAction(cleanup));
-        /// <summary>Registers a callback, disposable or Unity object with the active scope. Cleanup occurs in reverse registration order when the scope ends or an effect reruns. Unity objects are destroyed at the end of the frame in Play Mode and immediately in Edit Mode; callback failures do not skip other resources.</summary>
-        /// <param name="disposable">Resource disposed by the active scope in reverse registration order.</param>
-        /// <remarks>Construct and apply declarations on Unity's main thread within UI.Mount, UI.Root or a live Scope.Run. Literal assignments occur once; reactive observers and handlers end with their owning scope.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Cleanup(cleanup: () => UnityEngine.Debug.Log("Interface removed"));
-        /// ]]></code>
-        /// </example>
+        /// <summary>Registers a callback, disposable or Unity object with the active scope.</summary>
         public static void Cleanup(IDisposable disposable) => RequireScope().Own(disposable);
 
-        /// <summary>Runs several writes as one synchronous update transaction. Derived calculations settle before effects, and effects are deferred until the outermost batch finishes. Reads of derived values inside the batch still observe current upstream values. It batches notifications rather than rolling back writes on failure.</summary>
-        /// <param name="action">Callback/action executed in the documented phase or event scope.</param>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Batch(action: () =>
-        /// {
-        ///     count.Value++;
-        ///     score.Value = 0;
-        /// });
-        /// ]]></code>
-        /// </example>
+        /// <summary>Runs several writes as one synchronous update transaction.</summary>
         public static void Batch(Action action)
         {
             ReactiveRuntime.BatchDepth++;
@@ -280,15 +96,7 @@ namespace Pine
             finally { ReactiveRuntime.BatchDepth--; ReactiveRuntime.Flush(); }
         }
 
-        /// <summary>Runs a read or action with dependency collection temporarily suspended. Scope ownership and context remain active. Use for one-time native operations or event callbacks that should not become dependencies of an enclosing observer.</summary>
-        /// <typeparam name="T">Typed value, native result or identity contract; see the summary for its role.</typeparam>
-        /// <param name="read">The getter whose source reads establish reactive dependencies; supply a stable native result where required.</param>
-        /// <returns>The typed result described above; reactive reads participate in the active observer.</returns>
-        /// <example>
-        /// <code><![CDATA[
-        /// int snapshot = UI.Untrack(() => count.Value);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Runs a read or action with dependency collection temporarily suspended.</summary>
         public static T Untrack<T>(Func<T> read)
         {
             Observer previous = ReactiveRuntime.Observer;
@@ -297,13 +105,7 @@ namespace Pine
             finally { ReactiveRuntime.Observer = previous; }
         }
 
-        /// <summary>Runs a read or action with dependency collection temporarily suspended. Scope ownership and context remain active. Use for one-time native operations or event callbacks that should not become dependencies of an enclosing observer.</summary>
-        /// <param name="action">Callback/action executed in the documented phase or event scope.</param>
-        /// <example>
-        /// <code><![CDATA[
-        /// int snapshot = UI.Untrack(() => count.Value);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Runs a read or action with dependency collection temporarily suspended.</summary>
         public static void Untrack(Action action)
         {
             Observer previous = ReactiveRuntime.Observer;
@@ -311,21 +113,15 @@ namespace Pine
             try { action(); }
             finally { ReactiveRuntime.Observer = previous; }
         }
-        /// <summary>Advances the shared spring/polling/exit-delay clock manually by a finite non-negative number of seconds. Once manual stepping is selected, automatic RuntimeHost stepping is disabled until subsystem reset. Use a fixed simulation delta for deterministic tests rather than mixing manual and automatic advancement.</summary>
-        /// <param name="deltaTime">Finite non-negative seconds by which to advance the shared clock manually.</param>
-        /// <example>
-        /// <code><![CDATA[
-        /// UI.Step(deltaTime: 1.0 / 60.0);
-        /// ]]></code>
-        /// </example>
+        /// <summary>Advances the shared spring/polling/exit-delay clock manually by a finite non-negative number of seconds.</summary>
         public static void Step(double deltaTime) => Clock.Step(deltaTime, true);
 
-        internal static Scope RequireScope() => ReactiveRuntime.Scope ?? throw new InvalidOperationException("Use UI.Root or UI.Mount to own this operation.");
+        internal static Scope RequireScope() => ReactiveRuntime.Scope ?? throw new InvalidOperationException("Use P.Root or P.Mount to own this operation.");
         internal static void RequireStable()
         {
             RequireScope();
             if (ReactiveRuntime.Observer != null)
-                throw new InvalidOperationException("Create reactive scopes inside a stable root or UI.Untrack, not another reactive calculation.");
+                throw new InvalidOperationException("Create reactive scopes inside a stable root or P.Untrack, not another reactive calculation.");
         }
     }
 

@@ -5,23 +5,13 @@ namespace PineComposition.Examples
 {
     public sealed class Counter : MonoBehaviour
     {
-        public RectTransform Create(
-            Value<string> title,
-            Source<int> count = null
-        )
+        public View Create(Value<string> title, Source<int> count = null)
         {
-            count ??= UI.Source(value: 0);
-            return UI.Column(
-                gap: 8,
-                UI.Label(
-                    text: () => $"{title.Read()}: {count.Value}",
-                    UI.Size(width: 420, height: 32)
-                ),
-                UI.Button(
-                    text: "Increment",
-                    click: () => count.Value++,
-                    UI.Size(width: 420, height: 40)
-                )
+            count ??= P.Source(0);
+            return P.Vertical(spacing: 8, childControlWidth: true, childControlHeight: true,
+                childForceExpandHeight: false).With(
+                P.Text(() => $"{title.Read()}: {count.Value}").With(P.LayoutElement(preferredHeight: 32)),
+                P.Button("Increment", onClick: () => count.Value++).With(P.LayoutElement(preferredHeight: 40))
             );
         }
     }

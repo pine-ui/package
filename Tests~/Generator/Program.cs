@@ -16,10 +16,13 @@ namespace Pine {
  public class Mount { }
  public class CanvasOptions { }
  public struct Value<T> { }
- public static class UI {
+ public class View { }
+ public static class P {
   public static UnityEngine.RectTransform Column(float gap, params UnityEngine.Component[] children) => new();
   public static Mount Mount(System.Func<UnityEngine.Component> component, CanvasOptions options = null) => new();
   public static Mount Mount(System.Func<UnityEngine.GameObject> component, CanvasOptions options = null) => new();
+  public static Mount Mount(System.Func<View> component, CanvasOptions options = null) => new();
+  public static View Component<T>(System.Func<T,View> render) where T:UnityEngine.MonoBehaviour => new();
   public static TView Component<T,TView>(System.Func<T,TView> render) where T:UnityEngine.MonoBehaviour where TView:UnityEngine.Component => null;
  }
 }
@@ -43,16 +46,22 @@ void Compiles(Compilation output)
  Check(errors.Length == 0, string.Join("\n", errors.Select(e => e.ToString())));
 }
 var good = Generate(
- ("Assets/UI/App.cs", "using UnityEngine; public static class App { public static Component Mount() => Pine.UI.Column(gap: 12, Components.Counter(title: default, initialValue: 10)); }"),
+ ("Assets/UI/App.cs", "using UnityEngine; public static class App { public static Component Mount() => Pine.P.Column(gap: 12, Components.Counter(title: default, initialValue: 10)); }"),
  ("Assets/UI/Counter.cs", "using Pine; using UnityEngine; public sealed class Counter : MonoBehaviour { public RectTransform Create(Value<string> title, int initialValue = 0) => new RectTransform(); }"));
 Compiles(good.Output);
 Check(good.Result.GeneratedTrees.Length == 2, "Generate application and component factories");
-Check(good.Result.GeneratedTrees.Any(t => t.ToString().Contains("UI.Mount(component:")), "Native app is mounted once by generated startup");
+Check(good.Result.GeneratedTrees.Any(t => t.ToString().Contains("P.Mount(component:")), "Native app is mounted once by generated startup");
 Check(good.Result.GeneratedTrees.Any(t => t.ToString().Contains("@initialValue = 0")), "Factory preserves optional named props");
 Check(good.Result.GeneratedTrees.Any(t => t.ToString().Contains("AlwaysLinkAssembly")), "Application assembly is linked for stripped builds");
-var advanced = Generate(("Assets/App.cs", "public static class App { public static Pine.Mount Mount() => Pine.UI.Mount(component: () => new UnityEngine.RectTransform()); }"));
+var views = Generate(
+ ("Assets/App.cs", "public static class App { public static Pine.View Mount() => Components.Counter(); }"),
+ ("Assets/Counter.cs", "using Pine; public sealed class Counter:UnityEngine.MonoBehaviour { public Pine.View Create()=>new Pine.View(); }"));
+Compiles(views.Output);
+Check(views.Result.GeneratedTrees.Any(t => t.ToString().Contains("P.Component<global::Counter>")), "View factories defer behaviour construction");
+Check(views.Result.GeneratedTrees.Any(t => t.ToString().Contains("P.Mount(component:")), "View apps are mounted automatically");
+var advanced = Generate(("Assets/App.cs", "public static class App { public static Pine.Mount Mount() => Pine.P.Mount(component: () => new UnityEngine.RectTransform()); }"));
 Compiles(advanced.Output);
-Check(!advanced.Result.GeneratedTrees.Single().ToString().Contains("UI.Mount(component:"), "Explicit Mount app is not double mounted");
+Check(!advanced.Result.GeneratedTrees.Single().ToString().Contains("P.Mount(component:"), "Explicit Mount app is not double mounted");
 var options = Generate(("Assets/App.cs", "public static class App { public static Pine.CanvasOptions Options => new Pine.CanvasOptions(); public static UnityEngine.Component Mount()=>new UnityEngine.RectTransform(); }"));
 Compiles(options.Output);
 Check(options.Result.GeneratedTrees.Single().ToString().Contains("options: global::App.Options"), "Canvas options are forwarded");

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Pine.CompilerServices
 {
-    /// <summary>Compiler-generated application startup support. Application code declares App.Mount in App.cs; generated initializers register direct calls here. This infrastructure is not needed in ordinary UI declarations.</summary>
+    /// <summary>Compiler-generated application startup support.</summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class AppStartup
     {
@@ -14,9 +14,7 @@ namespace Pine.CompilerServices
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Reset() => Entries.Clear();
 
-        /// <summary>Registers one compiler-generated application entry before scene loading. Startup rejects multiple app assemblies before invoking any entry. This method is called only by Pine's generated code.</summary>
-        /// <param name="assembly">The compiler's declaring assembly identity.</param>
-        /// <param name="start">The direct application startup callback.</param>
+        /// <summary>Registers one compiler-generated application entry before scene loading.</summary>
         public static void Register(string assembly, Action start)
         {
             if (string.IsNullOrEmpty(assembly)) throw new ArgumentException("An application assembly is required.", nameof(assembly));

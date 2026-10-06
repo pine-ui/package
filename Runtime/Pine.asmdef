@@ -2,5 +2,10 @@
   "name": "Pine",
   "rootNamespace": "Pine",
   "references": ["Unity.ugui", "Unity.TextMeshPro", "Unity.InputSystem"],
-  "autoReferenced": true
+  "autoReferenced": true,
+  "versionDefines": [
+    { "name": "com.unity.ugui", "expression": "2.5.0", "define": "PINE_UGUI_2_5_OR_NEWER" },
+    { "name": "com.unity.ugui", "expression": "2.6.0", "define": "PINE_UGUI_2_6_OR_NEWER" },
+    { "name": "com.unity.ugui", "expression": "2.7.0", "define": "PINE_UGUI_2_7_OR_NEWER" }
+  ]
 }

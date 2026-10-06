@@ -1,28 +1,28 @@
-# Pine UI
+# Native Pine API
 
-Return your application tree from App.Mount in App.cs. Components compose directly and do not mount themselves.
+Plain C# functions return reusable `View` declarations. `.With(...)` appends entries without creating native objects or mutating the original. Visual/control/layout entries create children. Modifiers attach to the containing GameObject. `P.Self(...)` explicitly places a visual component on that same object.
 
-```csharp title="App.cs"
-using Pine;
-using UnityEngine;
-
-public static class App
+```csharp
+View Button(Vector2 position, Value<string> text, Action onClick)
 {
-    public static RectTransform Mount()
-    {
-        var count = UI.Source(value: 0);
-
-        return UI.Column(
-            gap: 12,
-            UI.Label(text: () => $"Count: {count.Value}"),
-            UI.Button(text: "Increment", click: () => count.Value++),
-            UI.Button(text: "Reset", click: () => count.Value = 0,
-                UI.Enabled(enabled: () => count.Value > 0))
-        );
-    }
+    return P.Button(
+        anchoredPosition: position,
+        sizeDelta: new Vector2(200, 150),
+        onClick: onClick
+    ).With(
+        P.Self(P.Image(color: new Color(50f / 255, 50f / 255, 50f / 255))),
+        P.Outline(effectColor: Color.black),
+        P.Text(text, color: Color.white, outlineColor: new Color32(0, 0, 0, 255), outlineWidth: .2f)
+    );
 }
 ```
 
-Use public MonoBehaviour.Create methods for Unity callbacks; Pine generates typed Components factories automatically. Plain functions are sufficient for UI-only components. The owned canvas persists by default; CanvasOptions.Persistent=false selects scene lifetime.
+The button object has RectTransform, Image, Button and Outline. Its text child has RectTransform, CanvasRenderer and TextMeshProUGUI. `P.Image()` without Self creates a child image. Arbitrarily nested `.With(...)` applies the same placement rules at every level.
 
-See the [complete documentation](https://pine-ui.com/docs/tutorials/installation/) and [component composition](https://pine-ui.com/docs/tutorials/components/).
+Unity permits one Graphic per GameObject. Pine rejects conflicting same-object Graphics and repeated explicit declarations of the same native type. A modifier/Self entry requires a containing visual view. C# does not support arbitrary named optional settings followed by skipped positional params; `.With` keeps every native setting available as a named prop.
+
+**TMP correction:** the uGUI Outline/Shadow components affect standard uGUI meshes such as Image and LegacyText. For TMP text use its native `outlineColor`/`outlineWidth` or a font material preset. Attaching an Outline does not turn it into a TMP shader effect. [TMP outline API](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/api/TMPro.TMP_Text.html#TMPro_TMP_Text_outlineWidth).
+
+For Unity callbacks, declare a concrete MonoBehaviour with a public `View Create(...)` method. Pine generates `Components.Counter(...)` with the same named parameters. Create runs once before Awake/OnEnable; hiding retains the instance, and destroying its UI disposes its behaviour and reactive scope. `using Pine;` opts a file into component generation. See the Composition sample for independent/shared state and multi-level nesting.
+
+See [all named props](https://pine-ui.com/docs/api/controls-reference/).

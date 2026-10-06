@@ -29,8 +29,8 @@ namespace Pine.Generator
 
         public void Execute(GeneratorExecutionContext context)
         {
-            var ui = context.Compilation.GetTypeByMetadataName("Pine.UI") ??
-                     context.Compilation.GetTypeByMetadataName("Assets.Scripts.Utils.Pine.UI");
+            var ui = context.Compilation.GetTypeByMetadataName("Pine.P") ??
+                     context.Compilation.GetTypeByMetadataName("Assets.Scripts.Utils.Pine.P");
             if (ui == null) return;
             string runtime = Name(ui), ns = ui.ContainingNamespace.ToDisplayString();
             var appMethods = new List<IMethodSymbol>();
@@ -55,10 +55,10 @@ namespace Pine.Generator
                         bool valid = visible && type.IsStatic && type.Arity == 0 && methods.Length == 1 &&
                             methods[0].IsStatic && methods[0].DeclaredAccessibility == Accessibility.Public &&
                             methods[0].Arity == 0 && methods[0].Parameters.Length == 0 &&
-                            (Inherits(methods[0].ReturnType, "UnityEngine.Component") ||
+                            (methods[0].ReturnType.ToDisplayString() == ns + ".View" || Inherits(methods[0].ReturnType, "UnityEngine.Component") ||
                              methods[0].ReturnType.ToDisplayString() == "UnityEngine.GameObject" ||
                              methods[0].ReturnType.ToDisplayString() == ns + ".Mount" || methods[0].ReturnsVoid);
-                        if (!valid) Error(context, declaration.GetLocation(), "App.cs must declare public static App.Mount() returning a native Component, GameObject or Mount (or void for an explicit UI.Mount entry).");
+                        if (!valid) Error(context, declaration.GetLocation(), "App.cs must declare public static App.Mount() returning View, a native Component, GameObject or Mount (or void for an explicit P.Mount entry).");
                         else if (!appMethods.Any(m => SymbolEqualityComparer.Default.Equals(m, methods[0]))) appMethods.Add(methods[0]);
                     }
                     if (type.DeclaringSyntaxReferences[0].SyntaxTree != tree || !Inherits(type, "UnityEngine.MonoBehaviour")) continue;
@@ -70,17 +70,17 @@ namespace Pine.Generator
                     bool pineNamespace = type.ContainingNamespace.ToDisplayString() == ns || type.ContainingNamespace.ToDisplayString().StartsWith(ns + ".", StringComparison.Ordinal);
                     bool qualifiedPine = !importsPine && !pineNamespace && type.DeclaringSyntaxReferences.Any(r =>
                         r.GetSyntax().DescendantNodes().OfType<MemberAccessExpressionSyntax>().Any(access =>
-                            access.Expression.ToString().EndsWith(ns + ".UI", StringComparison.Ordinal) &&
+                            access.Expression.ToString().EndsWith(ns + ".P", StringComparison.Ordinal) &&
                             context.Compilation.GetSemanticModel(r.SyntaxTree).GetSymbolInfo(access).Symbol is IMethodSymbol called && SymbolEqualityComparer.Default.Equals(called.ContainingType, ui)));
                     if (!importsPine && !pineNamespace && !qualifiedPine) continue;
                     foreach (var method in type.GetMembers("Create").OfType<IMethodSymbol>())
                     {
                         if (method.IsStatic || method.DeclaredAccessibility != Accessibility.Public ||
-                            !Inherits(method.ReturnType, "UnityEngine.Component")) continue;
+                            (!Inherits(method.ReturnType, "UnityEngine.Component") && method.ReturnType.ToDisplayString() != ns + ".View")) continue;
                         if (!visible || type.IsAbstract || type.Arity != 0 || method.Arity != 0 ||
                             method.Parameters.Any(p => p.RefKind != RefKind.None))
                         {
-                            Error(context, method.Locations.FirstOrDefault(), "Pine component Create methods need a public, concrete, non-generic top-level MonoBehaviour, native Component return type and by-value props.");
+                            Error(context, method.Locations.FirstOrDefault(), "Pine component Create methods need a public, concrete, non-generic top-level MonoBehaviour, View or native Component return type and by-value props.");
                             continue;
                         }
                         components.Add(method);
@@ -115,7 +115,7 @@ namespace Pine.Generator
                 }
                 if (method.ReturnType.ToDisplayString() == ns + ".Mount" || method.ReturnsVoid)
                 {
-                    Error(context, method.Locations.FirstOrDefault(), "App.Options applies to a returned native tree. An explicit Mount entry supplies options to UI.Mount instead.");
+                    Error(context, method.Locations.FirstOrDefault(), "App.Options applies to a returned native tree. An explicit Mount entry supplies options to P.Mount instead.");
                     return;
                 }
                 option = Name(method.ContainingType) + ".Options";
@@ -150,7 +150,7 @@ namespace Pine.Generator
             foreach (var method in methods)
             {
                 string type = Name(method.ContainingType), result = Name(method.ReturnType);
-                source.Append("    /// <summary>Creates an owned ").Append(method.ContainingType.Name).Append(" instance and its declared UI. Each call has independent state and Unity callbacks.</summary>\n");
+                source.Append("    /// <summary>Creates an owned ").Append(method.ContainingType.Name).Append(" instance and its declared P. Each call has independent state and Unity callbacks.</summary>\n");
                 foreach (var parameter in method.Parameters)
                     source.Append("    /// <param name=\"").Append(parameter.Name).Append("\">Typed ").Append(parameter.Name).Append(" prop forwarded to Create.</param>\n");
                 source.Append("    /// <returns>The native UI root returned by Create, with an independently owned behaviour scope.</returns>\n");
@@ -161,7 +161,9 @@ namespace Pine.Generator
                 source.Append("    public static ").Append(result).Append(" @").Append(method.ContainingType.Name).Append("(");
                 source.Append(string.Join(", ", method.Parameters.Select(p =>
                     (p.IsParams ? "params " : "") + Name(p.Type) + " @" + p.Name + (p.HasExplicitDefaultValue ? " = " + Default(p) : ""))));
-                source.Append(") =>\n        ").Append(runtime).Append(".Component<").Append(type).Append(", ").Append(result).Append(">(render: instance => instance.Create(");
+                source.Append(") =>\n        ").Append(runtime).Append(".Component<").Append(type);
+                if (!method.ReturnType.ToDisplayString().EndsWith(".View", StringComparison.Ordinal)) source.Append(", ").Append(result);
+                source.Append(">(render: instance => instance.Create(");
                 source.Append(string.Join(", ", method.Parameters.Select(p => "@" + p.Name + ": @" + p.Name)));
                 source.Append("));\n\n");
             }

@@ -3,19 +3,15 @@ using UnityEngine;
 
 public static class App
 {
-    public static RectTransform Mount()
+    public static View Mount()
     {
-        var count = UI.Source(value: 0);
-
-        return UI.Column(
-            gap: 12,
-            UI.Label(text: () => $"Count: {count.Value}"),
-            UI.Button(text: "Increment", click: () => count.Value++),
-            UI.Button(
-                text: "Reset",
-                click: () => count.Value = 0,
-                UI.Enabled(enabled: () => count.Value > 0)
-            )
+        var count = P.Source(0);
+        return P.Vertical(spacing: 12, childControlWidth: true, childControlHeight: true,
+            childForceExpandHeight: false, sizeDelta: new Vector2(240, 160)).With(
+            P.Text(() => $"Count: {count.Value}", fontSize: 24).With(P.LayoutElement(preferredHeight: 40)),
+            P.Button("Increment", onClick: () => count.Value++).With(P.LayoutElement(preferredHeight: 40)),
+            P.Button("Reset", onClick: () => count.Value = 0,
+                interactable: new Value<bool>(() => count.Value > 0)).With(P.LayoutElement(preferredHeight: 40))
         );
     }
 }

@@ -12,51 +12,51 @@ internal static class AuditRegression
     {
         Run("effect failures do not drop independent updates", () =>
         {
-            var bad = UI.Source(0);
-            var good = UI.Source(0);
+            var bad = P.Source(0);
+            var good = P.Source(0);
             int displayed = -1;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                UI.Effect(() => { if (bad.Value == 1) throw new InvalidOperationException("binding"); });
-                UI.Effect(() => displayed = good.Value);
+                P.Effect(() => { if (bad.Value == 1) throw new InvalidOperationException("binding"); });
+                P.Effect(() => displayed = good.Value);
             });
-            Throws(() => UI.Batch(() => { bad.Value = 1; good.Value = 1; }));
+            Throws(() => P.Batch(() => { bad.Value = 1; good.Value = 1; }));
             Equal(1, displayed);
             good.Value = 2;
             Equal(2, displayed);
         });
         Run("multiple update errors are reported together", () =>
         {
-            var source = UI.Source(0);
-            using var root = UI.Root(() =>
+            var source = P.Source(0);
+            using var root = P.Root(() =>
             {
-                UI.Effect(() => { if (source.Value != 0) throw new InvalidOperationException("first"); });
-                UI.Effect(() => { if (source.Value != 0) throw new InvalidOperationException("second"); });
+                P.Effect(() => { if (source.Value != 0) throw new InvalidOperationException("first"); });
+                P.Effect(() => { if (source.Value != 0) throw new InvalidOperationException("second"); });
             });
             Equal(2, Throws(() => source.Value = 1).Flatten().InnerExceptions.Count);
         });
         Run("derived failures do not drop independent updates", () =>
         {
-            var bad = UI.Source(0);
-            var good = UI.Source(0);
+            var bad = P.Source(0);
+            var good = P.Source(0);
             int displayed = -1;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                UI.Derive(() => bad.Value == 1 ? throw new InvalidOperationException("derive") : bad.Value);
-                UI.Effect(() => displayed = good.Value);
+                P.Derive(() => bad.Value == 1 ? throw new InvalidOperationException("derive") : bad.Value);
+                P.Effect(() => displayed = good.Value);
             });
-            Throws(() => UI.Batch(() => { bad.Value = 1; good.Value = 1; }));
+            Throws(() => P.Batch(() => { bad.Value = 1; good.Value = 1; }));
             Equal(1, displayed);
         });
         Run("derived chains recover on a later valid update", () =>
         {
-            var source = UI.Source(0);
+            var source = P.Source(0);
             int displayed = -1;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                var middle = UI.Derive(() => source.Value == 1 ? throw new InvalidOperationException("derive") : source.Value);
-                var end = UI.Derive(() => middle.Value * 2);
-                UI.Effect(() => displayed = end.Value);
+                var middle = P.Derive(() => source.Value == 1 ? throw new InvalidOperationException("derive") : source.Value);
+                var end = P.Derive(() => middle.Value * 2);
+                P.Effect(() => displayed = end.Value);
             });
             Throws(() => source.Value = 1);
             source.Value = 2;
@@ -64,12 +64,12 @@ internal static class AuditRegression
         });
         Run("effect can recover after throwing cleanup", () =>
         {
-            var source = UI.Source(0);
+            var source = P.Source(0);
             int displayed = -1;
-            using var root = UI.Root(() => UI.Effect(() =>
+            using var root = P.Root(() => P.Effect(() =>
             {
                 displayed = source.Value;
-                if (displayed == 0) UI.Cleanup(() => throw new InvalidOperationException("cleanup"));
+                if (displayed == 0) P.Cleanup(() => throw new InvalidOperationException("cleanup"));
             }));
             Throws(() => source.Value = 1);
             source.Value = 2;
@@ -77,14 +77,14 @@ internal static class AuditRegression
         });
         Run("effect replaces conditional dependencies after cleanup recovery", () =>
         {
-            var select = UI.Source(false);
-            var a = UI.Source(0);
-            var b = UI.Source(0);
+            var select = P.Source(false);
+            var a = P.Source(0);
+            var b = P.Source(0);
             int runs = 0;
-            using var root = UI.Root(() => UI.Effect(() =>
+            using var root = P.Root(() => P.Effect(() =>
             {
                 _ = select.Value ? b.Value : a.Value;
-                if (runs++ == 0) UI.Cleanup(() => throw new InvalidOperationException("cleanup"));
+                if (runs++ == 0) P.Cleanup(() => throw new InvalidOperationException("cleanup"));
             }));
             Throws(() => select.Value = true);
             a.Value = 1;
@@ -96,13 +96,13 @@ internal static class AuditRegression
         });
         Run("cleanup writes do not reschedule the effect being reset", () =>
         {
-            var source = UI.Source(0);
+            var source = P.Source(0);
             int runs = 0;
-            using var root = UI.Root(() => UI.Effect(() =>
+            using var root = P.Root(() => P.Effect(() =>
             {
                 _ = source.Value;
                 runs++;
-                UI.Cleanup(() => source.Value++);
+                P.Cleanup(() => source.Value++);
             }));
             source.Value = 1;
             Equal(2, source.Value);
@@ -110,14 +110,14 @@ internal static class AuditRegression
         });
         Run("chained derived reads are current within a batch", () =>
         {
-            var source = UI.Source(1);
+            var source = P.Source(1);
             Derived<int> end = null;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                var middle = UI.Derive(() => source.Value * 2);
-                end = UI.Derive(() => middle.Value * 2);
+                var middle = P.Derive(() => source.Value * 2);
+                end = P.Derive(() => middle.Value * 2);
             });
-            UI.Batch(() =>
+            P.Batch(() =>
             {
                 source.Value = 2;
                 Equal(8, end.Value);
@@ -127,16 +127,16 @@ internal static class AuditRegression
         });
         Run("batched derived reads keep effects deferred", () =>
         {
-            var source = UI.Source(0);
+            var source = P.Source(0);
             Derived<int> end = null;
             int runs = 0;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                var middle = UI.Derive(() => source.Value * 2);
-                end = UI.Derive(() => middle.Value * 2);
-                UI.Effect(() => { _ = end.Value; runs++; });
+                var middle = P.Derive(() => source.Value * 2);
+                end = P.Derive(() => middle.Value * 2);
+                P.Effect(() => { _ = end.Value; runs++; });
             });
-            UI.Batch(() =>
+            P.Batch(() =>
             {
                 source.Value = 1;
                 Equal(4, end.Value);
@@ -148,60 +148,60 @@ internal static class AuditRegression
         });
         Run("unchanged derived outputs suppress effects", () =>
         {
-            var source = UI.Source(1);
+            var source = P.Source(1);
             Derived<int> end = null;
             int runs = 0;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                var parity = UI.Derive(() => source.Value % 2);
-                end = UI.Derive(() => parity.Value * 2);
-                UI.Effect(() => { _ = end.Value; runs++; });
+                var parity = P.Derive(() => source.Value % 2);
+                end = P.Derive(() => parity.Value * 2);
+                P.Effect(() => { _ = end.Value; runs++; });
             });
-            UI.Batch(() => { source.Value = 3; Equal(2, end.Value); });
+            P.Batch(() => { source.Value = 3; Equal(2, end.Value); });
             Equal(1, runs);
         });
         Run("deep shared dependency graphs retain cached reads", () =>
         {
-            var source = UI.Source(1);
+            var source = P.Source(1);
             Derived<int> end = null;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                end = UI.Derive(() => source.Value);
+                end = P.Derive(() => source.Value);
                 for (int layer = 0; layer < 24; layer++)
                 {
                     var previous = end;
-                    var left = UI.Derive(() => previous.Value);
-                    var right = UI.Derive(() => previous.Value);
-                    end = UI.Derive(() => left.Value + right.Value);
+                    var left = P.Derive(() => previous.Value);
+                    var right = P.Derive(() => previous.Value);
+                    end = P.Derive(() => left.Value + right.Value);
                 }
             });
-            UI.Batch(() => { source.Value = 2; Equal(2 << 24, end.Value); });
+            P.Batch(() => { source.Value = 2; Equal(2 << 24, end.Value); });
             Equal(2 << 24, end.Value);
         });
         Run("explicit source notifications refresh chained derived reads", () =>
         {
             var values = new[] { 1 };
-            var source = UI.Source(values);
+            var source = P.Source(values);
             Derived<int> end = null;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                var middle = UI.Derive(() => source.Value[0] * 2);
-                end = UI.Derive(() => middle.Value * 2);
+                var middle = P.Derive(() => source.Value[0] * 2);
+                end = P.Derive(() => middle.Value * 2);
             });
-            UI.Batch(() => { values[0] = 2; source.Notify(); Equal(8, end.Value); });
+            P.Batch(() => { values[0] = 2; source.Notify(); Equal(8, end.Value); });
         });
         Run("diamond graph settles once per batch", () =>
         {
-            var source = UI.Source(1);
+            var source = P.Source(1);
             int displayed = 0, runs = 0;
-            using var root = UI.Root(() =>
+            using var root = P.Root(() =>
             {
-                var left = UI.Derive(() => source.Value * 2);
-                var right = UI.Derive(() => source.Value * 3);
-                var total = UI.Derive(() => left.Value + right.Value);
-                UI.Effect(() => { displayed = total.Value; runs++; });
+                var left = P.Derive(() => source.Value * 2);
+                var right = P.Derive(() => source.Value * 3);
+                var total = P.Derive(() => left.Value + right.Value);
+                P.Effect(() => { displayed = total.Value; runs++; });
             });
-            UI.Batch(() => { source.Value = 2; source.Value = 3; });
+            P.Batch(() => { source.Value = 2; source.Value = 3; });
             Equal(15, displayed);
             Equal(2, runs);
         });
@@ -209,30 +209,30 @@ internal static class AuditRegression
         {
             Run($"failed branch cleanup publishes removal (delay {delay})", () =>
             {
-                var visible = UI.Source(true);
+                var visible = P.Source(true);
                 ReadOnly<IReadOnlyList<string>> rows = null;
-                using var root = UI.Root(() => rows = UI.Show(() => visible.Value, present =>
+                using var root = P.Root(() => rows = P.Show(() => visible.Value, present =>
                 {
-                    UI.Cleanup(() => throw new InvalidOperationException("exit"));
+                    P.Cleanup(() => throw new InvalidOperationException("exit"));
                     return new Branch<string>("row", delay);
                 }));
                 if (delay == 0) Throws(() => visible.Value = false);
-                else { visible.Value = false; Throws(() => UI.Step(0.2)); }
+                else { visible.Value = false; Throws(() => P.Step(0.2)); }
                 Equal(0, rows.Value.Count);
                 visible.Value = true;
                 Equal(1, rows.Value.Count);
                 // Remove the second row too so test disposal does not hide its assertions.
                 if (delay == 0) Throws(() => visible.Value = false);
-                else { visible.Value = false; Throws(() => UI.Step(0.2)); }
+                else { visible.Value = false; Throws(() => P.Step(0.2)); }
             });
         }
         Run("immediate removal continues after multiple cleanup failures", () =>
         {
-            var items = UI.Source(new[] { 1, 2 });
+            var items = P.Source(new[] { 1, 2 });
             ReadOnly<IReadOnlyList<int>> rows = null;
-            using var root = UI.Root(() => rows = UI.Values<int, int>(() => items.Value, (value, index, present) =>
+            using var root = P.Root(() => rows = P.Values<int, int>(() => items.Value, (value, index, present) =>
             {
-                UI.Cleanup(() => throw new InvalidOperationException("row " + value));
+                P.Cleanup(() => throw new InvalidOperationException("row " + value));
                 return value;
             }));
             Equal(2, Throws(() => items.Value = Array.Empty<int>()).Flatten().InnerExceptions.Count);
@@ -240,48 +240,48 @@ internal static class AuditRegression
         });
         Run("simultaneous delayed exits complete despite cleanup failures", () =>
         {
-            var items = UI.Source(new[] { 1, 2 });
+            var items = P.Source(new[] { 1, 2 });
             ReadOnly<IReadOnlyList<int>> rows = null;
-            using var root = UI.Root(() => rows = UI.Values<int, int>(() => items.Value, (value, index, present) =>
+            using var root = P.Root(() => rows = P.Values<int, int>(() => items.Value, (value, index, present) =>
             {
-                UI.Cleanup(() => throw new InvalidOperationException("row " + value));
+                P.Cleanup(() => throw new InvalidOperationException("row " + value));
                 return new Branch<int>(value, 0.1);
             }));
             items.Value = Array.Empty<int>();
-            Equal(2, Throws(() => UI.Step(0.2)).Flatten().InnerExceptions.Count);
+            Equal(2, Throws(() => P.Step(0.2)).Flatten().InnerExceptions.Count);
             Equal(0, rows.Value.Count);
         });
         Run("delayed exit reentry retains the branch", () =>
         {
-            var visible = UI.Source(true);
+            var visible = P.Source(true);
             ReadOnly<IReadOnlyList<string>> rows = null;
             int builds = 0, disposed = 0;
-            using var root = UI.Root(() => rows = UI.Show(() => visible.Value, present =>
+            using var root = P.Root(() => rows = P.Show(() => visible.Value, present =>
             {
                 builds++;
-                UI.Cleanup(() => disposed++);
+                P.Cleanup(() => disposed++);
                 return new Branch<string>("row", 0.1);
             }));
             visible.Value = false;
-            UI.Step(0.05);
+            P.Step(0.05);
             visible.Value = true;
-            UI.Step(0.2);
+            P.Step(0.2);
             Equal(1, builds);
             Equal(0, disposed);
             Equal(1, rows.Value.Count);
             visible.Value = false;
-            UI.Step(0.2);
+            P.Step(0.2);
             Equal(1, disposed);
             Equal(0, rows.Value.Count);
         });
         Run("scope disposal attempts all cleanup in reverse order", () =>
         {
             var calls = new List<int>();
-            var root = UI.Root(() =>
+            var root = P.Root(() =>
             {
-                UI.Cleanup(() => calls.Add(1));
-                UI.Cleanup(() => { calls.Add(2); throw new InvalidOperationException("cleanup"); });
-                UI.Cleanup(() => calls.Add(3));
+                P.Cleanup(() => calls.Add(1));
+                P.Cleanup(() => { calls.Add(2); throw new InvalidOperationException("cleanup"); });
+                P.Cleanup(() => calls.Add(3));
             });
             Throws(root.Dispose);
             Equal("3,2,1", string.Join(",", calls));
@@ -290,21 +290,21 @@ internal static class AuditRegression
         });
         Run("spring and delayed exits share the clock", () =>
         {
-            var target = UI.Source(0d);
+            var target = P.Source(0d);
             Spring<double> spring = null;
-            using var root = UI.Root(() => spring = UI.Spring(() => target.Value, period: 0.5));
+            using var root = P.Root(() => spring = P.Spring(() => target.Value, period: 0.5));
             target.Value = 10;
-            UI.Step(0.1);
+            P.Step(0.1);
             if (spring.Value <= 0 || spring.Value >= 10) throw new Exception("Spring did not advance smoothly.");
-            UI.Step(5);
+            P.Step(5);
             Equal(10d, spring.Value);
         });
         Run("derived writes and feedback loops still fail", () =>
         {
-            var source = UI.Source(0);
-            using var root = UI.Root(() => { });
-            Throws(() => root.Run(() => UI.Derive(() => source.Value = 1)));
-            Throws(() => root.Run(() => UI.Effect(() => source.Value++)));
+            var source = P.Source(0);
+            using var root = P.Root(() => { });
+            Throws(() => root.Run(() => P.Derive(() => source.Value = 1)));
+            Throws(() => root.Run(() => P.Effect(() => source.Value++)));
         });
         Console.WriteLine($"{_passed} passed; {_failed} failed.");
         return _failed == 0 ? 0 : 1;

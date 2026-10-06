@@ -2,17 +2,12 @@
 
 ## 1.0.0 — 2026-10-06
 
-- Rename the static facade to `UI` and the mounted lifetime to `Mount`; use one `using Pine;` import.
-- Automatically start App.cs / App.Mount with the bundled source generator; default persistent canvas and optional scene lifetime through CanvasOptions.
-- Restrict declarations to compatible component types; add explicit `Children` and target-typed `Group<T>` composition.
-- Add `Column(gap, children...)` and `Row(gap, children...)` shorthand, a four-file automatic-start composition sample and native component lifetime checks.
-- Generate typed Components factories from MonoBehaviour.Create props; initialize before Awake/OnEnable and release behaviours with their returned UI roots. Plain component functions remain supported.
-- Make Size exact in native rects and layout; add explicit Fill/Auto axes and reactive uniform grid sizing with conflict diagnostics.
-- Supply complete toggle, slider, scrollbar, text field, dropdown, scroll view, raw image and progress controls alongside existing factories.
-- Expose immutable observable dynamic result lists and read-only row metadata.
-- Add overlay/camera/world configuration, native navigation/focus, safe areas, scaling and reduced motion.
-- Bundle licensed accented-Latin text resources; preserve project defaults, dirty assets and external UI/input ownership. Generated defaults reference project-owned resource copies for safe removal.
-- Include compiler rejection cases, native lifecycle/control checks, a stripped macOS player workload, source synchronization and reproducible artifacts.
-- Document every public API declaration with XML summaries/examples and a complete current web reference.
+- Use `P.Text`, `P.Vertical` and `P.Horizontal`; factories return deferred `View` declarations.
+- Build once; literals, sources and tracked getters update retained native components.
+- Compose nested children and same-object modifiers with `.With(...)`; `P.Self(...)` explicitly attaches visual components.
+- Cover 41 authorable native uGUI/TMP factories and Inspector settings as typed named props. Later native members are version-gated.
+- Preserve native defaults and grouped structs; wire required graphics, captions, input fields, dropdown templates and scroll references.
+- Support editable source write-back, scoped native events/context, retained children and generated MonoBehaviour startup/lifetimes.
+- Update all samples, downloadable examples, complete web reference and concise XML summaries.
 
-This release establishes the 1.0 public API. See [compatibility](COMPATIBILITY.md) for the exact verified scope.
+This replaces the earlier 1.0.0 tag/archive with a breaking API, as requested. Remove/reinstall earlier installations to refresh cached Git revisions. No old API aliases are provided. [Compatibility](COMPATIBILITY.md) records the exact verification boundary.

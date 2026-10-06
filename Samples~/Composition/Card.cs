@@ -1,24 +1,14 @@
 using Pine;
-using UnityEngine;
 
 namespace PineComposition.Examples
 {
     public static class Card
     {
-        public static RectTransform Create(
-            string title,
-            params Component[] children
-        )
-        {
-            return UI.Column(
-                gap: 8,
-                UI.Label(
-                    text: title,
-                    UI.FontSize(size: 24),
-                    UI.Size(width: 420, height: 36)
-                ),
-                UI.Column(gap: 8, children)
-            );
-        }
+        public static View Create(string title, params View[] children)
+            => P.Vertical(spacing: 8, childControlWidth: true, childControlHeight: true,
+                childForceExpandHeight: false).With(
+                P.Text(title, fontSize: 24).With(P.LayoutElement(preferredHeight: 36)),
+                P.Vertical(spacing: 8, childControlWidth: true, childControlHeight: true,
+                    childForceExpandHeight: false).With(children));
     }
 }

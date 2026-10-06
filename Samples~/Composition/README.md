@@ -9,4 +9,4 @@ Import the four files and press Play. App.cs returns the application tree; Pine 
 
 Unity callbacks run on generated behaviour instances. Hiding their returned UI retains state and stops Unity updates; destroying that UI releases the behaviour and reactive scope. The default canvas persists across scenes; CanvasOptions.Persistent=false selects scene lifetime.
 
-See https://pine-ui.com/docs/tutorials/components/ for plain functions, callbacks, conditional components and stable keyed lists.
+See https://pine-ui.com/docs/next/tutorials/components/ for plain functions, callbacks, conditional components and stable keyed lists.

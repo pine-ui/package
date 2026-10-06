@@ -13,11 +13,12 @@ namespace Pine
         private static RuntimeHost _instance;
         private GameObject _input;
         private readonly List<Mount> _mounts = new();
+        private readonly HashSet<Scope> _observedScopes = new();
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetState()
         {
             Clock.Reset(); Clock.EnsureHost = Ensure; _instance = null;
-            UI.Strict = true; UI.Defaults = true; UI.DeferNestedProperties = true; UI.DefaultFont = null; UI.ReducedMotion.Value = false;
+            P.Strict = true; P.Defaults = true; P.DeferNestedProperties = true; P.DefaultFont = null; P.ReducedMotion.Value = false;
         }
         internal static void Ensure()
         {
@@ -27,7 +28,11 @@ namespace Pine
                 var host = new GameObject("Pine Runtime"); _instance = host.AddComponent<RuntimeHost>();
                 if (Application.isPlaying) DontDestroyOnLoad(host);
             }
+#if UNITY_6000_7_OR_NEWER
+            var existing = FindObjectsByType<EventSystem>(FindObjectsInactive.Exclude);
+#else
             var existing = FindObjectsByType<EventSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+#endif
             foreach (var system in existing)
             {
                 if (!system.isActiveAndEnabled || system.gameObject == _instance._input) continue;
@@ -50,25 +55,30 @@ namespace Pine
 #elif ENABLE_LEGACY_INPUT_MANAGER
             _instance._input.AddComponent<StandaloneInputModule>();
 #else
-            throw new InvalidOperationException("No supported input backend is enabled. Pine's Editor setup must complete before running the UI.");
+            throw new InvalidOperationException("No supported input backend is enabled. Pine's Editor setup must complete before running the P.");
 #endif
         }
         private static void ReleaseOwnedInput()
         {
             if (_instance._input == null) return;
-            _instance._input.SetActive(false); UI.DestroyObject(_instance._input); _instance._input = null;
+            _instance._input.SetActive(false); P.DestroyObject(_instance._input); _instance._input = null;
         }
         internal static void Observe(Mount mount)
         {
+            if (!_instance._observedScopes.Add(mount.Scope)) return;
             _instance._mounts.Add(mount);
             var host = _instance;
-            mount.Scope.Run(() => UI.Cleanup(() => host._mounts.Remove(mount)));
+            mount.Scope.Run(() => P.Cleanup(() => { host._mounts.Remove(mount); host._observedScopes.Remove(mount.Scope); }));
+        }
+        internal static void ObserveView(GameObject root, Scope scope)
+        {
+            if (_instance != null) Observe(new Mount { Root = root, Scope = scope });
         }
         private void DisposeDestroyedRoots()
         {
-            // Unity skips OnDestroy for a component that was never enabled. The shared host
-            // observes only mount roots; this check allocates nothing while interfaces are idle.
-            for (int i = _mounts.Count - 1; i >= 0; i--)
+            // Unity skips OnDestroy for never-active objects. Disposing a parent can also
+            // remove its children's records, so clamp the next index after cleanup.
+            for (int i = _mounts.Count - 1; i >= 0; i = Math.Min(i - 1, _mounts.Count - 1))
                 if (_mounts[i].Root == null)
                 { try { _mounts[i].Dispose(); } catch (Exception error) { Debug.LogException(error); } }
         }

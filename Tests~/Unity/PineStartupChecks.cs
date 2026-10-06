@@ -15,14 +15,14 @@ namespace Pine.Tests
         public bool Initialized, AwakeAfterCreate, EnabledAfterCreate;
         public int Updates;
         public Source<int> Count;
-        public RectTransform Create()
+        public View Create()
         {
             Instance = this;
-            Count = UI.Source(value: 5);
-            UI.Effect(() => { _ = Count.Value; Reads++; });
-            UI.Cleanup(() => Cleaned++);
+            Count = P.Source(value: 5);
+            P.Effect(() => { _ = Count.Value; Reads++; });
+            P.Cleanup(() => Cleaned++);
             Initialized = true;
-            return UI.Column(gap: 8, UI.Label(text: () => Count.Value.ToString()));
+            return P.Vertical(spacing: 8).With(P.Text(() => Count.Value.ToString()));
         }
         private void Awake() => AwakeAfterCreate = Initialized;
         private void OnEnable() => EnabledAfterCreate = Initialized;
@@ -107,7 +107,7 @@ namespace Pine.Tests
 
             PineCallbackProbe.Destroyed = PineCallbackProbe.Cleaned = PineCallbackProbe.Reads = 0;
             RectTransform view = null;
-            var mount = UI.Mount(component: () => view = UI.Component<PineCallbackProbe, RectTransform>(render: p => p.Create()));
+            var mount = P.Mount(component: () => P.Component<PineCallbackProbe>(render: p => p.Create()).With(P.Self(P.Declare<RectTransform>(reference: native => view = native))));
             var instance = PineCallbackProbe.Instance;
             var count = instance.Count;
             try
@@ -134,17 +134,17 @@ namespace Pine.Tests
             finally { mount.Dispose(); }
 
             var scene = SceneManager.CreateScene("Pine scene-lived check");
-            var sceneMount = UI.Mount(component: () => UI.Frame(), options: new CanvasOptions { Persistent = false });
+            var sceneMount = P.Mount(component: () => P.Frame(), options: new CanvasOptions { Persistent = false });
             SceneManager.MoveGameObjectToScene(sceneMount.Canvas.gameObject, scene);
             var unload = SceneManager.UnloadSceneAsync(scene);
             while (!unload.isDone) yield return null;
             Check(sceneMount.Scope.IsDisposed && sceneMount.Root == null && application != null, "Scene-lived opt-out cleans up while the default app survives.");
             var external = new GameObject("External parent", typeof(RectTransform));
             bool rejected = false;
-            try { UI.Mount(component: () => UI.Frame(), parent: external.transform, options: new CanvasOptions()); }
+            try { P.Mount(component: () => P.Frame(), parent: external.transform, options: new CanvasOptions()); }
             catch (ArgumentException) { rejected = true; }
             Check(rejected && external.transform.parent == null, "Persistence never reparents an externally owned parent.");
-            using (var attached = UI.Mount(component: () => UI.Frame(), parent: external.transform))
+            using (var attached = P.Mount(component: () => P.Frame(), parent: external.transform))
                 Check(attached.Root.transform.parent == external.transform, "External-parent mounting remains available without taking persistence ownership.");
             UnityEngine.Object.Destroy(external);
         }

@@ -1,0 +1,197 @@
+using System.Text;
+using System.Text.Json;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+
+if (args.Length != 3)
+    throw new ArgumentException("Usage: NativeApi <Unity Editor/Data> <project Library/ScriptAssemblies> <package root>");
+var editor = Path.GetFullPath(args[0]);
+var assemblies = Path.GetFullPath(args[1]);
+var package = Path.GetFullPath(args[2]);
+var paths = Directory.GetFiles(Path.Combine(editor, "Managed/UnityEngine"), "*.dll")
+    .Concat(Directory.GetFiles(Path.Combine(editor, "MonoBleedingEdge/lib/mono/4.7.2-api"), "*.dll"))
+    .Concat(new[] { "UnityEngine.UI.dll", "Unity.TextMeshPro.dll", "Unity.InputSystem.dll" }.Select(n => Path.Combine(assemblies, n)))
+    .Where(File.Exists).Distinct().ToArray();
+var compilation = CSharpCompilation.Create("NativeInventory", references: paths.Select(p => MetadataReference.CreateFromFile(p)));
+var catalog = new (string Factory, string Type, bool Modifier, string? Gate)[]
+{
+    ("Frame", "UnityEngine.RectTransform", false, null),
+    ("Text", "TMPro.TextMeshProUGUI", false, null),
+    ("Image", "UnityEngine.UI.Image", false, null),
+    ("RawImage", "UnityEngine.UI.RawImage", false, null),
+    ("Button", "UnityEngine.UI.Button", false, null),
+    ("Selectable", "UnityEngine.UI.Selectable", false, null),
+    ("Toggle", "UnityEngine.UI.Toggle", false, null),
+    ("Slider", "UnityEngine.UI.Slider", false, null),
+    ("Scrollbar", "UnityEngine.UI.Scrollbar", false, null),
+    ("InputField", "TMPro.TMP_InputField", false, null),
+    ("Dropdown", "TMPro.TMP_Dropdown", false, null),
+    ("LegacyText", "UnityEngine.UI.Text", false, null),
+    ("LegacyInputField", "UnityEngine.UI.InputField", false, null),
+    ("LegacyDropdown", "UnityEngine.UI.Dropdown", false, null),
+    ("ScrollRect", "UnityEngine.UI.ScrollRect", false, null),
+    ("Vertical", "UnityEngine.UI.VerticalLayoutGroup", false, null),
+    ("Horizontal", "UnityEngine.UI.HorizontalLayoutGroup", false, null),
+    ("Grid", "UnityEngine.UI.GridLayoutGroup", false, null),
+    ("Canvas", "UnityEngine.Canvas", false, null),
+    ("CanvasGroup", "UnityEngine.CanvasGroup", true, null),
+    ("CanvasScaler", "UnityEngine.UI.CanvasScaler", true, null),
+    ("GraphicRaycaster", "UnityEngine.UI.GraphicRaycaster", true, null),
+    ("LayoutElement", "UnityEngine.UI.LayoutElement", true, null),
+    ("ContentSizeFitter", "UnityEngine.UI.ContentSizeFitter", true, null),
+    ("AspectRatioFitter", "UnityEngine.UI.AspectRatioFitter", true, null),
+    ("Mask", "UnityEngine.UI.Mask", true, null),
+    ("RectMask2D", "UnityEngine.UI.RectMask2D", true, null),
+    ("Shadow", "UnityEngine.UI.Shadow", true, null),
+    ("Outline", "UnityEngine.UI.Outline", true, null),
+    ("PositionAsUV1", "UnityEngine.UI.PositionAsUV1", true, null),
+    ("ToggleGroup", "UnityEngine.UI.ToggleGroup", true, null),
+    ("CanvasRenderer", "UnityEngine.CanvasRenderer", true, null),
+    ("EventTrigger", "UnityEngine.EventSystems.EventTrigger", true, null),
+    ("EventSystem", "UnityEngine.EventSystems.EventSystem", false, null),
+    ("BaseInput", "UnityEngine.EventSystems.BaseInput", true, null),
+    ("StandaloneInputModule", "UnityEngine.EventSystems.StandaloneInputModule", true, "ENABLE_LEGACY_INPUT_MANAGER"),
+    ("InputSystemUIInputModule", "UnityEngine.InputSystem.UI.InputSystemUIInputModule", true, "ENABLE_INPUT_SYSTEM"),
+    ("PhysicsRaycaster", "UnityEngine.EventSystems.PhysicsRaycaster", true, null),
+    ("Physics2DRaycaster", "UnityEngine.EventSystems.Physics2DRaycaster", true, null),
+    ("RaycastReceiver", "UnityEngine.UI.RaycastReceiver", false, "PINE_UGUI_2_5_OR_NEWER"),
+    ("SafeArea", "UnityEngine.UI.SafeArea", true, "PINE_UGUI_2_6_OR_NEWER")
+};
+var excluded = new HashSet<string> { "parent", "hasChanged", "hierarchyCapacity", "useGUILayout", "runInEditMode", "destroyCancellationToken", "isOverlay", "maskType", "isUsingLegacyAnimationComponent", "isUsingBold", "hasPropertiesChanged", "isVolumetricText", "havePropertiesChanged", "autoSizeTextContainer", "maskOffset", "fontSizeBase", "isUsingLegacyAnimationComponent", "isInputParsingRequired", "isTextTruncated" };
+var later = new Dictionary<string, string>
+{
+    ["UnityEngine.UI.LayoutElement.maxWidth"] = "PINE_UGUI_2_6_OR_NEWER",
+    ["UnityEngine.UI.LayoutElement.maxHeight"] = "PINE_UGUI_2_6_OR_NEWER",
+    ["TMPro.TMP_Text.enableAdvancedText"] = "PINE_UGUI_2_7_OR_NEWER",
+    ["UnityEngine.Canvas.useReflectionProbes"] = "UNITY_6000_4_OR_NEWER"
+};
+var rectNames = new[] { "anchorMin", "anchorMax", "pivot", "anchoredPosition", "anchoredPosition3D", "sizeDelta", "offsetMin", "offsetMax", "localPosition", "localRotation", "localEulerAngles", "localScale" };
+var rect = compilation.GetTypeByMetadataName("UnityEngine.RectTransform") ?? throw new InvalidOperationException("RectTransform metadata unavailable.");
+var rectProperties = Properties(rect).Where(p => rectNames.Contains(p.Name)).ToDictionary(p => p.Name);
+var output = new StringBuilder("// <auto-generated/>\nusing System;\nusing UnityEngine;\n#pragma warning disable 0618\nnamespace Pine\n{\n    public static partial class P\n    {\n");
+var inventory = new List<object>();
+foreach (var entry in catalog)
+{
+    var type = compilation.GetTypeByMetadataName(entry.Type);
+    if (type == null) throw new InvalidOperationException("Missing native type " + entry.Type);
+    var props = Properties(type).Where(p => !excluded.Contains(p.Name) && p.Type.SpecialType != SpecialType.System_Void)
+        .Select(p => new Prop(p.Name, Name(p.Type), EventArguments(p.Type), Gate(p), false)).ToList();
+    props.AddRange(Fields(type).Where(f => !excluded.Contains(f.Name) && !props.Any(p => p.Name == f.Name))
+        .Select(f => new Prop(f.Name, Name(f.Type), EventArguments(f.Type), null, false)));
+    if (entry.Factory is "StandaloneInputModule" or "InputSystemUIInputModule")
+        props.Add(new Prop("sendPointerHoverToParent", "bool", null, null, false));
+    if (entry.Type != "UnityEngine.RectTransform")
+        props.AddRange(rectNames.Where(n => !props.Any(p => p.Name == n)).Select(n => new Prop(n, Name(rectProperties[n].Type), null, null, true)));
+    props.Add(new Prop("active", "bool", null, null, false));
+    props.Add(new Prop("layer", "int", null, null, false));
+    props.Add(new Prop("isStatic", "bool", null, null, false));
+    if (entry.Factory == "InputField") props.Add(new Prop("regexValue", "string", null, null, false));
+    if (entry.Type == "UnityEngine.UI.Button" || entry.Type == "UnityEngine.UI.Toggle")
+        props.Insert(0, new Prop("text", "string", null, null, false));
+    if (entry.Factory is "Text" or "LegacyText" or "InputField" or "LegacyInputField")
+        props = props.OrderBy(p => p.Name == "text" ? 0 : 1).ToList();
+    props = props.OrderBy(p => p.Name == "text" ? -1 : Priority(p.Name)).ToList();
+    if (entry.Gate != null) output.Append("#if ").Append(entry.Gate).Append('\n');
+    EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, false);
+    if (entry.Factory is "Text" or "LegacyText" or "Button") EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, true);
+    if (entry.Gate != null) output.Append("#endif\n");
+    inventory.Add(new { factory = entry.Factory, nativeType = entry.Type, placement = entry.Modifier ? "component" : "child", gate = entry.Gate, properties = props });
+}
+output.Append("    }\n}\n");
+File.WriteAllText(Path.Combine(package, "Runtime/NativeProps.g.cs"), output.ToString());
+File.WriteAllText(Path.Combine(package, "Tools~/NativeApi/catalog.json"), JsonSerializer.Serialize(inventory, new JsonSerializerOptions { WriteIndented = true }));
+Console.WriteLine($"Generated {catalog.Length} native factories from public Unity metadata.");
+
+IEnumerable<IPropertySymbol> Properties(INamedTypeSymbol type)
+{
+    var names = new HashSet<string>();
+    for (INamedTypeSymbol? current = type; current != null; current = current.BaseType)
+        foreach (var prop in current.GetMembers().OfType<IPropertySymbol>())
+            if (!prop.IsStatic && !prop.IsIndexer && prop.GetMethod?.DeclaredAccessibility == Accessibility.Public &&
+                (prop.SetMethod?.DeclaredAccessibility == Accessibility.Public || EventArguments(prop.Type) != null) &&
+                !Obsolete(prop) && names.Add(prop.Name)) yield return prop;
+}
+IEnumerable<IFieldSymbol> Fields(INamedTypeSymbol type)
+{
+    for (INamedTypeSymbol? current = type; current != null; current = current.BaseType)
+        foreach (var field in current.GetMembers().OfType<IFieldSymbol>())
+            if (field.DeclaredAccessibility == Accessibility.Public && !field.IsStatic && !field.IsReadOnly &&
+                !field.IsConst && !Obsolete(field)) yield return field;
+}
+bool Obsolete(ISymbol symbol) => symbol.GetAttributes().Any(a => a.AttributeClass?.ToDisplayString() == "System.ObsoleteAttribute");
+string Name(ITypeSymbol type) => type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+string[]? EventArguments(ITypeSymbol type)
+{
+    for (var current = type as INamedTypeSymbol; current != null; current = current.BaseType)
+    {
+        if (current.ContainingNamespace.ToDisplayString() != "UnityEngine.Events") continue;
+        if (current.Name == "UnityEvent") return current.TypeArguments.Select(Name).ToArray();
+    }
+    return null;
+}
+string? Gate(IPropertySymbol property) => later.GetValueOrDefault(property.ContainingType.ToDisplayString() + "." + property.Name);
+int Priority(string name) => name switch { "contentType" => 0, "lineType" => 1, "minValue" => 2, "maxValue" => 3, "wholeNumbers" => 4, "options" => 5, "value" or "isOn" => 30, _ => 10 };
+void EmitFactory(string factory, string native, bool modifier, List<Prop> props, bool getter)
+{
+    var gate = props.FirstOrDefault(p => p.Gate != null)?.Gate;
+    if (gate != null)
+    {
+        output.Append("#if ").Append(gate).Append('\n');
+        EmitFactory(factory, native, modifier, props.Select(p => p.Gate == gate ? p with { Gate = null } : p).ToList(), getter);
+        output.Append("#else\n");
+        EmitFactory(factory, native, modifier, props.Where(p => p.Gate != gate).ToList(), getter);
+        output.Append("#endif\n");
+        return;
+    }
+    output.Append("        /// <summary>").Append(modifier ? "Attaches " : "Creates a ").Append(native)
+        .Append(modifier ? " on the containing object; omitted props keep native defaults." : " view; omitted props keep native defaults.")
+        .Append("</summary>\n        public static View ").Append(factory).Append("(\n");
+    foreach (var prop in props)
+    {
+        string type = prop.Event != null ? "Action" + (prop.Event.Length == 0 ? "" : "<" + string.Join(", ", prop.Event) + ">") : getter && prop.Name == "text" ? "Func<string>" : "Value<" + prop.Type + ">?";
+        output.Append("            ").Append(type).Append(' ').Append(Escape(prop.Name)).Append(getter && prop.Name == "text" ? ",\n" : " = null,\n");
+    }
+    output.Append("            Action<global::").Append(native).Append("> configure = null,\n            Action<global::").Append(native).Append("> reference = null)\n");
+    if (getter)
+    {
+        output.Append("            => ").Append(factory).Append("(\n");
+        foreach (var prop in props)
+        {
+            output.Append("                ").Append(Escape(prop.Name)).Append(": ").Append(prop.Name == "text" ? "new Value<string>(text)" : Escape(prop.Name)).Append(",\n");
+        }
+        output.Append("                configure: configure, reference: reference);\n\n"); return;
+    }
+    output.Append("            => Declare<global::").Append(native).Append(">(modifier: ").Append(modifier ? "true" : "false").Append(", active: active, configure: target =>\n            {\n");
+    if (entryIsTextCaption(native)) output.Append("                if (text.HasValue) ControlCaption(target, text.Value);\n");
+    foreach (var prop in props.Where(p => p.Event == null && p.Name != "active")
+        .OrderBy(p => Input(native, p.Name) != null ? 100 : Priority(p.Name)))
+    {
+        if (entryIsTextCaption(native) && prop.Name == "text") continue;
+        var target = prop.Rect ? "(global::UnityEngine.RectTransform)target.transform" : "target";
+        if (prop.Name is "layer" or "isStatic") target = "target.gameObject";
+        var input = Input(native, prop.Name);
+        if (prop.Name == "regexValue")
+            output.Append("                Prop(target, regexValue, SetRegex);\n");
+        else if (prop.Name == "sendPointerHoverToParent")
+            output.Append("                Prop(target, sendPointerHoverToParent, SetPointerHover);\n");
+        else if (input != null)
+            output.Append("                InputProp(target, ").Append(Escape(prop.Name)).Append(", t => t.").Append(prop.Name).Append(", (t, v) => t.").Append(input.Value.Setter).Append("(v), t => t.").Append(input.Value.Event).Append(");\n");
+        else
+            output.Append("                Prop(").Append(target).Append(", ").Append(Escape(prop.Name)).Append(", (t, v) => t.").Append(Escape(prop.Name)).Append(" = v);\n");
+    }
+    foreach (var prop in props.Where(p => p.Event != null))
+    {
+        output.Append("                Listen(target.").Append(Escape(prop.Name)).Append(", ").Append(Escape(prop.Name)).Append(");\n");
+    }
+    output.Append("                configure?.Invoke(target);\n            }, reference: reference);\n\n");
+}
+bool entryIsTextCaption(string native) => native is "UnityEngine.UI.Button" or "UnityEngine.UI.Toggle";
+(string Setter, string Event)? Input(string native, string name) => (native, name) switch
+{
+    ("UnityEngine.UI.Toggle", "isOn") => ("SetIsOnWithoutNotify", "onValueChanged"),
+    ("UnityEngine.UI.Slider" or "UnityEngine.UI.Scrollbar" or "TMPro.TMP_Dropdown" or "UnityEngine.UI.Dropdown", "value") => ("SetValueWithoutNotify", "onValueChanged"),
+    ("TMPro.TMP_InputField" or "UnityEngine.UI.InputField", "text") => ("SetTextWithoutNotify", "onValueChanged"),
+    _ => null
+};
+string Escape(string name) => SyntaxFacts.GetKeywordKind(name) != SyntaxKind.None ? "@" + name : name;
+record Prop(string Name, string Type, string[]? Event, string? Gate, bool Rect);

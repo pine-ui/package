@@ -11,18 +11,15 @@ namespace Pine.Tests
     {
         private static readonly string[] Cases =
         {
-            "UI.Frame(UI.Children(UI.Label(\"Typed\", UI.Size(80, 24)), UI.Button(\"Click\", () => {}, UI.Enabled(true))), UI.Size(100, 60)); UI.Apply(UI.Create<TMPro.TextMeshProUGUI>(), UI.Group<TMPro.TMP_Text>(UI.Text(\"Good\"), UI.FontSize(20))); UI.Column(12, UI.Row(8, UI.Label(\"Nested\")), UI.Frame());",
-            "UI.Frame(UI.Text(\"Invalid text target\"));",
-            "UI.Label(\"Text\", UI.Enabled(true));",
-            "UI.Button(\"Click\", () => {}, UI.Sprite(null));",
-            "UI.Apply(UI.Frame(), UI.Group<TMPro.TMP_Text>(UI.Text(\"Bad group\")));",
-            "UI.Label(\"Text\", UI.Set<UnityEngine.UI.Slider, float>(\"Value\", (target, value) => target.value = value, 1f));",
-            "UI.Frame(UI.Size(UI.Source(\"Wrong value type\")));",
-            "UI.Frame(UI.CellSize(new UnityEngine.Vector2(10, 10)));",
-            "UI.Show(() => true, () => 1).Value = new[] { 2 };",
-            "UI.Show(() => true, () => 1).Value[0] = 2;",
-            "UI.Values(() => new[] { 1 }, (value, index) => { index.Value = 2; return value; });",
-            "UI.Column(12, UI.Text(\"A property is not a child component\"));"
+            "P.Vertical(P.Text(\"Typed\", color: UnityEngine.Color.white), P.Button(\"Click\", onClick: () => {})).With(P.Outline()); P.Button().With(P.Self(P.Image(color: UnityEngine.Color.black)), P.Text(\"Child\").With(P.Outline()));",
+            "P.Text(color: true);",
+            "P.Button(colors: UnityEngine.Color.white);",
+            "P.Button().With(P.Size(80, 20));",
+            "P.Text(reference: (UnityEngine.UI.Button b) => {});",
+            "P.InputField(text: P.Source(1));",
+            "P.Show(() => true, () => 1).Value = new[] { 2 };",
+            "P.Show(() => true, () => 1).Value[0] = 2;",
+            "P.Values(() => new[] { 1 }, (value, index) => { index.Value = 2; return value; });"
         };
         private static int _index;
         private static readonly string DirectoryPath = "Library/PineCompilerChecks";
@@ -41,7 +38,7 @@ namespace Pine.Tests
             builder.buildFinished += (_, messages) =>
             {
                 var errors = messages.Where(message => message.type == CompilerMessageType.Error).ToArray();
-                bool expected = _index == 0 ? errors.Length == 0 : errors.Any(error => error.message.Contains("CS1503") || error.message.Contains("CS0411") || error.message.Contains("CS0200"));
+                bool expected = _index == 0 ? errors.Length == 0 : errors.Any(error => error.message.Contains("CS1503") || error.message.Contains("CS0411") || error.message.Contains("CS0200") || error.message.Contains("CS1661") || error.message.Contains("CS1678"));
                 if (!expected)
                 {
                     Debug.LogError("Pine compiler case " + _index + " failed its expected outcome: " + string.Join("\n", errors.Select(error => error.message)));

@@ -4,22 +4,29 @@ using UnityEngine.UI;
 
 namespace Pine
 {
-    public static partial class UI
+    public static partial class P
     {
-        /// <summary>Creates an owned Unity behaviour and renders its native UI in a child reactive scope. Generated Components factories call this helper automatically. The behaviour is a layout-ignored child of the returned UI, so disabling or destroying that UI also affects the behaviour. Render initializes the instance before Unity invokes Awake and OnEnable. The renderer executes once; bindings update retained native objects.</summary>
-        /// <typeparam name="TBehaviour">A concrete, non-generic MonoBehaviour used by this component.</typeparam>
-        /// <typeparam name="TView">The native component returned by the renderer.</typeparam>
-        /// <param name="render">Typed instance renderer, called once inside its owned scope.</param>
-        /// <returns>The renderer's native UI root, ready to compose with other components.</returns>
-        /// <remarks>Usually call the generated Components factory instead. This helper requires a live construction scope. It cleans up both the behaviour and all rendered bindings when the view or enclosing scope ends.</remarks>
-        /// <example>
-        /// <code><![CDATA[
-        /// // A generated factory has this shape; ordinary application code calls Components.Counter().
-        /// var view = UI.Component<Counter, UnityEngine.RectTransform>(render: counter =>
-        ///     counter.Create()
-        /// );
-        /// ]]></code>
-        /// </example>
+        /// <summary>Declares an owned Unity behaviour and its deferred UI.</summary>
+        public static View Component<TBehaviour>(Func<TBehaviour, View> render) where TBehaviour : MonoBehaviour
+        {
+            if (render == null) throw new ArgumentNullException(nameof(render));
+            return new View(null, null, null, null, false, null, factory: parent =>
+            {
+                var owner = new GameObject(typeof(TBehaviour).Name + " behaviour", typeof(RectTransform));
+                owner.SetActive(false); Cleanup(owner);
+                var behaviour = owner.AddComponent<TBehaviour>();
+                var declaration = render(behaviour) ?? throw new InvalidOperationException("A component must return a view.");
+                var native = declaration.Build(owner.transform, false, out var active);
+                native.transform.SetParent(parent, false);
+                owner.AddComponent<LayoutElement>().ignoreLayout = true;
+                owner.transform.SetParent(native.transform, false);
+                ((RectTransform)owner.transform).sizeDelta = Vector2.zero;
+                owner.SetActive(true);
+                return (native, active);
+            });
+        }
+
+        /// <summary>Creates an owned Unity behaviour and renders its native UI in a child reactive scope.</summary>
         public static TView Component<TBehaviour, TView>(Func<TBehaviour, TView> render)
             where TBehaviour : MonoBehaviour
             where TView : Component
