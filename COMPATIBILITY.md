@@ -2,7 +2,7 @@
 
 ## 1.0.0 native API
 
-Manifest baseline: Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1. Unity resolves its compatible uGUI core package. This 1.0.0 tag replaces the earlier API; old installations must be refreshed.
+Manifest baseline: Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1. Unity resolves its compatible uGUI core package.
 
 | Executed environment | Result |
 | --- | --- |
@@ -16,5 +16,3 @@ RaycastReceiver requires uGUI 2.5; SafeArea and LayoutElement.maxWidth/maxHeight
 TMP `regexValue` and input-module `sendPointerHoverToParent` use cached access to their native serialized fields, which have no public setter. Editor checks cover this path; IL2CPP/stripping has not been verified. TMP outlines use native outline/material settings; uGUI Outline/Shadow applies to standard uGUI meshes.
 
 Use Pine on Unity's main thread. Additional glyph coverage requires code-configured fonts. Missing-only setup preserves project defaults and external input/UI ownership.
-
-Previous macOS/player measurements concern the replaced API and are not claimed for this implementation.

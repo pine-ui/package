@@ -10,4 +10,4 @@
 - Support editable source write-back, scoped native events/context, retained children and generated MonoBehaviour startup/lifetimes.
 - Update all samples, downloadable examples, complete web reference and concise XML summaries.
 
-This replaces the earlier 1.0.0 tag/archive with a breaking API, as requested. Remove/reinstall earlier installations to refresh cached Git revisions. No old API aliases are provided. [Compatibility](COMPATIBILITY.md) records the exact verification boundary.
+[Compatibility](COMPATIBILITY.md) records the exact verification boundary.

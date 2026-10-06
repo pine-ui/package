@@ -40,7 +40,7 @@ The catalog has 41 native factories with native Inspector settings as typed name
 
 Import the Counter or Component composition sample. For Unity callbacks, define `MonoBehaviour.Create(...)` returning View; generated `Components` factories preserve the signature. Reactive child lists use `.With(() => rows.Value)` with retained operators (`Show`, `Switch`, `Indexes`, `Values`).
 
-Install `https://github.com/pine-ui/package.git#v1.0.0` with Package Manager, or use the [1.0.0 archive](https://pine-ui.com/packages/com.kbenim.pine-1.0.0.tgz). The 1.0.0 tag/archive were replaced on 2026-10-06; remove/reinstall earlier installs to refresh their cached revision. The manifest baseline remains Unity 6000.3/uGUI 2.0.0/Input System 1.20.1. [Compatibility](COMPATIBILITY.md) records the verification boundary.
+Install `https://github.com/pine-ui/package.git#v1.0.0` with Package Manager, or use the [1.0.0 archive](https://pine-ui.com/packages/com.kbenim.pine-1.0.0.tgz). The manifest baseline remains Unity 6000.3/uGUI 2.0.0/Input System 1.20.1. [Compatibility](COMPATIBILITY.md) records the verification boundary.
 
 Missing-only TMP/input setup preserves project resources and external ownership. Native transitions, navigation and structs keep their declared settings. The auto canvas persists by default; `CanvasOptions.Persistent=false` gives scene lifetime. Explicit Canvas roots retain their own settings.
 
