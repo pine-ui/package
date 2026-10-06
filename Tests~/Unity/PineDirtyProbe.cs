@@ -1,2 +1,6 @@
 using UnityEngine;
-public sealed class PineDirtyProbe : ScriptableObject { public int Value; }
+
+public sealed class PineDirtyProbe : ScriptableObject
+{
+    public int Value;
+}

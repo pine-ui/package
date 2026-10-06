@@ -5,15 +5,17 @@ Plain C# functions return reusable `View` declarations. `.With(...)` appends ent
 ```csharp
 View Button(Vector2 position, Value<string> text, Action onClick)
 {
-    return P.Button(
-        anchoredPosition: position,
-        sizeDelta: new Vector2(200, 150),
-        onClick: onClick
-    ).With(
-        P.Self(P.Image(color: new Color(50f / 255, 50f / 255, 50f / 255))),
-        P.Outline(effectColor: Color.black),
-        P.Text(text, color: Color.white, outlineColor: new Color32(0, 0, 0, 255), outlineWidth: .2f)
-    );
+    return P.Button(anchoredPosition: position, sizeDelta: new Vector2(200, 150), onClick: onClick)
+        .With(
+            P.Self(P.Image(color: new Color(50f / 255, 50f / 255, 50f / 255))),
+            P.Outline(effectColor: Color.black),
+            P.Text(
+                text,
+                color: Color.white,
+                outlineColor: new Color32(0, 0, 0, 255),
+                outlineWidth: .2f
+            )
+        );
 }
 ```
 

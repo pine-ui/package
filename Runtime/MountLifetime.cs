@@ -8,5 +8,9 @@ using UnityEngine.InputSystem.UI;
 namespace Pine
 {
     internal sealed class MountLifetime : MonoBehaviour
-    { internal Scope Scope; private void OnDestroy() => Scope?.Dispose(); }
+    {
+        internal Scope Scope;
+
+        private void OnDestroy() => Scope?.Dispose();
+    }
 }

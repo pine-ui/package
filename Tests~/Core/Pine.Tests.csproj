@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="AuditRegression.cs" />
-    <Compile Include="../../Runtime/Pine.cs" />
-    <Compile Include="../../Runtime/Scope.cs" />
-    <Compile Include="../../Runtime/Signal.cs" />
-    <Compile Include="../../Runtime/Dynamic.cs" />
-    <Compile Include="../../Runtime/Animation.cs" />
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>9.0</LangVersion>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Program.cs" />
+        <Compile Include="AuditRegression.cs" />
+        <Compile Include="../../Runtime/Pine.cs" />
+        <Compile Include="../../Runtime/Scope.cs" />
+        <Compile Include="../../Runtime/Signal.cs" />
+        <Compile Include="../../Runtime/Dynamic.cs" />
+        <Compile Include="../../Runtime/Animation.cs" />
+    </ItemGroup>
 </Project>

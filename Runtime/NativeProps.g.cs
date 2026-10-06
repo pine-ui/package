@@ -34,35 +34,45 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.RectTransform> configure = null,
-            Action<global::UnityEngine.RectTransform> reference = null)
-            => Declare<global::UnityEngine.RectTransform>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, anchorMin, (t, v) => t.anchorMin = v);
-                Prop(target, anchorMax, (t, v) => t.anchorMax = v);
-                Prop(target, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop(target, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop(target, pivot, (t, v) => t.pivot = v);
-                Prop(target, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop(target, offsetMin, (t, v) => t.offsetMin = v);
-                Prop(target, offsetMax, (t, v) => t.offsetMax = v);
-                Prop(target, sendChildDimensionsChange, (t, v) => t.sendChildDimensionsChange = v);
-                Prop(target, position, (t, v) => t.position = v);
-                Prop(target, localPosition, (t, v) => t.localPosition = v);
-                Prop(target, eulerAngles, (t, v) => t.eulerAngles = v);
-                Prop(target, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop(target, right, (t, v) => t.right = v);
-                Prop(target, up, (t, v) => t.up = v);
-                Prop(target, forward, (t, v) => t.forward = v);
-                Prop(target, rotation, (t, v) => t.rotation = v);
-                Prop(target, localRotation, (t, v) => t.localRotation = v);
-                Prop(target, localScale, (t, v) => t.localScale = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.RectTransform> reference = null
+        ) =>
+            Declare<global::UnityEngine.RectTransform>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, anchorMin, (t, v) => t.anchorMin = v);
+                    Prop(target, anchorMax, (t, v) => t.anchorMax = v);
+                    Prop(target, anchoredPosition, (t, v) => t.anchoredPosition = v);
+                    Prop(target, sizeDelta, (t, v) => t.sizeDelta = v);
+                    Prop(target, pivot, (t, v) => t.pivot = v);
+                    Prop(target, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
+                    Prop(target, offsetMin, (t, v) => t.offsetMin = v);
+                    Prop(target, offsetMax, (t, v) => t.offsetMax = v);
+                    Prop(
+                        target,
+                        sendChildDimensionsChange,
+                        (t, v) => t.sendChildDimensionsChange = v
+                    );
+                    Prop(target, position, (t, v) => t.position = v);
+                    Prop(target, localPosition, (t, v) => t.localPosition = v);
+                    Prop(target, eulerAngles, (t, v) => t.eulerAngles = v);
+                    Prop(target, localEulerAngles, (t, v) => t.localEulerAngles = v);
+                    Prop(target, right, (t, v) => t.right = v);
+                    Prop(target, up, (t, v) => t.up = v);
+                    Prop(target, forward, (t, v) => t.forward = v);
+                    Prop(target, rotation, (t, v) => t.rotation = v);
+                    Prop(target, localRotation, (t, v) => t.localRotation = v);
+                    Prop(target, localScale, (t, v) => t.localScale = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #if PINE_UGUI_2_7_OR_NEWER
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
@@ -108,7 +118,8 @@ namespace Pine
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
             Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
-            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
             Value<bool>? extraPadding = null,
             Value<bool>? richText = null,
             Value<bool>? emojiFallbackSupport = null,
@@ -157,99 +168,165 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
-            Action<global::TMPro.TextMeshProUGUI> reference = null)
-            => Declare<global::TMPro.TextMeshProUGUI>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, text, (t, v) => t.text = v);
-                Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
-                Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
-                Prop(target, font, (t, v) => t.font = v);
-                Prop(target, fontSharedMaterial, (t, v) => t.fontSharedMaterial = v);
-                Prop(target, fontSharedMaterials, (t, v) => t.fontSharedMaterials = v);
-                Prop(target, fontMaterial, (t, v) => t.fontMaterial = v);
-                Prop(target, fontMaterials, (t, v) => t.fontMaterials = v);
-                Prop(target, color, (t, v) => t.color = v);
-                Prop(target, alpha, (t, v) => t.alpha = v);
-                Prop(target, enableVertexGradient, (t, v) => t.enableVertexGradient = v);
-                Prop(target, colorGradient, (t, v) => t.colorGradient = v);
-                Prop(target, colorGradientPreset, (t, v) => t.colorGradientPreset = v);
-                Prop(target, spriteAsset, (t, v) => t.spriteAsset = v);
-                Prop(target, tintAllSprites, (t, v) => t.tintAllSprites = v);
-                Prop(target, styleSheet, (t, v) => t.styleSheet = v);
-                Prop(target, textStyle, (t, v) => t.textStyle = v);
-                Prop(target, overrideColorTags, (t, v) => t.overrideColorTags = v);
-                Prop(target, faceColor, (t, v) => t.faceColor = v);
-                Prop(target, outlineColor, (t, v) => t.outlineColor = v);
-                Prop(target, outlineWidth, (t, v) => t.outlineWidth = v);
-                Prop(target, fontSize, (t, v) => t.fontSize = v);
-                Prop(target, fontWeight, (t, v) => t.fontWeight = v);
-                Prop(target, enableAutoSizing, (t, v) => t.enableAutoSizing = v);
-                Prop(target, fontSizeMin, (t, v) => t.fontSizeMin = v);
-                Prop(target, fontSizeMax, (t, v) => t.fontSizeMax = v);
-                Prop(target, fontStyle, (t, v) => t.fontStyle = v);
-                Prop(target, horizontalAlignment, (t, v) => t.horizontalAlignment = v);
-                Prop(target, verticalAlignment, (t, v) => t.verticalAlignment = v);
-                Prop(target, alignment, (t, v) => t.alignment = v);
-                Prop(target, characterSpacing, (t, v) => t.characterSpacing = v);
-                Prop(target, characterHorizontalScale, (t, v) => t.characterHorizontalScale = v);
-                Prop(target, wordSpacing, (t, v) => t.wordSpacing = v);
-                Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
-                Prop(target, lineSpacingAdjustment, (t, v) => t.lineSpacingAdjustment = v);
-                Prop(target, paragraphSpacing, (t, v) => t.paragraphSpacing = v);
-                Prop(target, characterWidthAdjustment, (t, v) => t.characterWidthAdjustment = v);
-                Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
-                Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
-                Prop(target, overflowMode, (t, v) => t.overflowMode = v);
-                Prop(target, linkedTextComponent, (t, v) => t.linkedTextComponent = v);
-                Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
-                Prop(target, extraPadding, (t, v) => t.extraPadding = v);
-                Prop(target, richText, (t, v) => t.richText = v);
-                Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
-                Prop(target, enableAdvancedText, (t, v) => t.enableAdvancedText = v);
-                Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
-                Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
-                Prop(target, enableCulling, (t, v) => t.enableCulling = v);
-                Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
-                Prop(target, horizontalMapping, (t, v) => t.horizontalMapping = v);
-                Prop(target, verticalMapping, (t, v) => t.verticalMapping = v);
-                Prop(target, mappingUvLineOffset, (t, v) => t.mappingUvLineOffset = v);
-                Prop(target, renderMode, (t, v) => t.renderMode = v);
-                Prop(target, geometrySortingOrder, (t, v) => t.geometrySortingOrder = v);
-                Prop(target, isTextObjectScaleStatic, (t, v) => t.isTextObjectScaleStatic = v);
-                Prop(target, vertexBufferAutoSizeReduction, (t, v) => t.vertexBufferAutoSizeReduction = v);
-                Prop(target, firstVisibleCharacter, (t, v) => t.firstVisibleCharacter = v);
-                Prop(target, maxVisibleCharacters, (t, v) => t.maxVisibleCharacters = v);
-                Prop(target, maxVisibleWords, (t, v) => t.maxVisibleWords = v);
-                Prop(target, maxVisibleLines, (t, v) => t.maxVisibleLines = v);
-                Prop(target, useMaxVisibleDescender, (t, v) => t.useMaxVisibleDescender = v);
-                Prop(target, pageToDisplay, (t, v) => t.pageToDisplay = v);
-                Prop(target, margin, (t, v) => t.margin = v);
-                Prop(target, maskable, (t, v) => t.maskable = v);
-                Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
-                Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
-                Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
-                Prop(target, material, (t, v) => t.material = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onCullStateChanged, onCullStateChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            Declare<global::TMPro.TextMeshProUGUI>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
+                    Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
+                    Prop(target, font, (t, v) => t.font = v);
+                    Prop(target, fontSharedMaterial, (t, v) => t.fontSharedMaterial = v);
+                    Prop(target, fontSharedMaterials, (t, v) => t.fontSharedMaterials = v);
+                    Prop(target, fontMaterial, (t, v) => t.fontMaterial = v);
+                    Prop(target, fontMaterials, (t, v) => t.fontMaterials = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, alpha, (t, v) => t.alpha = v);
+                    Prop(target, enableVertexGradient, (t, v) => t.enableVertexGradient = v);
+                    Prop(target, colorGradient, (t, v) => t.colorGradient = v);
+                    Prop(target, colorGradientPreset, (t, v) => t.colorGradientPreset = v);
+                    Prop(target, spriteAsset, (t, v) => t.spriteAsset = v);
+                    Prop(target, tintAllSprites, (t, v) => t.tintAllSprites = v);
+                    Prop(target, styleSheet, (t, v) => t.styleSheet = v);
+                    Prop(target, textStyle, (t, v) => t.textStyle = v);
+                    Prop(target, overrideColorTags, (t, v) => t.overrideColorTags = v);
+                    Prop(target, faceColor, (t, v) => t.faceColor = v);
+                    Prop(target, outlineColor, (t, v) => t.outlineColor = v);
+                    Prop(target, outlineWidth, (t, v) => t.outlineWidth = v);
+                    Prop(target, fontSize, (t, v) => t.fontSize = v);
+                    Prop(target, fontWeight, (t, v) => t.fontWeight = v);
+                    Prop(target, enableAutoSizing, (t, v) => t.enableAutoSizing = v);
+                    Prop(target, fontSizeMin, (t, v) => t.fontSizeMin = v);
+                    Prop(target, fontSizeMax, (t, v) => t.fontSizeMax = v);
+                    Prop(target, fontStyle, (t, v) => t.fontStyle = v);
+                    Prop(target, horizontalAlignment, (t, v) => t.horizontalAlignment = v);
+                    Prop(target, verticalAlignment, (t, v) => t.verticalAlignment = v);
+                    Prop(target, alignment, (t, v) => t.alignment = v);
+                    Prop(target, characterSpacing, (t, v) => t.characterSpacing = v);
+                    Prop(
+                        target,
+                        characterHorizontalScale,
+                        (t, v) => t.characterHorizontalScale = v
+                    );
+                    Prop(target, wordSpacing, (t, v) => t.wordSpacing = v);
+                    Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
+                    Prop(target, lineSpacingAdjustment, (t, v) => t.lineSpacingAdjustment = v);
+                    Prop(target, paragraphSpacing, (t, v) => t.paragraphSpacing = v);
+                    Prop(
+                        target,
+                        characterWidthAdjustment,
+                        (t, v) => t.characterWidthAdjustment = v
+                    );
+                    Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
+                    Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
+                    Prop(target, overflowMode, (t, v) => t.overflowMode = v);
+                    Prop(target, linkedTextComponent, (t, v) => t.linkedTextComponent = v);
+                    Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
+                    Prop(target, extraPadding, (t, v) => t.extraPadding = v);
+                    Prop(target, richText, (t, v) => t.richText = v);
+                    Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
+                    Prop(target, enableAdvancedText, (t, v) => t.enableAdvancedText = v);
+                    Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
+                    Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
+                    Prop(target, enableCulling, (t, v) => t.enableCulling = v);
+                    Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
+                    Prop(target, horizontalMapping, (t, v) => t.horizontalMapping = v);
+                    Prop(target, verticalMapping, (t, v) => t.verticalMapping = v);
+                    Prop(target, mappingUvLineOffset, (t, v) => t.mappingUvLineOffset = v);
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, geometrySortingOrder, (t, v) => t.geometrySortingOrder = v);
+                    Prop(target, isTextObjectScaleStatic, (t, v) => t.isTextObjectScaleStatic = v);
+                    Prop(
+                        target,
+                        vertexBufferAutoSizeReduction,
+                        (t, v) => t.vertexBufferAutoSizeReduction = v
+                    );
+                    Prop(target, firstVisibleCharacter, (t, v) => t.firstVisibleCharacter = v);
+                    Prop(target, maxVisibleCharacters, (t, v) => t.maxVisibleCharacters = v);
+                    Prop(target, maxVisibleWords, (t, v) => t.maxVisibleWords = v);
+                    Prop(target, maxVisibleLines, (t, v) => t.maxVisibleLines = v);
+                    Prop(target, useMaxVisibleDescender, (t, v) => t.useMaxVisibleDescender = v);
+                    Prop(target, pageToDisplay, (t, v) => t.pageToDisplay = v);
+                    Prop(target, margin, (t, v) => t.margin = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #else
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
@@ -295,7 +372,8 @@ namespace Pine
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
             Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
-            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
             Value<bool>? extraPadding = null,
             Value<bool>? richText = null,
             Value<bool>? emojiFallbackSupport = null,
@@ -343,100 +421,167 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
-            Action<global::TMPro.TextMeshProUGUI> reference = null)
-            => Declare<global::TMPro.TextMeshProUGUI>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, text, (t, v) => t.text = v);
-                Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
-                Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
-                Prop(target, font, (t, v) => t.font = v);
-                Prop(target, fontSharedMaterial, (t, v) => t.fontSharedMaterial = v);
-                Prop(target, fontSharedMaterials, (t, v) => t.fontSharedMaterials = v);
-                Prop(target, fontMaterial, (t, v) => t.fontMaterial = v);
-                Prop(target, fontMaterials, (t, v) => t.fontMaterials = v);
-                Prop(target, color, (t, v) => t.color = v);
-                Prop(target, alpha, (t, v) => t.alpha = v);
-                Prop(target, enableVertexGradient, (t, v) => t.enableVertexGradient = v);
-                Prop(target, colorGradient, (t, v) => t.colorGradient = v);
-                Prop(target, colorGradientPreset, (t, v) => t.colorGradientPreset = v);
-                Prop(target, spriteAsset, (t, v) => t.spriteAsset = v);
-                Prop(target, tintAllSprites, (t, v) => t.tintAllSprites = v);
-                Prop(target, styleSheet, (t, v) => t.styleSheet = v);
-                Prop(target, textStyle, (t, v) => t.textStyle = v);
-                Prop(target, overrideColorTags, (t, v) => t.overrideColorTags = v);
-                Prop(target, faceColor, (t, v) => t.faceColor = v);
-                Prop(target, outlineColor, (t, v) => t.outlineColor = v);
-                Prop(target, outlineWidth, (t, v) => t.outlineWidth = v);
-                Prop(target, fontSize, (t, v) => t.fontSize = v);
-                Prop(target, fontWeight, (t, v) => t.fontWeight = v);
-                Prop(target, enableAutoSizing, (t, v) => t.enableAutoSizing = v);
-                Prop(target, fontSizeMin, (t, v) => t.fontSizeMin = v);
-                Prop(target, fontSizeMax, (t, v) => t.fontSizeMax = v);
-                Prop(target, fontStyle, (t, v) => t.fontStyle = v);
-                Prop(target, horizontalAlignment, (t, v) => t.horizontalAlignment = v);
-                Prop(target, verticalAlignment, (t, v) => t.verticalAlignment = v);
-                Prop(target, alignment, (t, v) => t.alignment = v);
-                Prop(target, characterSpacing, (t, v) => t.characterSpacing = v);
-                Prop(target, characterHorizontalScale, (t, v) => t.characterHorizontalScale = v);
-                Prop(target, wordSpacing, (t, v) => t.wordSpacing = v);
-                Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
-                Prop(target, lineSpacingAdjustment, (t, v) => t.lineSpacingAdjustment = v);
-                Prop(target, paragraphSpacing, (t, v) => t.paragraphSpacing = v);
-                Prop(target, characterWidthAdjustment, (t, v) => t.characterWidthAdjustment = v);
-                Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
-                Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
-                Prop(target, overflowMode, (t, v) => t.overflowMode = v);
-                Prop(target, linkedTextComponent, (t, v) => t.linkedTextComponent = v);
-                Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
-                Prop(target, extraPadding, (t, v) => t.extraPadding = v);
-                Prop(target, richText, (t, v) => t.richText = v);
-                Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
-                Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
-                Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
-                Prop(target, enableCulling, (t, v) => t.enableCulling = v);
-                Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
-                Prop(target, horizontalMapping, (t, v) => t.horizontalMapping = v);
-                Prop(target, verticalMapping, (t, v) => t.verticalMapping = v);
-                Prop(target, mappingUvLineOffset, (t, v) => t.mappingUvLineOffset = v);
-                Prop(target, renderMode, (t, v) => t.renderMode = v);
-                Prop(target, geometrySortingOrder, (t, v) => t.geometrySortingOrder = v);
-                Prop(target, isTextObjectScaleStatic, (t, v) => t.isTextObjectScaleStatic = v);
-                Prop(target, vertexBufferAutoSizeReduction, (t, v) => t.vertexBufferAutoSizeReduction = v);
-                Prop(target, firstVisibleCharacter, (t, v) => t.firstVisibleCharacter = v);
-                Prop(target, maxVisibleCharacters, (t, v) => t.maxVisibleCharacters = v);
-                Prop(target, maxVisibleWords, (t, v) => t.maxVisibleWords = v);
-                Prop(target, maxVisibleLines, (t, v) => t.maxVisibleLines = v);
-                Prop(target, useMaxVisibleDescender, (t, v) => t.useMaxVisibleDescender = v);
-                Prop(target, pageToDisplay, (t, v) => t.pageToDisplay = v);
-                Prop(target, margin, (t, v) => t.margin = v);
-                Prop(target, maskable, (t, v) => t.maskable = v);
-                Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
-                Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
-                Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
-                Prop(target, material, (t, v) => t.material = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onCullStateChanged, onCullStateChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            Declare<global::TMPro.TextMeshProUGUI>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
+                    Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
+                    Prop(target, font, (t, v) => t.font = v);
+                    Prop(target, fontSharedMaterial, (t, v) => t.fontSharedMaterial = v);
+                    Prop(target, fontSharedMaterials, (t, v) => t.fontSharedMaterials = v);
+                    Prop(target, fontMaterial, (t, v) => t.fontMaterial = v);
+                    Prop(target, fontMaterials, (t, v) => t.fontMaterials = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, alpha, (t, v) => t.alpha = v);
+                    Prop(target, enableVertexGradient, (t, v) => t.enableVertexGradient = v);
+                    Prop(target, colorGradient, (t, v) => t.colorGradient = v);
+                    Prop(target, colorGradientPreset, (t, v) => t.colorGradientPreset = v);
+                    Prop(target, spriteAsset, (t, v) => t.spriteAsset = v);
+                    Prop(target, tintAllSprites, (t, v) => t.tintAllSprites = v);
+                    Prop(target, styleSheet, (t, v) => t.styleSheet = v);
+                    Prop(target, textStyle, (t, v) => t.textStyle = v);
+                    Prop(target, overrideColorTags, (t, v) => t.overrideColorTags = v);
+                    Prop(target, faceColor, (t, v) => t.faceColor = v);
+                    Prop(target, outlineColor, (t, v) => t.outlineColor = v);
+                    Prop(target, outlineWidth, (t, v) => t.outlineWidth = v);
+                    Prop(target, fontSize, (t, v) => t.fontSize = v);
+                    Prop(target, fontWeight, (t, v) => t.fontWeight = v);
+                    Prop(target, enableAutoSizing, (t, v) => t.enableAutoSizing = v);
+                    Prop(target, fontSizeMin, (t, v) => t.fontSizeMin = v);
+                    Prop(target, fontSizeMax, (t, v) => t.fontSizeMax = v);
+                    Prop(target, fontStyle, (t, v) => t.fontStyle = v);
+                    Prop(target, horizontalAlignment, (t, v) => t.horizontalAlignment = v);
+                    Prop(target, verticalAlignment, (t, v) => t.verticalAlignment = v);
+                    Prop(target, alignment, (t, v) => t.alignment = v);
+                    Prop(target, characterSpacing, (t, v) => t.characterSpacing = v);
+                    Prop(
+                        target,
+                        characterHorizontalScale,
+                        (t, v) => t.characterHorizontalScale = v
+                    );
+                    Prop(target, wordSpacing, (t, v) => t.wordSpacing = v);
+                    Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
+                    Prop(target, lineSpacingAdjustment, (t, v) => t.lineSpacingAdjustment = v);
+                    Prop(target, paragraphSpacing, (t, v) => t.paragraphSpacing = v);
+                    Prop(
+                        target,
+                        characterWidthAdjustment,
+                        (t, v) => t.characterWidthAdjustment = v
+                    );
+                    Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
+                    Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
+                    Prop(target, overflowMode, (t, v) => t.overflowMode = v);
+                    Prop(target, linkedTextComponent, (t, v) => t.linkedTextComponent = v);
+                    Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
+                    Prop(target, extraPadding, (t, v) => t.extraPadding = v);
+                    Prop(target, richText, (t, v) => t.richText = v);
+                    Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
+                    Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
+                    Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
+                    Prop(target, enableCulling, (t, v) => t.enableCulling = v);
+                    Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
+                    Prop(target, horizontalMapping, (t, v) => t.horizontalMapping = v);
+                    Prop(target, verticalMapping, (t, v) => t.verticalMapping = v);
+                    Prop(target, mappingUvLineOffset, (t, v) => t.mappingUvLineOffset = v);
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, geometrySortingOrder, (t, v) => t.geometrySortingOrder = v);
+                    Prop(target, isTextObjectScaleStatic, (t, v) => t.isTextObjectScaleStatic = v);
+                    Prop(
+                        target,
+                        vertexBufferAutoSizeReduction,
+                        (t, v) => t.vertexBufferAutoSizeReduction = v
+                    );
+                    Prop(target, firstVisibleCharacter, (t, v) => t.firstVisibleCharacter = v);
+                    Prop(target, maxVisibleCharacters, (t, v) => t.maxVisibleCharacters = v);
+                    Prop(target, maxVisibleWords, (t, v) => t.maxVisibleWords = v);
+                    Prop(target, maxVisibleLines, (t, v) => t.maxVisibleLines = v);
+                    Prop(target, useMaxVisibleDescender, (t, v) => t.useMaxVisibleDescender = v);
+                    Prop(target, pageToDisplay, (t, v) => t.pageToDisplay = v);
+                    Prop(target, margin, (t, v) => t.margin = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #endif
+
 #if PINE_UGUI_2_7_OR_NEWER
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
         public static View Text(
@@ -481,7 +626,8 @@ namespace Pine
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
             Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
-            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
             Value<bool>? extraPadding = null,
             Value<bool>? richText = null,
             Value<bool>? emojiFallbackSupport = null,
@@ -530,8 +676,9 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
-            Action<global::TMPro.TextMeshProUGUI> reference = null)
-            => Text(
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            Text(
                 text: new Value<string>(text),
                 textPreprocessor: textPreprocessor,
                 isRightToLeftText: isRightToLeftText,
@@ -621,8 +768,9 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
-                configure: configure, reference: reference);
-
+                configure: configure,
+                reference: reference
+            );
 #else
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
         public static View Text(
@@ -667,7 +815,8 @@ namespace Pine
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
             Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
-            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
             Value<bool>? extraPadding = null,
             Value<bool>? richText = null,
             Value<bool>? emojiFallbackSupport = null,
@@ -715,8 +864,9 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
-            Action<global::TMPro.TextMeshProUGUI> reference = null)
-            => Text(
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            Text(
                 text: new Value<string>(text),
                 textPreprocessor: textPreprocessor,
                 isRightToLeftText: isRightToLeftText,
@@ -805,9 +955,11 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
-                configure: configure, reference: reference);
-
+                configure: configure,
+                reference: reference
+            );
 #endif
+
         /// <summary>Creates a UnityEngine.UI.Image view; omitted props keep native defaults.</summary>
         public static View Image(
             Value<global::UnityEngine.Sprite>? sprite = null,
@@ -849,48 +1001,106 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Image> configure = null,
-            Action<global::UnityEngine.UI.Image> reference = null)
-            => Declare<global::UnityEngine.UI.Image>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, sprite, (t, v) => t.sprite = v);
-                Prop(target, overrideSprite, (t, v) => t.overrideSprite = v);
-                Prop(target, type, (t, v) => t.type = v);
-                Prop(target, preserveAspect, (t, v) => t.preserveAspect = v);
-                Prop(target, fillCenter, (t, v) => t.fillCenter = v);
-                Prop(target, fillMethod, (t, v) => t.fillMethod = v);
-                Prop(target, fillAmount, (t, v) => t.fillAmount = v);
-                Prop(target, fillClockwise, (t, v) => t.fillClockwise = v);
-                Prop(target, fillOrigin, (t, v) => t.fillOrigin = v);
-                Prop(target, alphaHitTestMinimumThreshold, (t, v) => t.alphaHitTestMinimumThreshold = v);
-                Prop(target, useSpriteMesh, (t, v) => t.useSpriteMesh = v);
-                Prop(target, pixelsPerUnitMultiplier, (t, v) => t.pixelsPerUnitMultiplier = v);
-                Prop(target, material, (t, v) => t.material = v);
-                Prop(target, maskable, (t, v) => t.maskable = v);
-                Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
-                Prop(target, color, (t, v) => t.color = v);
-                Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
-                Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onCullStateChanged, onCullStateChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Image> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Image>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, sprite, (t, v) => t.sprite = v);
+                    Prop(target, overrideSprite, (t, v) => t.overrideSprite = v);
+                    Prop(target, type, (t, v) => t.type = v);
+                    Prop(target, preserveAspect, (t, v) => t.preserveAspect = v);
+                    Prop(target, fillCenter, (t, v) => t.fillCenter = v);
+                    Prop(target, fillMethod, (t, v) => t.fillMethod = v);
+                    Prop(target, fillAmount, (t, v) => t.fillAmount = v);
+                    Prop(target, fillClockwise, (t, v) => t.fillClockwise = v);
+                    Prop(target, fillOrigin, (t, v) => t.fillOrigin = v);
+                    Prop(
+                        target,
+                        alphaHitTestMinimumThreshold,
+                        (t, v) => t.alphaHitTestMinimumThreshold = v
+                    );
+                    Prop(target, useSpriteMesh, (t, v) => t.useSpriteMesh = v);
+                    Prop(target, pixelsPerUnitMultiplier, (t, v) => t.pixelsPerUnitMultiplier = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.RawImage view; omitted props keep native defaults.</summary>
         public static View RawImage(
@@ -923,38 +1133,92 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.RawImage> configure = null,
-            Action<global::UnityEngine.UI.RawImage> reference = null)
-            => Declare<global::UnityEngine.UI.RawImage>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, texture, (t, v) => t.texture = v);
-                Prop(target, uvRect, (t, v) => t.uvRect = v);
-                Prop(target, maskable, (t, v) => t.maskable = v);
-                Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
-                Prop(target, color, (t, v) => t.color = v);
-                Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
-                Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
-                Prop(target, material, (t, v) => t.material = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onCullStateChanged, onCullStateChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.RawImage> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.RawImage>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, texture, (t, v) => t.texture = v);
+                    Prop(target, uvRect, (t, v) => t.uvRect = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
         public static View Button(
@@ -988,39 +1252,94 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Button> configure = null,
-            Action<global::UnityEngine.UI.Button> reference = null)
-            => Declare<global::UnityEngine.UI.Button>(modifier: false, active: active, configure: target =>
-            {
-                if (text.HasValue) ControlCaption(target, text.Value);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onClick, onClick);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Button> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Button>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    if (text.HasValue)
+                        ControlCaption(target, text.Value);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onClick, onClick);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
         public static View Button(
@@ -1054,8 +1373,9 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Button> configure = null,
-            Action<global::UnityEngine.UI.Button> reference = null)
-            => Button(
+            Action<global::UnityEngine.UI.Button> reference = null
+        ) =>
+            Button(
                 text: new Value<string>(text),
                 onClick: onClick,
                 navigation: navigation,
@@ -1085,7 +1405,9 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
-                configure: configure, reference: reference);
+                configure: configure,
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Selectable view; omitted props keep native defaults.</summary>
         public static View Selectable(
@@ -1117,37 +1439,91 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Selectable> configure = null,
-            Action<global::UnityEngine.UI.Selectable> reference = null)
-            => Declare<global::UnityEngine.UI.Selectable>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Selectable> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Selectable>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Toggle view; omitted props keep native defaults.</summary>
         public static View Toggle(
@@ -1185,43 +1561,104 @@ namespace Pine
             Value<bool>? isStatic = null,
             Value<bool>? isOn = null,
             Action<global::UnityEngine.UI.Toggle> configure = null,
-            Action<global::UnityEngine.UI.Toggle> reference = null)
-            => Declare<global::UnityEngine.UI.Toggle>(modifier: false, active: active, configure: target =>
-            {
-                if (text.HasValue) ControlCaption(target, text.Value);
-                Prop(target, group, (t, v) => t.group = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop(target, toggleTransition, (t, v) => t.toggleTransition = v);
-                Prop(target, graphic, (t, v) => t.graphic = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                InputProp(target, isOn, t => t.isOn, (t, v) => t.SetIsOnWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Toggle> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Toggle>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    if (text.HasValue)
+                        ControlCaption(target, text.Value);
+                    Prop(target, group, (t, v) => t.group = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target, toggleTransition, (t, v) => t.toggleTransition = v);
+                    Prop(target, graphic, (t, v) => t.graphic = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        isOn,
+                        t => t.isOn,
+                        (t, v) => t.SetIsOnWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Slider view; omitted props keep native defaults.</summary>
         public static View Slider(
@@ -1262,46 +1699,106 @@ namespace Pine
             Value<bool>? isStatic = null,
             Value<float>? value = null,
             Action<global::UnityEngine.UI.Slider> configure = null,
-            Action<global::UnityEngine.UI.Slider> reference = null)
-            => Declare<global::UnityEngine.UI.Slider>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, minValue, (t, v) => t.minValue = v);
-                Prop(target, maxValue, (t, v) => t.maxValue = v);
-                Prop(target, wholeNumbers, (t, v) => t.wholeNumbers = v);
-                Prop(target, fillRect, (t, v) => t.fillRect = v);
-                Prop(target, handleRect, (t, v) => t.handleRect = v);
-                Prop(target, direction, (t, v) => t.direction = v);
-                Prop(target, normalizedValue, (t, v) => t.normalizedValue = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                InputProp(target, value, t => t.value, (t, v) => t.SetValueWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Slider> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Slider>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, minValue, (t, v) => t.minValue = v);
+                    Prop(target, maxValue, (t, v) => t.maxValue = v);
+                    Prop(target, wholeNumbers, (t, v) => t.wholeNumbers = v);
+                    Prop(target, fillRect, (t, v) => t.fillRect = v);
+                    Prop(target, handleRect, (t, v) => t.handleRect = v);
+                    Prop(target, direction, (t, v) => t.direction = v);
+                    Prop(target, normalizedValue, (t, v) => t.normalizedValue = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Scrollbar view; omitted props keep native defaults.</summary>
         public static View Scrollbar(
@@ -1339,43 +1836,103 @@ namespace Pine
             Value<bool>? isStatic = null,
             Value<float>? value = null,
             Action<global::UnityEngine.UI.Scrollbar> configure = null,
-            Action<global::UnityEngine.UI.Scrollbar> reference = null)
-            => Declare<global::UnityEngine.UI.Scrollbar>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, handleRect, (t, v) => t.handleRect = v);
-                Prop(target, direction, (t, v) => t.direction = v);
-                Prop(target, size, (t, v) => t.size = v);
-                Prop(target, numberOfSteps, (t, v) => t.numberOfSteps = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                InputProp(target, value, t => t.value, (t, v) => t.SetValueWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Scrollbar> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Scrollbar>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, handleRect, (t, v) => t.handleRect = v);
+                    Prop(target, direction, (t, v) => t.direction = v);
+                    Prop(target, size, (t, v) => t.size = v);
+                    Prop(target, numberOfSteps, (t, v) => t.numberOfSteps = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a TMPro.TMP_InputField view; omitted props keep native defaults.</summary>
         public static View InputField(
@@ -1402,7 +1959,8 @@ namespace Pine
             Action<string, int, int> onTextSelection = null,
             Action<string, int, int> onEndTextSelection = null,
             Action<string> onValueChanged = null,
-            Action<global::UnityEngine.TouchScreenKeyboard.Status> onTouchScreenKeyboardStatusChanged = null,
+            Action<global::UnityEngine.TouchScreenKeyboard.Status> onTouchScreenKeyboardStatusChanged =
+                null,
             Value<global::TMPro.TMP_InputField.OnValidateInput>? onValidateInput = null,
             Value<int>? characterLimit = null,
             Value<float>? pointSize = null,
@@ -1456,90 +2014,174 @@ namespace Pine
             Value<bool>? isStatic = null,
             Value<string>? regexValue = null,
             Action<global::TMPro.TMP_InputField> configure = null,
-            Action<global::TMPro.TMP_InputField> reference = null)
-            => Declare<global::TMPro.TMP_InputField>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, contentType, (t, v) => t.contentType = v);
-                Prop(target, lineType, (t, v) => t.lineType = v);
-                Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
-                Prop(target, shouldHideMobileInput, (t, v) => t.shouldHideMobileInput = v);
-                Prop(target, shouldHideSoftKeyboard, (t, v) => t.shouldHideSoftKeyboard = v);
-                Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
-                Prop(target, caretWidth, (t, v) => t.caretWidth = v);
-                Prop(target, textViewport, (t, v) => t.textViewport = v);
-                Prop(target, textComponent, (t, v) => t.textComponent = v);
-                Prop(target, placeholder, (t, v) => t.placeholder = v);
-                Prop(target, verticalScrollbar, (t, v) => t.verticalScrollbar = v);
-                Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
-                Prop(target, caretColor, (t, v) => t.caretColor = v);
-                Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
-                Prop(target, selectionColor, (t, v) => t.selectionColor = v);
-                Prop(target, onValidateInput, (t, v) => t.onValidateInput = v);
-                Prop(target, characterLimit, (t, v) => t.characterLimit = v);
-                Prop(target, pointSize, (t, v) => t.pointSize = v);
-                Prop(target, fontAsset, (t, v) => t.fontAsset = v);
-                Prop(target, onFocusSelectAll, (t, v) => t.onFocusSelectAll = v);
-                Prop(target, resetOnDeActivation, (t, v) => t.resetOnDeActivation = v);
-                Prop(target, keepTextSelectionVisible, (t, v) => t.keepTextSelectionVisible = v);
-                Prop(target, restoreOriginalTextOnEscape, (t, v) => t.restoreOriginalTextOnEscape = v);
-                Prop(target, isRichTextEditingAllowed, (t, v) => t.isRichTextEditingAllowed = v);
-                Prop(target, lineLimit, (t, v) => t.lineLimit = v);
-                Prop(target, inputType, (t, v) => t.inputType = v);
-                Prop(target, keyboardType, (t, v) => t.keyboardType = v);
-                Prop(target, characterValidation, (t, v) => t.characterValidation = v);
-                Prop(target, inputValidator, (t, v) => t.inputValidator = v);
-                Prop(target, readOnly, (t, v) => t.readOnly = v);
-                Prop(target, richText, (t, v) => t.richText = v);
-                Prop(target, asteriskChar, (t, v) => t.asteriskChar = v);
-                Prop(target, caretPosition, (t, v) => t.caretPosition = v);
-                Prop(target, selectionAnchorPosition, (t, v) => t.selectionAnchorPosition = v);
-                Prop(target, selectionFocusPosition, (t, v) => t.selectionFocusPosition = v);
-                Prop(target, stringPosition, (t, v) => t.stringPosition = v);
-                Prop(target, selectionStringAnchorPosition, (t, v) => t.selectionStringAnchorPosition = v);
-                Prop(target, selectionStringFocusPosition, (t, v) => t.selectionStringFocusPosition = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop(target, isAlert, (t, v) => t.isAlert = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Prop(target, regexValue, SetRegex);
-                InputProp(target, text, t => t.text, (t, v) => t.SetTextWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onEndEdit, onEndEdit);
-                Listen(target.onSubmit, onSubmit);
-                Listen(target.onSelect, onSelect);
-                Listen(target.onDeselect, onDeselect);
-                Listen(target.onTextSelection, onTextSelection);
-                Listen(target.onEndTextSelection, onEndTextSelection);
-                Listen(target.onValueChanged, onValueChanged);
-                Listen(target.onTouchScreenKeyboardStatusChanged, onTouchScreenKeyboardStatusChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::TMPro.TMP_InputField> reference = null
+        ) =>
+            Declare<global::TMPro.TMP_InputField>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, contentType, (t, v) => t.contentType = v);
+                    Prop(target, lineType, (t, v) => t.lineType = v);
+                    Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
+                    Prop(target, shouldHideMobileInput, (t, v) => t.shouldHideMobileInput = v);
+                    Prop(target, shouldHideSoftKeyboard, (t, v) => t.shouldHideSoftKeyboard = v);
+                    Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
+                    Prop(target, caretWidth, (t, v) => t.caretWidth = v);
+                    Prop(target, textViewport, (t, v) => t.textViewport = v);
+                    Prop(target, textComponent, (t, v) => t.textComponent = v);
+                    Prop(target, placeholder, (t, v) => t.placeholder = v);
+                    Prop(target, verticalScrollbar, (t, v) => t.verticalScrollbar = v);
+                    Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
+                    Prop(target, caretColor, (t, v) => t.caretColor = v);
+                    Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
+                    Prop(target, selectionColor, (t, v) => t.selectionColor = v);
+                    Prop(target, onValidateInput, (t, v) => t.onValidateInput = v);
+                    Prop(target, characterLimit, (t, v) => t.characterLimit = v);
+                    Prop(target, pointSize, (t, v) => t.pointSize = v);
+                    Prop(target, fontAsset, (t, v) => t.fontAsset = v);
+                    Prop(target, onFocusSelectAll, (t, v) => t.onFocusSelectAll = v);
+                    Prop(target, resetOnDeActivation, (t, v) => t.resetOnDeActivation = v);
+                    Prop(
+                        target,
+                        keepTextSelectionVisible,
+                        (t, v) => t.keepTextSelectionVisible = v
+                    );
+                    Prop(
+                        target,
+                        restoreOriginalTextOnEscape,
+                        (t, v) => t.restoreOriginalTextOnEscape = v
+                    );
+                    Prop(
+                        target,
+                        isRichTextEditingAllowed,
+                        (t, v) => t.isRichTextEditingAllowed = v
+                    );
+                    Prop(target, lineLimit, (t, v) => t.lineLimit = v);
+                    Prop(target, inputType, (t, v) => t.inputType = v);
+                    Prop(target, keyboardType, (t, v) => t.keyboardType = v);
+                    Prop(target, characterValidation, (t, v) => t.characterValidation = v);
+                    Prop(target, inputValidator, (t, v) => t.inputValidator = v);
+                    Prop(target, readOnly, (t, v) => t.readOnly = v);
+                    Prop(target, richText, (t, v) => t.richText = v);
+                    Prop(target, asteriskChar, (t, v) => t.asteriskChar = v);
+                    Prop(target, caretPosition, (t, v) => t.caretPosition = v);
+                    Prop(target, selectionAnchorPosition, (t, v) => t.selectionAnchorPosition = v);
+                    Prop(target, selectionFocusPosition, (t, v) => t.selectionFocusPosition = v);
+                    Prop(target, stringPosition, (t, v) => t.stringPosition = v);
+                    Prop(
+                        target,
+                        selectionStringAnchorPosition,
+                        (t, v) => t.selectionStringAnchorPosition = v
+                    );
+                    Prop(
+                        target,
+                        selectionStringFocusPosition,
+                        (t, v) => t.selectionStringFocusPosition = v
+                    );
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target, isAlert, (t, v) => t.isAlert = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Prop(target, regexValue, SetRegex);
+                    InputProp(
+                        target,
+                        text,
+                        t => t.text,
+                        (t, v) => t.SetTextWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onEndEdit, onEndEdit);
+                    Listen(target.onSubmit, onSubmit);
+                    Listen(target.onSelect, onSelect);
+                    Listen(target.onDeselect, onDeselect);
+                    Listen(target.onTextSelection, onTextSelection);
+                    Listen(target.onEndTextSelection, onEndTextSelection);
+                    Listen(target.onValueChanged, onValueChanged);
+                    Listen(
+                        target.onTouchScreenKeyboardStatusChanged,
+                        onTouchScreenKeyboardStatusChanged
+                    );
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a TMPro.TMP_Dropdown view; omitted props keep native defaults.</summary>
         public static View Dropdown(
-            Value<global::System.Collections.Generic.List<global::TMPro.TMP_Dropdown.OptionData>>? options = null,
+            Value<global::System.Collections.Generic.List<global::TMPro.TMP_Dropdown.OptionData>>? options =
+                null,
             Value<global::UnityEngine.RectTransform>? template = null,
             Value<global::TMPro.TMP_Text>? captionText = null,
             Value<global::UnityEngine.UI.Image>? captionImage = null,
@@ -1578,48 +2220,108 @@ namespace Pine
             Value<bool>? isStatic = null,
             Value<int>? value = null,
             Action<global::TMPro.TMP_Dropdown> configure = null,
-            Action<global::TMPro.TMP_Dropdown> reference = null)
-            => Declare<global::TMPro.TMP_Dropdown>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, options, (t, v) => t.options = v);
-                Prop(target, template, (t, v) => t.template = v);
-                Prop(target, captionText, (t, v) => t.captionText = v);
-                Prop(target, captionImage, (t, v) => t.captionImage = v);
-                Prop(target, placeholder, (t, v) => t.placeholder = v);
-                Prop(target, itemText, (t, v) => t.itemText = v);
-                Prop(target, itemImage, (t, v) => t.itemImage = v);
-                Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
-                Prop(target, MultiSelect, (t, v) => t.MultiSelect = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                InputProp(target, value, t => t.value, (t, v) => t.SetValueWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::TMPro.TMP_Dropdown> reference = null
+        ) =>
+            Declare<global::TMPro.TMP_Dropdown>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, options, (t, v) => t.options = v);
+                    Prop(target, template, (t, v) => t.template = v);
+                    Prop(target, captionText, (t, v) => t.captionText = v);
+                    Prop(target, captionImage, (t, v) => t.captionImage = v);
+                    Prop(target, placeholder, (t, v) => t.placeholder = v);
+                    Prop(target, itemText, (t, v) => t.itemText = v);
+                    Prop(target, itemImage, (t, v) => t.itemImage = v);
+                    Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
+                    Prop(target, MultiSelect, (t, v) => t.MultiSelect = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Text view; omitted props keep native defaults.</summary>
         public static View LegacyText(
@@ -1663,49 +2365,103 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Text> configure = null,
-            Action<global::UnityEngine.UI.Text> reference = null)
-            => Declare<global::UnityEngine.UI.Text>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, text, (t, v) => t.text = v);
-                Prop(target, font, (t, v) => t.font = v);
-                Prop(target, supportRichText, (t, v) => t.supportRichText = v);
-                Prop(target, resizeTextForBestFit, (t, v) => t.resizeTextForBestFit = v);
-                Prop(target, resizeTextMinSize, (t, v) => t.resizeTextMinSize = v);
-                Prop(target, resizeTextMaxSize, (t, v) => t.resizeTextMaxSize = v);
-                Prop(target, alignment, (t, v) => t.alignment = v);
-                Prop(target, alignByGeometry, (t, v) => t.alignByGeometry = v);
-                Prop(target, fontSize, (t, v) => t.fontSize = v);
-                Prop(target, horizontalOverflow, (t, v) => t.horizontalOverflow = v);
-                Prop(target, verticalOverflow, (t, v) => t.verticalOverflow = v);
-                Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
-                Prop(target, fontStyle, (t, v) => t.fontStyle = v);
-                Prop(target, maskable, (t, v) => t.maskable = v);
-                Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
-                Prop(target, color, (t, v) => t.color = v);
-                Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
-                Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
-                Prop(target, material, (t, v) => t.material = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onCullStateChanged, onCullStateChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Text> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Text>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, font, (t, v) => t.font = v);
+                    Prop(target, supportRichText, (t, v) => t.supportRichText = v);
+                    Prop(target, resizeTextForBestFit, (t, v) => t.resizeTextForBestFit = v);
+                    Prop(target, resizeTextMinSize, (t, v) => t.resizeTextMinSize = v);
+                    Prop(target, resizeTextMaxSize, (t, v) => t.resizeTextMaxSize = v);
+                    Prop(target, alignment, (t, v) => t.alignment = v);
+                    Prop(target, alignByGeometry, (t, v) => t.alignByGeometry = v);
+                    Prop(target, fontSize, (t, v) => t.fontSize = v);
+                    Prop(target, horizontalOverflow, (t, v) => t.horizontalOverflow = v);
+                    Prop(target, verticalOverflow, (t, v) => t.verticalOverflow = v);
+                    Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
+                    Prop(target, fontStyle, (t, v) => t.fontStyle = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Text view; omitted props keep native defaults.</summary>
         public static View LegacyText(
@@ -1749,8 +2505,9 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Text> configure = null,
-            Action<global::UnityEngine.UI.Text> reference = null)
-            => LegacyText(
+            Action<global::UnityEngine.UI.Text> reference = null
+        ) =>
+            LegacyText(
                 text: new Value<string>(text),
                 font: font,
                 supportRichText: supportRichText,
@@ -1790,7 +2547,9 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
-                configure: configure, reference: reference);
+                configure: configure,
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.InputField view; omitted props keep native defaults.</summary>
         public static View LegacyInputField(
@@ -1813,7 +2572,8 @@ namespace Pine
             Value<int>? characterLimit = null,
             Value<global::UnityEngine.UI.InputField.InputType>? inputType = null,
             Value<global::UnityEngine.TouchScreenKeyboardType>? keyboardType = null,
-            Value<global::UnityEngine.UI.InputField.CharacterValidation>? characterValidation = null,
+            Value<global::UnityEngine.UI.InputField.CharacterValidation>? characterValidation =
+                null,
             Value<bool>? readOnly = null,
             Value<char>? asteriskChar = null,
             Value<int>? caretPosition = null,
@@ -1847,66 +2607,127 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.InputField> configure = null,
-            Action<global::UnityEngine.UI.InputField> reference = null)
-            => Declare<global::UnityEngine.UI.InputField>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, contentType, (t, v) => t.contentType = v);
-                Prop(target, lineType, (t, v) => t.lineType = v);
-                Prop(target, shouldHideMobileInput, (t, v) => t.shouldHideMobileInput = v);
-                Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
-                Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
-                Prop(target, caretWidth, (t, v) => t.caretWidth = v);
-                Prop(target, textComponent, (t, v) => t.textComponent = v);
-                Prop(target, placeholder, (t, v) => t.placeholder = v);
-                Prop(target, caretColor, (t, v) => t.caretColor = v);
-                Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
-                Prop(target, selectionColor, (t, v) => t.selectionColor = v);
-                Prop(target, onValidateInput, (t, v) => t.onValidateInput = v);
-                Prop(target, characterLimit, (t, v) => t.characterLimit = v);
-                Prop(target, inputType, (t, v) => t.inputType = v);
-                Prop(target, keyboardType, (t, v) => t.keyboardType = v);
-                Prop(target, characterValidation, (t, v) => t.characterValidation = v);
-                Prop(target, readOnly, (t, v) => t.readOnly = v);
-                Prop(target, asteriskChar, (t, v) => t.asteriskChar = v);
-                Prop(target, caretPosition, (t, v) => t.caretPosition = v);
-                Prop(target, selectionAnchorPosition, (t, v) => t.selectionAnchorPosition = v);
-                Prop(target, selectionFocusPosition, (t, v) => t.selectionFocusPosition = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                InputProp(target, text, t => t.text, (t, v) => t.SetTextWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onEndEdit, onEndEdit);
-                Listen(target.onSubmit, onSubmit);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.InputField> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.InputField>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, contentType, (t, v) => t.contentType = v);
+                    Prop(target, lineType, (t, v) => t.lineType = v);
+                    Prop(target, shouldHideMobileInput, (t, v) => t.shouldHideMobileInput = v);
+                    Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
+                    Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
+                    Prop(target, caretWidth, (t, v) => t.caretWidth = v);
+                    Prop(target, textComponent, (t, v) => t.textComponent = v);
+                    Prop(target, placeholder, (t, v) => t.placeholder = v);
+                    Prop(target, caretColor, (t, v) => t.caretColor = v);
+                    Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
+                    Prop(target, selectionColor, (t, v) => t.selectionColor = v);
+                    Prop(target, onValidateInput, (t, v) => t.onValidateInput = v);
+                    Prop(target, characterLimit, (t, v) => t.characterLimit = v);
+                    Prop(target, inputType, (t, v) => t.inputType = v);
+                    Prop(target, keyboardType, (t, v) => t.keyboardType = v);
+                    Prop(target, characterValidation, (t, v) => t.characterValidation = v);
+                    Prop(target, readOnly, (t, v) => t.readOnly = v);
+                    Prop(target, asteriskChar, (t, v) => t.asteriskChar = v);
+                    Prop(target, caretPosition, (t, v) => t.caretPosition = v);
+                    Prop(target, selectionAnchorPosition, (t, v) => t.selectionAnchorPosition = v);
+                    Prop(target, selectionFocusPosition, (t, v) => t.selectionFocusPosition = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        text,
+                        t => t.text,
+                        (t, v) => t.SetTextWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onEndEdit, onEndEdit);
+                    Listen(target.onSubmit, onSubmit);
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.Dropdown view; omitted props keep native defaults.</summary>
         public static View LegacyDropdown(
-            Value<global::System.Collections.Generic.List<global::UnityEngine.UI.Dropdown.OptionData>>? options = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.UI.Dropdown.OptionData>>? options =
+                null,
             Value<global::UnityEngine.RectTransform>? template = null,
             Value<global::UnityEngine.UI.Text>? captionText = null,
             Value<global::UnityEngine.UI.Image>? captionImage = null,
@@ -1943,46 +2764,106 @@ namespace Pine
             Value<bool>? isStatic = null,
             Value<int>? value = null,
             Action<global::UnityEngine.UI.Dropdown> configure = null,
-            Action<global::UnityEngine.UI.Dropdown> reference = null)
-            => Declare<global::UnityEngine.UI.Dropdown>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, options, (t, v) => t.options = v);
-                Prop(target, template, (t, v) => t.template = v);
-                Prop(target, captionText, (t, v) => t.captionText = v);
-                Prop(target, captionImage, (t, v) => t.captionImage = v);
-                Prop(target, itemText, (t, v) => t.itemText = v);
-                Prop(target, itemImage, (t, v) => t.itemImage = v);
-                Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
-                Prop(target, navigation, (t, v) => t.navigation = v);
-                Prop(target, transition, (t, v) => t.transition = v);
-                Prop(target, colors, (t, v) => t.colors = v);
-                Prop(target, spriteState, (t, v) => t.spriteState = v);
-                Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, image, (t, v) => t.image = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                InputProp(target, value, t => t.value, (t, v) => t.SetValueWithoutNotify(v), t => t.onValueChanged);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Dropdown> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Dropdown>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, options, (t, v) => t.options = v);
+                    Prop(target, template, (t, v) => t.template = v);
+                    Prop(target, captionText, (t, v) => t.captionText = v);
+                    Prop(target, captionImage, (t, v) => t.captionImage = v);
+                    Prop(target, itemText, (t, v) => t.itemText = v);
+                    Prop(target, itemImage, (t, v) => t.itemImage = v);
+                    Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, image, (t, v) => t.image = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.ScrollRect view; omitted props keep native defaults.</summary>
         public static View ScrollRect(
@@ -1997,8 +2878,10 @@ namespace Pine
             Value<global::UnityEngine.RectTransform>? viewport = null,
             Value<global::UnityEngine.UI.Scrollbar>? horizontalScrollbar = null,
             Value<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
-            Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? horizontalScrollbarVisibility = null,
-            Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? verticalScrollbarVisibility = null,
+            Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? horizontalScrollbarVisibility =
+                null,
+            Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? verticalScrollbarVisibility =
+                null,
             Value<float>? horizontalScrollbarSpacing = null,
             Value<float>? verticalScrollbarSpacing = null,
             Action<global::UnityEngine.Vector2> onValueChanged = null,
@@ -2026,49 +2909,127 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.ScrollRect> configure = null,
-            Action<global::UnityEngine.UI.ScrollRect> reference = null)
-            => Declare<global::UnityEngine.UI.ScrollRect>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, content, (t, v) => t.content = v);
-                Prop(target, horizontal, (t, v) => t.horizontal = v);
-                Prop(target, vertical, (t, v) => t.vertical = v);
-                Prop(target, movementType, (t, v) => t.movementType = v);
-                Prop(target, elasticity, (t, v) => t.elasticity = v);
-                Prop(target, inertia, (t, v) => t.inertia = v);
-                Prop(target, decelerationRate, (t, v) => t.decelerationRate = v);
-                Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
-                Prop(target, viewport, (t, v) => t.viewport = v);
-                Prop(target, horizontalScrollbar, (t, v) => t.horizontalScrollbar = v);
-                Prop(target, verticalScrollbar, (t, v) => t.verticalScrollbar = v);
-                Prop(target, horizontalScrollbarVisibility, (t, v) => t.horizontalScrollbarVisibility = v);
-                Prop(target, verticalScrollbarVisibility, (t, v) => t.verticalScrollbarVisibility = v);
-                Prop(target, horizontalScrollbarSpacing, (t, v) => t.horizontalScrollbarSpacing = v);
-                Prop(target, verticalScrollbarSpacing, (t, v) => t.verticalScrollbarSpacing = v);
-                Prop(target, velocity, (t, v) => t.velocity = v);
-                Prop(target, normalizedPosition, (t, v) => t.normalizedPosition = v);
-                Prop(target, horizontalNormalizedPosition, (t, v) => t.horizontalNormalizedPosition = v);
-                Prop(target, verticalNormalizedPosition, (t, v) => t.verticalNormalizedPosition = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                Listen(target.onValueChanged, onValueChanged);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.ScrollRect> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.ScrollRect>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, content, (t, v) => t.content = v);
+                    Prop(target, horizontal, (t, v) => t.horizontal = v);
+                    Prop(target, vertical, (t, v) => t.vertical = v);
+                    Prop(target, movementType, (t, v) => t.movementType = v);
+                    Prop(target, elasticity, (t, v) => t.elasticity = v);
+                    Prop(target, inertia, (t, v) => t.inertia = v);
+                    Prop(target, decelerationRate, (t, v) => t.decelerationRate = v);
+                    Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
+                    Prop(target, viewport, (t, v) => t.viewport = v);
+                    Prop(target, horizontalScrollbar, (t, v) => t.horizontalScrollbar = v);
+                    Prop(target, verticalScrollbar, (t, v) => t.verticalScrollbar = v);
+                    Prop(
+                        target,
+                        horizontalScrollbarVisibility,
+                        (t, v) => t.horizontalScrollbarVisibility = v
+                    );
+                    Prop(
+                        target,
+                        verticalScrollbarVisibility,
+                        (t, v) => t.verticalScrollbarVisibility = v
+                    );
+                    Prop(
+                        target,
+                        horizontalScrollbarSpacing,
+                        (t, v) => t.horizontalScrollbarSpacing = v
+                    );
+                    Prop(
+                        target,
+                        verticalScrollbarSpacing,
+                        (t, v) => t.verticalScrollbarSpacing = v
+                    );
+                    Prop(target, velocity, (t, v) => t.velocity = v);
+                    Prop(target, normalizedPosition, (t, v) => t.normalizedPosition = v);
+                    Prop(
+                        target,
+                        horizontalNormalizedPosition,
+                        (t, v) => t.horizontalNormalizedPosition = v
+                    );
+                    Prop(
+                        target,
+                        verticalNormalizedPosition,
+                        (t, v) => t.verticalNormalizedPosition = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.VerticalLayoutGroup view; omitted props keep native defaults.</summary>
         public static View Vertical(
@@ -2102,39 +3063,93 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.VerticalLayoutGroup> configure = null,
-            Action<global::UnityEngine.UI.VerticalLayoutGroup> reference = null)
-            => Declare<global::UnityEngine.UI.VerticalLayoutGroup>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, spacing, (t, v) => t.spacing = v);
-                Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
-                Prop(target, childForceExpandHeight, (t, v) => t.childForceExpandHeight = v);
-                Prop(target, childControlWidth, (t, v) => t.childControlWidth = v);
-                Prop(target, childControlHeight, (t, v) => t.childControlHeight = v);
-                Prop(target, childScaleWidth, (t, v) => t.childScaleWidth = v);
-                Prop(target, childScaleHeight, (t, v) => t.childScaleHeight = v);
-                Prop(target, reverseArrangement, (t, v) => t.reverseArrangement = v);
-                Prop(target, padding, (t, v) => t.padding = v);
-                Prop(target, childAlignment, (t, v) => t.childAlignment = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.VerticalLayoutGroup> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.VerticalLayoutGroup>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, spacing, (t, v) => t.spacing = v);
+                    Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
+                    Prop(target, childForceExpandHeight, (t, v) => t.childForceExpandHeight = v);
+                    Prop(target, childControlWidth, (t, v) => t.childControlWidth = v);
+                    Prop(target, childControlHeight, (t, v) => t.childControlHeight = v);
+                    Prop(target, childScaleWidth, (t, v) => t.childScaleWidth = v);
+                    Prop(target, childScaleHeight, (t, v) => t.childScaleHeight = v);
+                    Prop(target, reverseArrangement, (t, v) => t.reverseArrangement = v);
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, childAlignment, (t, v) => t.childAlignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.HorizontalLayoutGroup view; omitted props keep native defaults.</summary>
         public static View Horizontal(
@@ -2168,39 +3183,93 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.HorizontalLayoutGroup> configure = null,
-            Action<global::UnityEngine.UI.HorizontalLayoutGroup> reference = null)
-            => Declare<global::UnityEngine.UI.HorizontalLayoutGroup>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, spacing, (t, v) => t.spacing = v);
-                Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
-                Prop(target, childForceExpandHeight, (t, v) => t.childForceExpandHeight = v);
-                Prop(target, childControlWidth, (t, v) => t.childControlWidth = v);
-                Prop(target, childControlHeight, (t, v) => t.childControlHeight = v);
-                Prop(target, childScaleWidth, (t, v) => t.childScaleWidth = v);
-                Prop(target, childScaleHeight, (t, v) => t.childScaleHeight = v);
-                Prop(target, reverseArrangement, (t, v) => t.reverseArrangement = v);
-                Prop(target, padding, (t, v) => t.padding = v);
-                Prop(target, childAlignment, (t, v) => t.childAlignment = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.HorizontalLayoutGroup> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.HorizontalLayoutGroup>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, spacing, (t, v) => t.spacing = v);
+                    Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
+                    Prop(target, childForceExpandHeight, (t, v) => t.childForceExpandHeight = v);
+                    Prop(target, childControlWidth, (t, v) => t.childControlWidth = v);
+                    Prop(target, childControlHeight, (t, v) => t.childControlHeight = v);
+                    Prop(target, childScaleWidth, (t, v) => t.childScaleWidth = v);
+                    Prop(target, childScaleHeight, (t, v) => t.childScaleHeight = v);
+                    Prop(target, reverseArrangement, (t, v) => t.reverseArrangement = v);
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, childAlignment, (t, v) => t.childAlignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.UI.GridLayoutGroup view; omitted props keep native defaults.</summary>
         public static View Grid(
@@ -2232,37 +3301,91 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.GridLayoutGroup> configure = null,
-            Action<global::UnityEngine.UI.GridLayoutGroup> reference = null)
-            => Declare<global::UnityEngine.UI.GridLayoutGroup>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, startCorner, (t, v) => t.startCorner = v);
-                Prop(target, startAxis, (t, v) => t.startAxis = v);
-                Prop(target, cellSize, (t, v) => t.cellSize = v);
-                Prop(target, spacing, (t, v) => t.spacing = v);
-                Prop(target, constraint, (t, v) => t.constraint = v);
-                Prop(target, constraintCount, (t, v) => t.constraintCount = v);
-                Prop(target, padding, (t, v) => t.padding = v);
-                Prop(target, childAlignment, (t, v) => t.childAlignment = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.GridLayoutGroup> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.GridLayoutGroup>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, startCorner, (t, v) => t.startCorner = v);
+                    Prop(target, startAxis, (t, v) => t.startAxis = v);
+                    Prop(target, cellSize, (t, v) => t.cellSize = v);
+                    Prop(target, spacing, (t, v) => t.spacing = v);
+                    Prop(target, constraint, (t, v) => t.constraint = v);
+                    Prop(target, constraintCount, (t, v) => t.constraintCount = v);
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, childAlignment, (t, v) => t.childAlignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #if UNITY_6000_4_OR_NEWER
         /// <summary>Creates a UnityEngine.Canvas view; omitted props keep native defaults.</summary>
@@ -2279,9 +3402,11 @@ namespace Pine
             Value<int>? sortingOrder = null,
             Value<int>? targetDisplay = null,
             Value<int>? sortingLayerID = null,
-            Value<global::UnityEngine.AdditionalCanvasShaderChannels>? additionalShaderChannels = null,
+            Value<global::UnityEngine.AdditionalCanvasShaderChannels>? additionalShaderChannels =
+                null,
             Value<string>? sortingLayerName = null,
-            Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone = null,
+            Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone =
+                null,
             Value<global::UnityEngine.Camera>? worldCamera = null,
             Value<float>? normalizedSortingGridSize = null,
             Value<bool>? enabled = null,
@@ -2304,47 +3429,116 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.Canvas> configure = null,
-            Action<global::UnityEngine.Canvas> reference = null)
-            => Declare<global::UnityEngine.Canvas>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, renderMode, (t, v) => t.renderMode = v);
-                Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
-                Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
-                Prop(target, overridePixelPerfect, (t, v) => t.overridePixelPerfect = v);
-                Prop(target, vertexColorAlwaysGammaSpace, (t, v) => t.vertexColorAlwaysGammaSpace = v);
-                Prop(target, useReflectionProbes, (t, v) => t.useReflectionProbes = v);
-                Prop(target, pixelPerfect, (t, v) => t.pixelPerfect = v);
-                Prop(target, planeDistance, (t, v) => t.planeDistance = v);
-                Prop(target, overrideSorting, (t, v) => t.overrideSorting = v);
-                Prop(target, sortingOrder, (t, v) => t.sortingOrder = v);
-                Prop(target, targetDisplay, (t, v) => t.targetDisplay = v);
-                Prop(target, sortingLayerID, (t, v) => t.sortingLayerID = v);
-                Prop(target, additionalShaderChannels, (t, v) => t.additionalShaderChannels = v);
-                Prop(target, sortingLayerName, (t, v) => t.sortingLayerName = v);
-                Prop(target, updateRectTransformForStandalone, (t, v) => t.updateRectTransformForStandalone = v);
-                Prop(target, worldCamera, (t, v) => t.worldCamera = v);
-                Prop(target, normalizedSortingGridSize, (t, v) => t.normalizedSortingGridSize = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
-
+            Action<global::UnityEngine.Canvas> reference = null
+        ) =>
+            Declare<global::UnityEngine.Canvas>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
+                    Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
+                    Prop(target, overridePixelPerfect, (t, v) => t.overridePixelPerfect = v);
+                    Prop(
+                        target,
+                        vertexColorAlwaysGammaSpace,
+                        (t, v) => t.vertexColorAlwaysGammaSpace = v
+                    );
+                    Prop(target, useReflectionProbes, (t, v) => t.useReflectionProbes = v);
+                    Prop(target, pixelPerfect, (t, v) => t.pixelPerfect = v);
+                    Prop(target, planeDistance, (t, v) => t.planeDistance = v);
+                    Prop(target, overrideSorting, (t, v) => t.overrideSorting = v);
+                    Prop(target, sortingOrder, (t, v) => t.sortingOrder = v);
+                    Prop(target, targetDisplay, (t, v) => t.targetDisplay = v);
+                    Prop(target, sortingLayerID, (t, v) => t.sortingLayerID = v);
+                    Prop(
+                        target,
+                        additionalShaderChannels,
+                        (t, v) => t.additionalShaderChannels = v
+                    );
+                    Prop(target, sortingLayerName, (t, v) => t.sortingLayerName = v);
+                    Prop(
+                        target,
+                        updateRectTransformForStandalone,
+                        (t, v) => t.updateRectTransformForStandalone = v
+                    );
+                    Prop(target, worldCamera, (t, v) => t.worldCamera = v);
+                    Prop(
+                        target,
+                        normalizedSortingGridSize,
+                        (t, v) => t.normalizedSortingGridSize = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 #else
         /// <summary>Creates a UnityEngine.Canvas view; omitted props keep native defaults.</summary>
         public static View Canvas(
@@ -2359,9 +3553,11 @@ namespace Pine
             Value<int>? sortingOrder = null,
             Value<int>? targetDisplay = null,
             Value<int>? sortingLayerID = null,
-            Value<global::UnityEngine.AdditionalCanvasShaderChannels>? additionalShaderChannels = null,
+            Value<global::UnityEngine.AdditionalCanvasShaderChannels>? additionalShaderChannels =
+                null,
             Value<string>? sortingLayerName = null,
-            Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone = null,
+            Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone =
+                null,
             Value<global::UnityEngine.Camera>? worldCamera = null,
             Value<float>? normalizedSortingGridSize = null,
             Value<bool>? enabled = null,
@@ -2384,47 +3580,117 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.Canvas> configure = null,
-            Action<global::UnityEngine.Canvas> reference = null)
-            => Declare<global::UnityEngine.Canvas>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, renderMode, (t, v) => t.renderMode = v);
-                Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
-                Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
-                Prop(target, overridePixelPerfect, (t, v) => t.overridePixelPerfect = v);
-                Prop(target, vertexColorAlwaysGammaSpace, (t, v) => t.vertexColorAlwaysGammaSpace = v);
-                Prop(target, pixelPerfect, (t, v) => t.pixelPerfect = v);
-                Prop(target, planeDistance, (t, v) => t.planeDistance = v);
-                Prop(target, overrideSorting, (t, v) => t.overrideSorting = v);
-                Prop(target, sortingOrder, (t, v) => t.sortingOrder = v);
-                Prop(target, targetDisplay, (t, v) => t.targetDisplay = v);
-                Prop(target, sortingLayerID, (t, v) => t.sortingLayerID = v);
-                Prop(target, additionalShaderChannels, (t, v) => t.additionalShaderChannels = v);
-                Prop(target, sortingLayerName, (t, v) => t.sortingLayerName = v);
-                Prop(target, updateRectTransformForStandalone, (t, v) => t.updateRectTransformForStandalone = v);
-                Prop(target, worldCamera, (t, v) => t.worldCamera = v);
-                Prop(target, normalizedSortingGridSize, (t, v) => t.normalizedSortingGridSize = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
-
+            Action<global::UnityEngine.Canvas> reference = null
+        ) =>
+            Declare<global::UnityEngine.Canvas>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
+                    Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
+                    Prop(target, overridePixelPerfect, (t, v) => t.overridePixelPerfect = v);
+                    Prop(
+                        target,
+                        vertexColorAlwaysGammaSpace,
+                        (t, v) => t.vertexColorAlwaysGammaSpace = v
+                    );
+                    Prop(target, pixelPerfect, (t, v) => t.pixelPerfect = v);
+                    Prop(target, planeDistance, (t, v) => t.planeDistance = v);
+                    Prop(target, overrideSorting, (t, v) => t.overrideSorting = v);
+                    Prop(target, sortingOrder, (t, v) => t.sortingOrder = v);
+                    Prop(target, targetDisplay, (t, v) => t.targetDisplay = v);
+                    Prop(target, sortingLayerID, (t, v) => t.sortingLayerID = v);
+                    Prop(
+                        target,
+                        additionalShaderChannels,
+                        (t, v) => t.additionalShaderChannels = v
+                    );
+                    Prop(target, sortingLayerName, (t, v) => t.sortingLayerName = v);
+                    Prop(
+                        target,
+                        updateRectTransformForStandalone,
+                        (t, v) => t.updateRectTransformForStandalone = v
+                    );
+                    Prop(target, worldCamera, (t, v) => t.worldCamera = v);
+                    Prop(
+                        target,
+                        normalizedSortingGridSize,
+                        (t, v) => t.normalizedSortingGridSize = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 #endif
+
         /// <summary>Attaches UnityEngine.CanvasGroup on the containing object; omitted props keep native defaults.</summary>
         public static View CanvasGroup(
             Value<float>? alpha = null,
@@ -2451,33 +3717,87 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.CanvasGroup> configure = null,
-            Action<global::UnityEngine.CanvasGroup> reference = null)
-            => Declare<global::UnityEngine.CanvasGroup>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, alpha, (t, v) => t.alpha = v);
-                Prop(target, interactable, (t, v) => t.interactable = v);
-                Prop(target, blocksRaycasts, (t, v) => t.blocksRaycasts = v);
-                Prop(target, ignoreParentGroups, (t, v) => t.ignoreParentGroups = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.CanvasGroup> reference = null
+        ) =>
+            Declare<global::UnityEngine.CanvasGroup>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, alpha, (t, v) => t.alpha = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, blocksRaycasts, (t, v) => t.blocksRaycasts = v);
+                    Prop(target, ignoreParentGroups, (t, v) => t.ignoreParentGroups = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.CanvasScaler on the containing object; omitted props keep native defaults.</summary>
         public static View CanvasScaler(
@@ -2511,39 +3831,93 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.CanvasScaler> configure = null,
-            Action<global::UnityEngine.UI.CanvasScaler> reference = null)
-            => Declare<global::UnityEngine.UI.CanvasScaler>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, uiScaleMode, (t, v) => t.uiScaleMode = v);
-                Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
-                Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
-                Prop(target, referenceResolution, (t, v) => t.referenceResolution = v);
-                Prop(target, screenMatchMode, (t, v) => t.screenMatchMode = v);
-                Prop(target, matchWidthOrHeight, (t, v) => t.matchWidthOrHeight = v);
-                Prop(target, physicalUnit, (t, v) => t.physicalUnit = v);
-                Prop(target, fallbackScreenDPI, (t, v) => t.fallbackScreenDPI = v);
-                Prop(target, defaultSpriteDPI, (t, v) => t.defaultSpriteDPI = v);
-                Prop(target, dynamicPixelsPerUnit, (t, v) => t.dynamicPixelsPerUnit = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.CanvasScaler> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.CanvasScaler>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, uiScaleMode, (t, v) => t.uiScaleMode = v);
+                    Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
+                    Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
+                    Prop(target, referenceResolution, (t, v) => t.referenceResolution = v);
+                    Prop(target, screenMatchMode, (t, v) => t.screenMatchMode = v);
+                    Prop(target, matchWidthOrHeight, (t, v) => t.matchWidthOrHeight = v);
+                    Prop(target, physicalUnit, (t, v) => t.physicalUnit = v);
+                    Prop(target, fallbackScreenDPI, (t, v) => t.fallbackScreenDPI = v);
+                    Prop(target, defaultSpriteDPI, (t, v) => t.defaultSpriteDPI = v);
+                    Prop(target, dynamicPixelsPerUnit, (t, v) => t.dynamicPixelsPerUnit = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.GraphicRaycaster on the containing object; omitted props keep native defaults.</summary>
         public static View GraphicRaycaster(
@@ -2570,32 +3944,86 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.GraphicRaycaster> configure = null,
-            Action<global::UnityEngine.UI.GraphicRaycaster> reference = null)
-            => Declare<global::UnityEngine.UI.GraphicRaycaster>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, ignoreReversedGraphics, (t, v) => t.ignoreReversedGraphics = v);
-                Prop(target, blockingObjects, (t, v) => t.blockingObjects = v);
-                Prop(target, blockingMask, (t, v) => t.blockingMask = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.GraphicRaycaster> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.GraphicRaycaster>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, ignoreReversedGraphics, (t, v) => t.ignoreReversedGraphics = v);
+                    Prop(target, blockingObjects, (t, v) => t.blockingObjects = v);
+                    Prop(target, blockingMask, (t, v) => t.blockingMask = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #if PINE_UGUI_2_6_OR_NEWER
         /// <summary>Attaches UnityEngine.UI.LayoutElement on the containing object; omitted props keep native defaults.</summary>
@@ -2630,40 +4058,93 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.LayoutElement> configure = null,
-            Action<global::UnityEngine.UI.LayoutElement> reference = null)
-            => Declare<global::UnityEngine.UI.LayoutElement>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, ignoreLayout, (t, v) => t.ignoreLayout = v);
-                Prop(target, minWidth, (t, v) => t.minWidth = v);
-                Prop(target, minHeight, (t, v) => t.minHeight = v);
-                Prop(target, maxWidth, (t, v) => t.maxWidth = v);
-                Prop(target, maxHeight, (t, v) => t.maxHeight = v);
-                Prop(target, preferredWidth, (t, v) => t.preferredWidth = v);
-                Prop(target, preferredHeight, (t, v) => t.preferredHeight = v);
-                Prop(target, flexibleWidth, (t, v) => t.flexibleWidth = v);
-                Prop(target, flexibleHeight, (t, v) => t.flexibleHeight = v);
-                Prop(target, layoutPriority, (t, v) => t.layoutPriority = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
-
+            Action<global::UnityEngine.UI.LayoutElement> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.LayoutElement>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, ignoreLayout, (t, v) => t.ignoreLayout = v);
+                    Prop(target, minWidth, (t, v) => t.minWidth = v);
+                    Prop(target, minHeight, (t, v) => t.minHeight = v);
+                    Prop(target, maxWidth, (t, v) => t.maxWidth = v);
+                    Prop(target, maxHeight, (t, v) => t.maxHeight = v);
+                    Prop(target, preferredWidth, (t, v) => t.preferredWidth = v);
+                    Prop(target, preferredHeight, (t, v) => t.preferredHeight = v);
+                    Prop(target, flexibleWidth, (t, v) => t.flexibleWidth = v);
+                    Prop(target, flexibleHeight, (t, v) => t.flexibleHeight = v);
+                    Prop(target, layoutPriority, (t, v) => t.layoutPriority = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 #else
         /// <summary>Attaches UnityEngine.UI.LayoutElement on the containing object; omitted props keep native defaults.</summary>
         public static View LayoutElement(
@@ -2695,39 +4176,93 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.LayoutElement> configure = null,
-            Action<global::UnityEngine.UI.LayoutElement> reference = null)
-            => Declare<global::UnityEngine.UI.LayoutElement>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, ignoreLayout, (t, v) => t.ignoreLayout = v);
-                Prop(target, minWidth, (t, v) => t.minWidth = v);
-                Prop(target, minHeight, (t, v) => t.minHeight = v);
-                Prop(target, preferredWidth, (t, v) => t.preferredWidth = v);
-                Prop(target, preferredHeight, (t, v) => t.preferredHeight = v);
-                Prop(target, flexibleWidth, (t, v) => t.flexibleWidth = v);
-                Prop(target, flexibleHeight, (t, v) => t.flexibleHeight = v);
-                Prop(target, layoutPriority, (t, v) => t.layoutPriority = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
-
+            Action<global::UnityEngine.UI.LayoutElement> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.LayoutElement>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, ignoreLayout, (t, v) => t.ignoreLayout = v);
+                    Prop(target, minWidth, (t, v) => t.minWidth = v);
+                    Prop(target, minHeight, (t, v) => t.minHeight = v);
+                    Prop(target, preferredWidth, (t, v) => t.preferredWidth = v);
+                    Prop(target, preferredHeight, (t, v) => t.preferredHeight = v);
+                    Prop(target, flexibleWidth, (t, v) => t.flexibleWidth = v);
+                    Prop(target, flexibleHeight, (t, v) => t.flexibleHeight = v);
+                    Prop(target, layoutPriority, (t, v) => t.layoutPriority = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 #endif
+
         /// <summary>Attaches UnityEngine.UI.ContentSizeFitter on the containing object; omitted props keep native defaults.</summary>
         public static View ContentSizeFitter(
             Value<global::UnityEngine.UI.ContentSizeFitter.FitMode>? horizontalFit = null,
@@ -2752,31 +4287,85 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.ContentSizeFitter> configure = null,
-            Action<global::UnityEngine.UI.ContentSizeFitter> reference = null)
-            => Declare<global::UnityEngine.UI.ContentSizeFitter>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, horizontalFit, (t, v) => t.horizontalFit = v);
-                Prop(target, verticalFit, (t, v) => t.verticalFit = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.ContentSizeFitter> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.ContentSizeFitter>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, horizontalFit, (t, v) => t.horizontalFit = v);
+                    Prop(target, verticalFit, (t, v) => t.verticalFit = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.AspectRatioFitter on the containing object; omitted props keep native defaults.</summary>
         public static View AspectRatioFitter(
@@ -2802,31 +4391,85 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.AspectRatioFitter> configure = null,
-            Action<global::UnityEngine.UI.AspectRatioFitter> reference = null)
-            => Declare<global::UnityEngine.UI.AspectRatioFitter>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, aspectMode, (t, v) => t.aspectMode = v);
-                Prop(target, aspectRatio, (t, v) => t.aspectRatio = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.AspectRatioFitter> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.AspectRatioFitter>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, aspectMode, (t, v) => t.aspectMode = v);
+                    Prop(target, aspectRatio, (t, v) => t.aspectRatio = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.Mask on the containing object; omitted props keep native defaults.</summary>
         public static View Mask(
@@ -2851,30 +4494,84 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Mask> configure = null,
-            Action<global::UnityEngine.UI.Mask> reference = null)
-            => Declare<global::UnityEngine.UI.Mask>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, showMaskGraphic, (t, v) => t.showMaskGraphic = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Mask> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Mask>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, showMaskGraphic, (t, v) => t.showMaskGraphic = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.RectMask2D on the containing object; omitted props keep native defaults.</summary>
         public static View RectMask2D(
@@ -2900,31 +4597,85 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.RectMask2D> configure = null,
-            Action<global::UnityEngine.UI.RectMask2D> reference = null)
-            => Declare<global::UnityEngine.UI.RectMask2D>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, padding, (t, v) => t.padding = v);
-                Prop(target, softness, (t, v) => t.softness = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.RectMask2D> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.RectMask2D>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, softness, (t, v) => t.softness = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.Shadow on the containing object; omitted props keep native defaults.</summary>
         public static View Shadow(
@@ -2951,32 +4702,86 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Shadow> configure = null,
-            Action<global::UnityEngine.UI.Shadow> reference = null)
-            => Declare<global::UnityEngine.UI.Shadow>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, effectColor, (t, v) => t.effectColor = v);
-                Prop(target, effectDistance, (t, v) => t.effectDistance = v);
-                Prop(target, useGraphicAlpha, (t, v) => t.useGraphicAlpha = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Shadow> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Shadow>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, effectColor, (t, v) => t.effectColor = v);
+                    Prop(target, effectDistance, (t, v) => t.effectDistance = v);
+                    Prop(target, useGraphicAlpha, (t, v) => t.useGraphicAlpha = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.Outline on the containing object; omitted props keep native defaults.</summary>
         public static View Outline(
@@ -3003,32 +4808,86 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.Outline> configure = null,
-            Action<global::UnityEngine.UI.Outline> reference = null)
-            => Declare<global::UnityEngine.UI.Outline>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, effectColor, (t, v) => t.effectColor = v);
-                Prop(target, effectDistance, (t, v) => t.effectDistance = v);
-                Prop(target, useGraphicAlpha, (t, v) => t.useGraphicAlpha = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.Outline> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.Outline>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, effectColor, (t, v) => t.effectColor = v);
+                    Prop(target, effectDistance, (t, v) => t.effectDistance = v);
+                    Prop(target, useGraphicAlpha, (t, v) => t.useGraphicAlpha = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.PositionAsUV1 on the containing object; omitted props keep native defaults.</summary>
         public static View PositionAsUV1(
@@ -3052,29 +4911,83 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.PositionAsUV1> configure = null,
-            Action<global::UnityEngine.UI.PositionAsUV1> reference = null)
-            => Declare<global::UnityEngine.UI.PositionAsUV1>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.PositionAsUV1> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.PositionAsUV1>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.UI.ToggleGroup on the containing object; omitted props keep native defaults.</summary>
         public static View ToggleGroup(
@@ -3099,30 +5012,84 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.ToggleGroup> configure = null,
-            Action<global::UnityEngine.UI.ToggleGroup> reference = null)
-            => Declare<global::UnityEngine.UI.ToggleGroup>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, allowSwitchOff, (t, v) => t.allowSwitchOff = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.ToggleGroup> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.ToggleGroup>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, allowSwitchOff, (t, v) => t.allowSwitchOff = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.CanvasRenderer on the containing object; omitted props keep native defaults.</summary>
         public static View CanvasRenderer(
@@ -3151,38 +5118,93 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.CanvasRenderer> configure = null,
-            Action<global::UnityEngine.CanvasRenderer> reference = null)
-            => Declare<global::UnityEngine.CanvasRenderer>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, hasPopInstruction, (t, v) => t.hasPopInstruction = v);
-                Prop(target, materialCount, (t, v) => t.materialCount = v);
-                Prop(target, popMaterialCount, (t, v) => t.popMaterialCount = v);
-                Prop(target, cullTransparentMesh, (t, v) => t.cullTransparentMesh = v);
-                Prop(target, cull, (t, v) => t.cull = v);
-                Prop(target, clippingSoftness, (t, v) => t.clippingSoftness = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.CanvasRenderer> reference = null
+        ) =>
+            Declare<global::UnityEngine.CanvasRenderer>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, hasPopInstruction, (t, v) => t.hasPopInstruction = v);
+                    Prop(target, materialCount, (t, v) => t.materialCount = v);
+                    Prop(target, popMaterialCount, (t, v) => t.popMaterialCount = v);
+                    Prop(target, cullTransparentMesh, (t, v) => t.cullTransparentMesh = v);
+                    Prop(target, cull, (t, v) => t.cull = v);
+                    Prop(target, clippingSoftness, (t, v) => t.clippingSoftness = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.EventSystems.EventTrigger on the containing object; omitted props keep native defaults.</summary>
         public static View EventTrigger(
-            Value<global::System.Collections.Generic.List<global::UnityEngine.EventSystems.EventTrigger.Entry>>? triggers = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.EventSystems.EventTrigger.Entry>>? triggers =
+                null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -3203,30 +5225,84 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.EventSystems.EventTrigger> configure = null,
-            Action<global::UnityEngine.EventSystems.EventTrigger> reference = null)
-            => Declare<global::UnityEngine.EventSystems.EventTrigger>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, triggers, (t, v) => t.triggers = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.EventSystems.EventTrigger> reference = null
+        ) =>
+            Declare<global::UnityEngine.EventSystems.EventTrigger>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, triggers, (t, v) => t.triggers = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Creates a UnityEngine.EventSystems.EventSystem view; omitted props keep native defaults.</summary>
         public static View EventSystem(
@@ -3253,32 +5329,86 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.EventSystems.EventSystem> configure = null,
-            Action<global::UnityEngine.EventSystems.EventSystem> reference = null)
-            => Declare<global::UnityEngine.EventSystems.EventSystem>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, sendNavigationEvents, (t, v) => t.sendNavigationEvents = v);
-                Prop(target, pixelDragThreshold, (t, v) => t.pixelDragThreshold = v);
-                Prop(target, firstSelectedGameObject, (t, v) => t.firstSelectedGameObject = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.EventSystems.EventSystem> reference = null
+        ) =>
+            Declare<global::UnityEngine.EventSystems.EventSystem>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, sendNavigationEvents, (t, v) => t.sendNavigationEvents = v);
+                    Prop(target, pixelDragThreshold, (t, v) => t.pixelDragThreshold = v);
+                    Prop(target, firstSelectedGameObject, (t, v) => t.firstSelectedGameObject = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.EventSystems.BaseInput on the containing object; omitted props keep native defaults.</summary>
         public static View BaseInput(
@@ -3304,31 +5434,85 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.EventSystems.BaseInput> configure = null,
-            Action<global::UnityEngine.EventSystems.BaseInput> reference = null)
-            => Declare<global::UnityEngine.EventSystems.BaseInput>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, imeCompositionMode, (t, v) => t.imeCompositionMode = v);
-                Prop(target, compositionCursorPos, (t, v) => t.compositionCursorPos = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.EventSystems.BaseInput> reference = null
+        ) =>
+            Declare<global::UnityEngine.EventSystems.BaseInput>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, imeCompositionMode, (t, v) => t.imeCompositionMode = v);
+                    Prop(target, compositionCursorPos, (t, v) => t.compositionCursorPos = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #if ENABLE_LEGACY_INPUT_MANAGER
         /// <summary>Attaches UnityEngine.EventSystems.StandaloneInputModule on the containing object; omitted props keep native defaults.</summary>
@@ -3361,45 +5545,101 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.EventSystems.StandaloneInputModule> configure = null,
-            Action<global::UnityEngine.EventSystems.StandaloneInputModule> reference = null)
-            => Declare<global::UnityEngine.EventSystems.StandaloneInputModule>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, inputActionsPerSecond, (t, v) => t.inputActionsPerSecond = v);
-                Prop(target, repeatDelay, (t, v) => t.repeatDelay = v);
-                Prop(target, horizontalAxis, (t, v) => t.horizontalAxis = v);
-                Prop(target, verticalAxis, (t, v) => t.verticalAxis = v);
-                Prop(target, submitButton, (t, v) => t.submitButton = v);
-                Prop(target, cancelButton, (t, v) => t.cancelButton = v);
-                Prop(target, inputOverride, (t, v) => t.inputOverride = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop(target, sendPointerHoverToParent, SetPointerHover);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.EventSystems.StandaloneInputModule> reference = null
+        ) =>
+            Declare<global::UnityEngine.EventSystems.StandaloneInputModule>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, inputActionsPerSecond, (t, v) => t.inputActionsPerSecond = v);
+                    Prop(target, repeatDelay, (t, v) => t.repeatDelay = v);
+                    Prop(target, horizontalAxis, (t, v) => t.horizontalAxis = v);
+                    Prop(target, verticalAxis, (t, v) => t.verticalAxis = v);
+                    Prop(target, submitButton, (t, v) => t.submitButton = v);
+                    Prop(target, cancelButton, (t, v) => t.cancelButton = v);
+                    Prop(target, inputOverride, (t, v) => t.inputOverride = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target, sendPointerHoverToParent, SetPointerHover);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #endif
+
 #if ENABLE_INPUT_SYSTEM
         /// <summary>Attaches UnityEngine.InputSystem.UI.InputSystemUIInputModule on the containing object; omitted props keep native defaults.</summary>
         public static View InputSystemUIInputModule(
             Value<bool>? deselectOnBackgroundClick = null,
             Value<global::UnityEngine.InputSystem.UI.UIPointerBehavior>? pointerBehavior = null,
-            Value<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule.CursorLockBehavior>? cursorLockBehavior = null,
+            Value<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule.CursorLockBehavior>? cursorLockBehavior =
+                null,
             Value<float>? scrollDeltaPerTick = null,
             Value<float>? moveRepeatDelay = null,
             Value<float>? moveRepeatRate = null,
@@ -3413,8 +5653,10 @@ namespace Pine
             Value<global::UnityEngine.InputSystem.InputActionReference>? move = null,
             Value<global::UnityEngine.InputSystem.InputActionReference>? submit = null,
             Value<global::UnityEngine.InputSystem.InputActionReference>? cancel = null,
-            Value<global::UnityEngine.InputSystem.InputActionReference>? trackedDeviceOrientation = null,
-            Value<global::UnityEngine.InputSystem.InputActionReference>? trackedDevicePosition = null,
+            Value<global::UnityEngine.InputSystem.InputActionReference>? trackedDeviceOrientation =
+                null,
+            Value<global::UnityEngine.InputSystem.InputActionReference>? trackedDevicePosition =
+                null,
             Value<global::UnityEngine.InputSystem.InputActionAsset>? actionsAsset = null,
             Value<global::UnityEngine.EventSystems.BaseInput>? inputOverride = null,
             Value<bool>? enabled = null,
@@ -3438,52 +5680,118 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule> configure = null,
-            Action<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule> reference = null)
-            => Declare<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, deselectOnBackgroundClick, (t, v) => t.deselectOnBackgroundClick = v);
-                Prop(target, pointerBehavior, (t, v) => t.pointerBehavior = v);
-                Prop(target, cursorLockBehavior, (t, v) => t.cursorLockBehavior = v);
-                Prop(target, scrollDeltaPerTick, (t, v) => t.scrollDeltaPerTick = v);
-                Prop(target, moveRepeatDelay, (t, v) => t.moveRepeatDelay = v);
-                Prop(target, moveRepeatRate, (t, v) => t.moveRepeatRate = v);
-                Prop(target, xrTrackingOrigin, (t, v) => t.xrTrackingOrigin = v);
-                Prop(target, trackedDeviceDragThresholdMultiplier, (t, v) => t.trackedDeviceDragThresholdMultiplier = v);
-                Prop(target, point, (t, v) => t.point = v);
-                Prop(target, scrollWheel, (t, v) => t.scrollWheel = v);
-                Prop(target, leftClick, (t, v) => t.leftClick = v);
-                Prop(target, middleClick, (t, v) => t.middleClick = v);
-                Prop(target, rightClick, (t, v) => t.rightClick = v);
-                Prop(target, move, (t, v) => t.move = v);
-                Prop(target, submit, (t, v) => t.submit = v);
-                Prop(target, cancel, (t, v) => t.cancel = v);
-                Prop(target, trackedDeviceOrientation, (t, v) => t.trackedDeviceOrientation = v);
-                Prop(target, trackedDevicePosition, (t, v) => t.trackedDevicePosition = v);
-                Prop(target, actionsAsset, (t, v) => t.actionsAsset = v);
-                Prop(target, inputOverride, (t, v) => t.inputOverride = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop(target, sendPointerHoverToParent, SetPointerHover);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
-
+            Action<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule> reference = null
+        ) =>
+            Declare<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(
+                        target,
+                        deselectOnBackgroundClick,
+                        (t, v) => t.deselectOnBackgroundClick = v
+                    );
+                    Prop(target, pointerBehavior, (t, v) => t.pointerBehavior = v);
+                    Prop(target, cursorLockBehavior, (t, v) => t.cursorLockBehavior = v);
+                    Prop(target, scrollDeltaPerTick, (t, v) => t.scrollDeltaPerTick = v);
+                    Prop(target, moveRepeatDelay, (t, v) => t.moveRepeatDelay = v);
+                    Prop(target, moveRepeatRate, (t, v) => t.moveRepeatRate = v);
+                    Prop(target, xrTrackingOrigin, (t, v) => t.xrTrackingOrigin = v);
+                    Prop(
+                        target,
+                        trackedDeviceDragThresholdMultiplier,
+                        (t, v) => t.trackedDeviceDragThresholdMultiplier = v
+                    );
+                    Prop(target, point, (t, v) => t.point = v);
+                    Prop(target, scrollWheel, (t, v) => t.scrollWheel = v);
+                    Prop(target, leftClick, (t, v) => t.leftClick = v);
+                    Prop(target, middleClick, (t, v) => t.middleClick = v);
+                    Prop(target, rightClick, (t, v) => t.rightClick = v);
+                    Prop(target, move, (t, v) => t.move = v);
+                    Prop(target, submit, (t, v) => t.submit = v);
+                    Prop(target, cancel, (t, v) => t.cancel = v);
+                    Prop(
+                        target,
+                        trackedDeviceOrientation,
+                        (t, v) => t.trackedDeviceOrientation = v
+                    );
+                    Prop(target, trackedDevicePosition, (t, v) => t.trackedDevicePosition = v);
+                    Prop(target, actionsAsset, (t, v) => t.actionsAsset = v);
+                    Prop(target, inputOverride, (t, v) => t.inputOverride = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target, sendPointerHoverToParent, SetPointerHover);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 #endif
+
         /// <summary>Attaches UnityEngine.EventSystems.PhysicsRaycaster on the containing object; omitted props keep native defaults.</summary>
         public static View PhysicsRaycaster(
             Value<global::UnityEngine.LayerMask>? eventMask = null,
@@ -3508,31 +5816,85 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.EventSystems.PhysicsRaycaster> configure = null,
-            Action<global::UnityEngine.EventSystems.PhysicsRaycaster> reference = null)
-            => Declare<global::UnityEngine.EventSystems.PhysicsRaycaster>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, eventMask, (t, v) => t.eventMask = v);
-                Prop(target, maxRayIntersections, (t, v) => t.maxRayIntersections = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.EventSystems.PhysicsRaycaster> reference = null
+        ) =>
+            Declare<global::UnityEngine.EventSystems.PhysicsRaycaster>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, eventMask, (t, v) => t.eventMask = v);
+                    Prop(target, maxRayIntersections, (t, v) => t.maxRayIntersections = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
         /// <summary>Attaches UnityEngine.EventSystems.Physics2DRaycaster on the containing object; omitted props keep native defaults.</summary>
         public static View Physics2DRaycaster(
@@ -3558,31 +5920,85 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.EventSystems.Physics2DRaycaster> configure = null,
-            Action<global::UnityEngine.EventSystems.Physics2DRaycaster> reference = null)
-            => Declare<global::UnityEngine.EventSystems.Physics2DRaycaster>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, eventMask, (t, v) => t.eventMask = v);
-                Prop(target, maxRayIntersections, (t, v) => t.maxRayIntersections = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.EventSystems.Physics2DRaycaster> reference = null
+        ) =>
+            Declare<global::UnityEngine.EventSystems.Physics2DRaycaster>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, eventMask, (t, v) => t.eventMask = v);
+                    Prop(target, maxRayIntersections, (t, v) => t.maxRayIntersections = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #if PINE_UGUI_2_5_OR_NEWER
         /// <summary>Creates a UnityEngine.UI.RaycastReceiver view; omitted props keep native defaults.</summary>
@@ -3611,35 +6027,90 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.RaycastReceiver> configure = null,
-            Action<global::UnityEngine.UI.RaycastReceiver> reference = null)
-            => Declare<global::UnityEngine.UI.RaycastReceiver>(modifier: false, active: active, configure: target =>
-            {
-                Prop(target, material, (t, v) => t.material = v);
-                Prop(target, color, (t, v) => t.color = v);
-                Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
-                Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.RaycastReceiver> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.RaycastReceiver>(
+                modifier: false,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #endif
+
 #if PINE_UGUI_2_6_OR_NEWER
         /// <summary>Attaches UnityEngine.UI.SafeArea on the containing object; omitted props keep native defaults.</summary>
         public static View SafeArea(
@@ -3666,32 +6137,86 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Action<global::UnityEngine.UI.SafeArea> configure = null,
-            Action<global::UnityEngine.UI.SafeArea> reference = null)
-            => Declare<global::UnityEngine.UI.SafeArea>(modifier: true, active: active, configure: target =>
-            {
-                Prop(target, ReferenceOrientation, (t, v) => t.ReferenceOrientation = v);
-                Prop(target, Edges, (t, v) => t.Edges = v);
-                Prop(target, Alignment, (t, v) => t.Alignment = v);
-                Prop(target, enabled, (t, v) => t.enabled = v);
-                Prop(target, tag, (t, v) => t.tag = v);
-                Prop(target, name, (t, v) => t.name = v);
-                Prop(target, hideFlags, (t, v) => t.hideFlags = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMin, (t, v) => t.anchorMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchorMax, (t, v) => t.anchorMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, pivot, (t, v) => t.pivot = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition, (t, v) => t.anchoredPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, sizeDelta, (t, v) => t.sizeDelta = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMin, (t, v) => t.offsetMin = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, offsetMax, (t, v) => t.offsetMax = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localPosition, (t, v) => t.localPosition = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localRotation, (t, v) => t.localRotation = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localEulerAngles, (t, v) => t.localEulerAngles = v);
-                Prop((global::UnityEngine.RectTransform)target.transform, localScale, (t, v) => t.localScale = v);
-                Prop(target.gameObject, layer, (t, v) => t.layer = v);
-                Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
-                configure?.Invoke(target);
-            }, reference: reference);
+            Action<global::UnityEngine.UI.SafeArea> reference = null
+        ) =>
+            Declare<global::UnityEngine.UI.SafeArea>(
+                modifier: true,
+                active: active,
+                configure: target =>
+                {
+                    Prop(target, ReferenceOrientation, (t, v) => t.ReferenceOrientation = v);
+                    Prop(target, Edges, (t, v) => t.Edges = v);
+                    Prop(target, Alignment, (t, v) => t.Alignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference
+            );
 
 #endif
     }

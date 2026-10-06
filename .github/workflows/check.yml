@@ -16,5 +16,7 @@ jobs:
             8.0.x
             10.0.400
       - run: dotnet run --project Tests~/Core/Pine.Tests.csproj
+      - run: dotnet tool restore
+      - run: dotnet csharpier check . --include-generated
       - run: dotnet run --project Tests~/Generator/Pine.Generator.Tests.csproj
       - run: python3 Tools~/check_generator.py
