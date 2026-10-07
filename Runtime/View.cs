@@ -406,18 +406,19 @@ namespace Pine
             );
         }
 
-        /// <summary>Declares a custom native component with owned children and optional reference capture.</summary>
+        /// <summary>Declares a custom native component with typed reactive properties, owned children and optional reference capture.</summary>
         public static View Declare<T>(
             Action<T> configure = null,
             Action<T> reference = null,
             bool modifier = false,
             Value<bool>? active = null,
             View[] children = null,
-            View[] components = null
+            View[] components = null,
+            IProperty<T>[] properties = null
         )
             where T : Component =>
             DeclareNative<T>(
-                (target, _) => configure?.Invoke(target),
+                CustomConfiguration(properties, configure),
                 reference,
                 modifier,
                 active,
@@ -427,17 +428,18 @@ namespace Pine
                 components
             );
 
-        /// <summary>Declares a custom native component with retained reactive children.</summary>
+        /// <summary>Declares a custom native component with typed reactive properties and retained reactive children.</summary>
         public static View Declare<T>(
             Func<IEnumerable<View>> children,
             Action<T> configure = null,
             Action<T> reference = null,
             Value<bool>? active = null,
-            View[] components = null
+            View[] components = null,
+            IProperty<T>[] properties = null
         )
             where T : Component =>
             DeclareNative<T>(
-                (target, _) => configure?.Invoke(target),
+                CustomConfiguration(properties, configure),
                 reference,
                 false,
                 active,
@@ -446,6 +448,21 @@ namespace Pine
                 null,
                 components
             );
+
+        private static Action<T, Dictionary<string, Component>> CustomConfiguration<T>(
+            IProperty<T>[] properties,
+            Action<T> configure
+        )
+            where T : Component
+        {
+            var snapshot = properties == null ? null : (IProperty<T>[])properties.Clone();
+            return (target, _) =>
+            {
+                if (snapshot != null)
+                    ApplyProperties(target, snapshot);
+                configure?.Invoke(target);
+            };
+        }
 
         private static View[] ComposeEntries(View[] children, View[] components)
         {

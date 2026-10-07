@@ -15,7 +15,7 @@ using UnityEngine.UI;
 namespace Pine.Tests
 {
     [InitializeOnLoad]
-    internal static class PineInteractionChecks
+    internal static partial class PineInteractionChecks
     {
         private const string Request = "Pine.InteractionChecks";
         private static IEnumerator _checks;
@@ -513,6 +513,9 @@ namespace Pine.Tests
                 File.WriteAllBytes(output, screenshot.EncodeToPNG());
                 UnityEngine.Object.Destroy(screenshot);
                 Debug.Log("PINE_RENDER_IMAGE " + output);
+                mount.Root.SetActive(false);
+                foreach (var _ in Complex(camera, mouse, keyboard, texture))
+                    yield return null;
             }
             finally
             {

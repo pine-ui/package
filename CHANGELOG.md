@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Accept typed reactive `properties` in custom `P.Declare<T>` declarations, with copied arrays and scoped bindings.
+- Use the native top-left scroll viewport pivot so expanding viewports do not cover linked scrollbars.
+- Keep generated toggle checkmarks, dropdown images and captions in separate layout regions.
+- Verify world-space scrolling, image dropdown selection, multiline input, toggle-group changes and visible native animation transitions on both supported Windows Editors.
+
 ## 1.1.0 — 2026-10-07
 
 - Replace View.With with factory `children` arrays/getters; use `components` for static attachments beside reactive children. This changes the 1.0.0 composition API.

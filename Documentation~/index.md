@@ -34,4 +34,32 @@ For Unity callbacks, declare a concrete MonoBehaviour with a public `View Create
 
 See [all named props](https://pine-ui.com/docs/api/controls-reference/).
 
+Custom components can use the existing typed property API in either `P.Declare<T>` overload. Property arrays are copied into the declaration; getters and Sources remain reactive, and bindings end with the owning scope. Properties apply before the optional one-time `configure` callback and native activation. Forward references can be read through `P.Ref<T>()`.
+
+```csharp
+public sealed class Gauge : MonoBehaviour
+{
+    public float Amount;
+    public TMP_Text Label;
+}
+
+public static class GaugeUi
+{
+    public static View Create(Source<float> amount)
+    {
+        var label = P.Ref<TMP_Text>();
+        return P.Declare<Gauge>(
+            properties: new IProperty<Gauge>[]
+            {
+                P.Set<Gauge, float>("Amount", (gauge, value) => gauge.Amount = value, amount),
+                P.Set<Gauge, TMP_Text>("Label", (gauge, value) => gauge.Label = value, label)
+            },
+            children: new[] { P.Text("Gauge", reference: label) }
+        );
+    }
+}
+```
+
+The setter expresses the custom field mapping; Pine owns the reactive binding. This avoids a required one-time `configure` callback without reflecting custom fields or generating another API. Settings/events/reference values are typed; composed part compatibility and hierarchy/lifetime rules are validated at runtime.
+
 Named control parts accept declarations or externally owned targets: `P.Slider(fill: P.Image(), handle: P.Image())` and `P.ScrollRect(content: P.Vertical(children: new[] { P.Text("Row") }), viewport: P.Frame())`. `P.Ref<T>()` passed to `reference` publishes a native target before wiring and clears it when removed. Pass refs to other part arguments, or read them in tracked `Value<Navigation>` structs for forward/cyclic navigation. Assets come from the project. [Parts and typed links](https://pine-ui.com/docs/api/creation/).

@@ -301,6 +301,8 @@ namespace Pine
             if (target is Toggle toggle && toggle.graphic == null && Missing("graphic"))
             {
                 var mark = Part<Image>(target.transform, "Checkmark");
+                mark.rectTransform.anchorMin = mark.rectTransform.anchorMax = new Vector2(0, .5f);
+                mark.rectTransform.anchoredPosition = new Vector2(14, 0);
                 mark.rectTransform.sizeDelta = new Vector2(20, 20);
                 mark.color = Color.black;
                 toggle.graphic = mark;
@@ -347,6 +349,7 @@ namespace Pine
                 if (scroll.viewport == null && Missing("viewport"))
                 {
                     var viewport = Part<RectTransform>(target.transform, "Viewport");
+                    viewport.pivot = new Vector2(0, 1);
                     StretchNative(viewport);
                     GetOrAdd<RectMask2D>(viewport.gameObject);
                     var surface = GetOrAdd<Image>(viewport.gameObject);
@@ -436,7 +439,13 @@ namespace Pine
             if (label == null)
             {
                 label = TMPPart(target.transform, "Text", "");
-                label.alignment = TextAlignmentOptions.Center;
+                if (target is Toggle)
+                {
+                    label.alignment = TextAlignmentOptions.MidlineLeft;
+                    label.rectTransform.offsetMin = new Vector2(28, 0);
+                }
+                else
+                    label.alignment = TextAlignmentOptions.Center;
             }
             Prop(label, (Value<string>?)text, (item, value) => item.text = value);
         }
@@ -542,6 +551,12 @@ namespace Pine
                 ((RectTransform)toggle.transform).anchorMin = new Vector2(0, .5f);
                 ((RectTransform)toggle.transform).anchorMax = new Vector2(1, .5f);
                 ((RectTransform)toggle.transform).sizeDelta = new Vector2(0, 32);
+                var mark = toggle.graphic?.transform as RectTransform;
+                if (mark != null)
+                {
+                    mark.anchorMin = mark.anchorMax = new Vector2(1, .5f);
+                    mark.anchoredPosition = new Vector2(-14, 0);
+                }
             }
             ReparentPart(parts, "item", content, supplied);
             if (toggle != null)
@@ -552,9 +567,7 @@ namespace Pine
                     ? (Graphic)toggle.GetComponentInChildren<TMP_Text>(true)
                     : toggle.GetComponentInChildren<UnityEngine.UI.Text>(true);
                 if (text == null && owned && missing("itemText"))
-                    text = tmp
-                        ? (Graphic)TMPPart(toggle.transform, "Item label", "")
-                        : LegacyPart(toggle.transform, "Item label", "");
+                    text = DropdownLabel(toggle.transform, "Item label", tmp);
             }
             if (owned)
                 template.gameObject.SetActive(false);
@@ -572,6 +585,14 @@ namespace Pine
             return image;
         }
 
+        private static Graphic DropdownLabel(Transform parent, string name, bool tmp)
+        {
+            Graphic label = tmp ? (Graphic)TMPPart(parent, name, "") : LegacyPart(parent, name, "");
+            label.rectTransform.offsetMin = new Vector2(28, 0);
+            label.rectTransform.offsetMax = new Vector2(-28, 0);
+            return label;
+        }
+
         private static void WireDropdown(
             TMP_Dropdown dropdown,
             Dictionary<string, Component> parts,
@@ -580,7 +601,7 @@ namespace Pine
         )
         {
             if (dropdown.captionText == null && missing("captionText"))
-                dropdown.captionText = TMPPart(dropdown.transform, "Label", "");
+                dropdown.captionText = (TMP_Text)DropdownLabel(dropdown.transform, "Label", true);
             Component item = null;
             parts?.TryGetValue("item", out item);
             var built = DropdownTemplate(
@@ -615,7 +636,11 @@ namespace Pine
         )
         {
             if (dropdown.captionText == null && missing("captionText"))
-                dropdown.captionText = LegacyPart(dropdown.transform, "Label", "");
+                dropdown.captionText = (UnityEngine.UI.Text)DropdownLabel(
+                    dropdown.transform,
+                    "Label",
+                    false
+                );
             Component item = null;
             parts?.TryGetValue("item", out item);
             var built = DropdownTemplate(

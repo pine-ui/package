@@ -11,7 +11,7 @@ namespace Pine.Tests
     {
         private static readonly string[] Cases =
         {
-            "P.Vertical(children: new[] { P.Text(\"Typed\", color: UnityEngine.Color.white), P.Button(\"Click\", onClick: () => {}) }); P.Frame(children: () => new[] { P.Text(\"Reactive\") }, components: new[] { P.LayoutElement(preferredHeight: 40) }); var handle = P.Ref<UnityEngine.UI.Graphic>(); P.Slider(fill: P.Image(), handle: P.Image(reference: handle), targetGraphic: handle); P.ScrollRect(content: P.Vertical(children: new[] { P.Text(\"Row\") }), viewport: P.Frame());",
+            "P.Vertical(children: new[] { P.Text(\"Typed\", color: UnityEngine.Color.white), P.Button(\"Click\", onClick: () => {}) }); P.Frame(children: () => new[] { P.Text(\"Reactive\") }, components: new[] { P.LayoutElement(preferredHeight: 40) }); var handle = P.Ref<UnityEngine.UI.Graphic>(); P.Slider(fill: P.Image(), handle: P.Image(reference: handle), targetGraphic: handle); P.ScrollRect(content: P.Vertical(children: new[] { P.Text(\"Row\") }), viewport: P.Frame()); P.Declare<UnityEngine.Canvas>(properties: new[] { P.Name(\"Custom\") });",
             "P.Text(color: true);",
             "P.Button(colors: UnityEngine.Color.white);",
             "P.Button(children: new[] { P.Size(80, 20) });",
@@ -20,6 +20,7 @@ namespace Pine.Tests
             "P.Show(() => true, () => 1).Value = new[] { 2 };",
             "P.Show(() => true, () => 1).Value[0] = 2;",
             "P.Values(() => new[] { 1 }, (value, index) => { index.Value = 2; return value; });",
+            "P.Declare<UnityEngine.Canvas>(properties: new Pine.IProperty<UnityEngine.UI.Button>[] { P.Enabled(true) });",
         };
         private static int _index;
         private static readonly string DirectoryPath = "Library/PineCompilerChecks";

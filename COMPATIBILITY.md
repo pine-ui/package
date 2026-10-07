@@ -1,5 +1,24 @@
 # Pine compatibility
 
+## Unreleased declarative extensions
+
+Verified on 2026-10-07 against Unity 6000.3.0f1 and 6000.3.25f1 on Windows, with uGUI 2.0.0 and Input System 1.20.1. The published 1.1.0 results below remain historical.
+
+| Check | Result in each Editor |
+| --- | --- |
+| Native Edit / authoring / native Play | 82 / 32 / 8 assertions passed. |
+| Compiler | One valid declaration and 9 expected compile-negative cases passed. |
+| Startup | 13 assertions passed; another 13 passed in each of two sessions with domain reload disabled. |
+| Interaction/render | 50 assertions passed; captured desktop renders inspected visually. |
+| Runtime graph contract | 8 checks passed, including incompatible declared parts and reference cleanup/recovery after rejected construction. |
+| Setup | Missing-only defaults and unrelated dirty asset preservation passed. |
+
+`P.Declare<T>` accepts existing typed reactive properties in both overloads, snapshots property arrays, and applies properties before optional configuration and activation. Mount checks cover updates, forward references, dependent-link clearing and disposal cleanup. A compiler-negative case rejects properties for the wrong component type.
+
+The expanded interaction fixture exercises linked horizontal/vertical scrollbars and all visibility modes, world-space pointer input, TMP/legacy text/image/mixed dropdowns, multiline TMP input with a declared viewport/caret/scrollbar, changing ToggleGroup membership, and visible native Normal/Highlighted/Pressed/Selected/Disabled animation states. Input uses simulated devices and queued Game View text events. This also exposed and fixed generated-part layout errors in scroll viewports, toggle captions/checkmarks and dropdown images/captions.
+
+.NET checks passed 57 core assertions, 21 regressions and 28 generator checks; the Release generator build had zero warnings/errors and matched the bundled DLL by SHA-256. The pinned C# formatter passed. No new standalone, hardware, multiplayer routing, mobile, WebGL, IL2CPP/AOT or performance verification was added. Typed settings/events/references plus runtime graph validation is the verified contract; these results do not prove every possible native/custom Inspector graph or future Unity API is declaratively covered.
+
 ## 1.1.0 declarative authoring
 
 Manifest baseline: Unity 6000.3, uGUI 2.0.0 and Input System 1.20.1, with Unity's built-in animation module. The catalog contains 46 factories; newer native types/members remain version-gated.

@@ -5,7 +5,7 @@ Run `dotnet run --project Tests~/Core/Pine.Tests.csproj` with .NET 8+, and `dotn
 Create a disposable Unity project with Pine installed. Copy `Unity/*.cs` into `Assets/Editor`. For the native Play check also import the Composition sample. Run these batch entry points without `-quit`; fixtures exit themselves:
 
 - `Pine.Tests.PineNativeChecks.Run`: all authorable factories, defaults, native structs, props, source write-back, attachments, retained children and context.
-- `Pine.Tests.PineInteractionChecks.Run`: simulated input through native control/event paths and captured camera rendering; import the Composition sample first.
+- `Pine.Tests.PineInteractionChecks.Run`: simulated input through native control/event paths and captured camera/world-space rendering; includes linked scrollbars, TMP/legacy image dropdowns, multiline input, dynamic toggle groups and native Animator transitions. Import the Composition sample first; copy `PineComplexChecks.cs` along with the other fixtures.
 - `Pine.Tests.PineNativeChecks.RunPlay`: generated sample startup, behaviour initialization, dropdown opening and destruction cleanup.
 - `Pine.Tests.PineStartupChecks.Run`: generated App startup, hiding, source updates, scene and external-parent lifetime.
 - `Pine.Tests.PineStartupChecks.RunWithoutDomainReload`: two Play sessions with domain reload disabled, restoring the original Editor setting afterward.

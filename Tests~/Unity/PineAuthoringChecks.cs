@@ -9,6 +9,13 @@ using UnityEngine.InputSystem.UI;
 #endif
 namespace Pine.Tests
 {
+    public sealed class PineCustomProbe : MonoBehaviour
+    {
+        public float Amount;
+        public TMP_Text Label;
+        public int Updates;
+    }
+
     internal static class PineAuthoringChecks
     {
         private static int _count;
@@ -450,6 +457,105 @@ namespace Pine.Tests
             }
             saved.Invoke(null);
             Check(events == 1, "EventTrigger callbacks detach with their native owner.");
+
+            var amount = P.Source(2f);
+            var custom = P.Ref<PineCustomProbe>();
+            var customLabel = P.Ref<TMP_Text>();
+            var customChildren = P.Source<IReadOnlyList<View>>(
+                new[] { P.Text("Custom", reference: customLabel) }
+            );
+            var customProperties = new IProperty<PineCustomProbe>[]
+            {
+                P.Set<PineCustomProbe, float>(
+                    "Amount",
+                    (target, value) =>
+                    {
+                        target.Amount = value;
+                        target.Updates++;
+                    },
+                    amount
+                ),
+                P.Set<PineCustomProbe, TMP_Text>(
+                    "Label",
+                    (target, value) => target.Label = value,
+                    customLabel
+                ),
+            };
+            PineCustomProbe customNative;
+            int updates;
+            var customView = P.Declare<PineCustomProbe>(
+                reference: custom,
+                properties: customProperties,
+                children: () => customChildren.Value
+            );
+            customProperties[0] = P.Set<PineCustomProbe, float>(
+                "Amount",
+                (target, value) => target.Amount = value,
+                100
+            );
+            using (var mount = P.Mount(customView))
+            {
+                customNative = custom.Value;
+                Check(
+                    customNative.Amount == 2 && customNative.Label == customLabel.Value,
+                    "Custom declarations accept typed initial settings and forward relationships."
+                );
+                amount.Value = 7;
+                Check(
+                    customNative.Amount == 7,
+                    "Custom settings update reactively without configure."
+                );
+                customChildren.Value = Array.Empty<View>();
+                Check(
+                    customNative.Label == null,
+                    "Removed custom targets clear their reactive relationship."
+                );
+                updates = customNative.Updates;
+            }
+            amount.Value = 9;
+            Check(
+                custom.Value == null && customNative.Updates == updates,
+                "Custom property bindings detach with their declaration owner."
+            );
+            using (
+                var mount = P.Mount(
+                    P.Declare<PineCustomProbe>(
+                        reference: custom,
+                        properties: new[]
+                        {
+                            P.Set<PineCustomProbe, float>(
+                                "Amount",
+                                (target, value) => target.Amount = value,
+                                amount
+                            ),
+                        }
+                    )
+                )
+            )
+                Check(
+                    custom.Value.Amount == 9,
+                    "Static custom declarations accept the same typed property contract."
+                );
+            var defaultToggle = P.Ref<Toggle>();
+            using (var mount = P.Mount(P.Toggle("No overlap", reference: defaultToggle)))
+            {
+                var caption = mount.Root.GetComponentInChildren<TMP_Text>();
+                Check(
+                    RectTransformUtility
+                        .CalculateRelativeRectTransformBounds(
+                            mount.Root.transform,
+                            caption.transform
+                        )
+                        .min.x
+                        > RectTransformUtility
+                            .CalculateRelativeRectTransformBounds(
+                                mount.Root.transform,
+                                defaultToggle.Value.graphic.transform
+                            )
+                            .max.x,
+                    "Default toggle caption and checkmark occupy separate visible regions."
+                );
+            }
             Debug.Log($"PINE_AUTHORING_EDIT_PASSED {_count}");
         }
     }
