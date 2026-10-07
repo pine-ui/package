@@ -83,7 +83,11 @@ namespace Pine
             return resource;
         }
 
-        internal void Release(IDisposable resource) => _resources?.Remove(resource);
+        internal void Release(IDisposable resource)
+        {
+            if (!IsDisposed)
+                _resources?.Remove(resource);
+        }
 
         internal void Reset()
         {
@@ -112,6 +116,8 @@ namespace Pine
                 return;
             }
             ReactiveRuntime.BatchDepth++;
+            Observer previous = ReactiveRuntime.Observer;
+            ReactiveRuntime.Observer = null;
             try
             {
                 while (_resources.Count > 0)
@@ -121,7 +127,7 @@ namespace Pine
                     _resources.RemoveAt(index);
                     try
                     {
-                        P.Untrack(resource.Dispose);
+                        resource.Dispose();
                     }
                     catch (Exception error)
                     {
@@ -131,9 +137,17 @@ namespace Pine
             }
             finally
             {
+                ReactiveRuntime.Observer = previous;
                 _contexts?.Clear();
                 ReactiveRuntime.BatchDepth--;
-                ReactiveRuntime.Flush();
+                try
+                {
+                    ReactiveRuntime.Flush();
+                }
+                catch (Exception error)
+                {
+                    (errors ??= new List<Exception>()).Add(error);
+                }
             }
             if (errors != null)
                 throw new AggregateException("Pine cleanup failed.", errors);

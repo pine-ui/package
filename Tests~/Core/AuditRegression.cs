@@ -11,6 +11,132 @@ internal static class AuditRegression
     public static int Run()
     {
         Run(
+            "source value adapters track without allocating getter delegates",
+            () =>
+            {
+                var source = P.Source(1);
+                Value<int> warm = source;
+                long before = GC.GetAllocatedBytesForCurrentThread();
+                int total = 0;
+                for (int index = 0; index < 1000; index++)
+                {
+                    Value<int> value = source;
+                    if (!value.IsDynamic)
+                        throw new Exception("A source adapter must stay reactive.");
+                    total += value.Read();
+                }
+                long allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+                Equal(1000, total);
+                if (allocated > 4096)
+                    throw new Exception("Source adapters allocated " + allocated + " bytes.");
+                int observed = 0;
+                using var root = P.Root(() => P.Effect(() => observed = warm.Read()));
+                source.Value = 2;
+                Equal(2, observed);
+            }
+        );
+        Run(
+            "spring position control publishes immediately",
+            () =>
+            {
+                using var root = P.Root(() =>
+                {
+                    var spring = P.Spring(() => 0d);
+                    int updates = 0;
+                    P.Effect(() =>
+                    {
+                        _ = spring.Value;
+                        updates++;
+                    });
+                    spring.Control(position: 5d);
+                    Equal(5d, spring.Value);
+                    Equal(2, updates);
+                    spring.Value = 3d;
+                    Equal(3d, spring.Value);
+                    Equal(3, updates);
+                });
+            }
+        );
+        Run(
+            "spring rejects overflowing accumulated impulses without changing velocity",
+            () =>
+            {
+                using var root = P.Root(() =>
+                {
+                    var spring = P.Spring(() => 0d);
+                    spring.Control(impulse: double.MaxValue);
+                    Throws(() => spring.Control(impulse: double.MaxValue));
+                    spring.Control(velocity: 0d);
+                    P.Step(1d / 120d);
+                    Equal(0d, spring.Value);
+                });
+            }
+        );
+        Run(
+            "unrepresentable spring coefficients fail instead of snapping",
+            () =>
+            {
+                using var root = P.Root(() =>
+                {
+                    Throws(() => P.Spring(() => 0d, dampingRatio: 1e200));
+                    Throws(() => P.Spring(() => 0d, period: double.Epsilon));
+                });
+            }
+        );
+        Run(
+            "spring integration overflow cannot publish nonfinite output",
+            () =>
+            {
+                using var root = P.Root(() =>
+                {
+                    var spring = P.Spring(() => double.MaxValue);
+                    spring.Value = -double.MaxValue;
+                    Throws(() => P.Step(1d / 120d));
+                    Equal(-double.MaxValue, spring.Value);
+                    spring.Control(position: 0d, velocity: 0d);
+                    Equal(0d, spring.Value);
+                });
+            }
+        );
+        Run(
+            "bulk disposal avoids per-resource delegate allocation",
+            () =>
+            {
+                var root = P.Root(() =>
+                {
+                    for (int index = 0; index < 1000; index++)
+                        P.Effect(() => { });
+                });
+                long before = GC.GetAllocatedBytesForCurrentThread();
+                root.Dispose();
+                long allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+                if (allocated > 4096)
+                    throw new Exception("Bulk cleanup allocated " + allocated + " bytes.");
+            }
+        );
+        Run(
+            "cleanup and resulting update failures are both reported",
+            () =>
+            {
+                var source = P.Source(0);
+                using var observer = P.Root(() =>
+                    P.Effect(() =>
+                    {
+                        if (source.Value != 0)
+                            throw new InvalidOperationException("update");
+                    })
+                );
+                var root = P.Root(() =>
+                {
+                    P.Cleanup(() => source.Value = 1);
+                    P.Cleanup(() => throw new InvalidOperationException("cleanup"));
+                });
+                var errors = Throws(root.Dispose).Flatten().InnerExceptions;
+                Equal("cleanup,update", string.Join(",", errors.Select(error => error.Message)));
+                Equal(true, root.IsDisposed);
+            }
+        );
+        Run(
             "effect failures do not drop independent updates",
             () =>
             {

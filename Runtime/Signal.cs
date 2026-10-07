@@ -30,14 +30,17 @@ namespace Pine
         {
             Writable = source ?? throw new ArgumentNullException(nameof(source));
             _literal = default;
-            _read = () => source.Value;
+            _read = null;
         }
 
         /// <summary>Reports whether this adapter wraps a getter.</summary>
-        public bool IsDynamic => _read != null;
+        public bool IsDynamic => Writable != null || _read != null;
 
         /// <summary>Returns the literal or invokes its getter with normal dependency tracking.</summary>
-        public T Read() => _read == null ? _literal : _read();
+        public T Read() =>
+            Writable != null ? Writable.Value
+            : _read == null ? _literal
+            : _read();
 
         /// <summary>Converts a typed literal, getter or supported reactive value into a literal-or-getter adapter.</summary>
         public static implicit operator Value<T>(T value) => new(value);

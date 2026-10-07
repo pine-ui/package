@@ -1,5 +1,24 @@
 # Pine compatibility
 
+## Source audit — 2026-10-07
+
+The source-audit patch was executed against the committed uGUI implementation based on `eb502c4`, in separate Windows projects using Unity 6000.3.0f1 and 6000.3.25f1, uGUI 2.0.0 and Input System 1.20.1.
+
+| Check | Result in each Editor |
+| --- | --- |
+| Native Edit / authoring / native Play | 82 / 48 / 12 assertions passed. |
+| Safe-area geometry / runtime lifecycle | 31 synthetic geometry assertions / 12 Play assertions passed. |
+| Interaction/render | 50 assertions passed; desktop render captures produced. |
+| Compiler | One valid declaration and 9 expected compile-negative cases passed. |
+| Startup | 13 assertions; 13 assertions in each of two sessions with domain reload disabled. |
+| Runtime graph contract / setup | 8 graph checks; missing-only defaults and unrelated dirty asset preservation passed. |
+
+The patch fixes Active property activation ordering, stable ordering when an assignment delegate is reused, never-active object cleanup, simultaneous cleanup/update error reporting, immediate spring position control, finite-number overflow handling and native component types named View in generated factories. It reuses scoped event handling and removes redundant cleanup scans, getter/delegate allocations and the grid-validation Transform enumerator. .NET checks passed 57 core assertions, 28 regressions and 30 generator checks; the Release compiler plugin matches its source.
+
+`SafeAreaProperty` maps Player-window pixels into the actual parent rect and follows parent/canvas/camera geometry changes. It supports axis-aligned screen-space overlay and camera canvases, including partial-screen, translated or scaled parents. The follower rect must be unrotated, unscaled and in its parent's plane; its parent must be unrotated relative to the Canvas. World-space canvases and unsupported transforms are rejected. Disabling the helper restores the supplied anchors and offsets. Synthetic desktop cutouts and actual Play callbacks were checked; physical mobile cutouts were not.
+
+A warmed .NET 8 Release benchmark (median of five samples) reduced disposal of 20,000 empty effects from 255.516 ms / 1,280,000 allocated bytes to 0.464 ms / 0 allocated bytes. This establishes the bulk-cleanup improvement; it is not a Unity frame-time benchmark. Standalone, mobile, WebGL and IL2CPP/AOT remain unverified. Concurrent UI Toolkit development is covered by its own verification.
+
 ## Unreleased declarative extensions
 
 Verified on 2026-10-07 against Unity 6000.3.0f1 and 6000.3.25f1 on Windows, with uGUI 2.0.0 and Input System 1.20.1. The published 1.1.0 results below remain historical.

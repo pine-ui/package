@@ -8,9 +8,10 @@ namespace Pine
     {
         internal void Validate(Vector2 size)
         {
-            foreach (Transform child in transform)
+            var root = transform;
+            for (int index = 0, count = root.childCount; index < count; index++)
             {
-                var sizing = child.GetComponent<PineSize>();
+                var sizing = root.GetChild(index).GetComponent<PineSize>();
                 if (sizing == null)
                     continue;
                 Check(sizing.ExactWidth, size.x);

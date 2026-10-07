@@ -16,6 +16,26 @@ namespace Pine.Tests
         public int Updates;
     }
 
+    [ExecuteAlways]
+    public sealed class PineActivationProbe : MonoBehaviour
+    {
+        public bool Configured;
+        public static int PrematureAwake;
+        public static int PrematureEnable;
+
+        private void Awake()
+        {
+            if (!Configured)
+                PrematureAwake++;
+        }
+
+        private void OnEnable()
+        {
+            if (!Configured)
+                PrematureEnable++;
+        }
+    }
+
     internal static class PineAuthoringChecks
     {
         private static int _count;
@@ -556,7 +576,239 @@ namespace Pine.Tests
                     "Default toggle caption and checkmark occupy separate visible regions."
                 );
             }
+            ActiveProperties();
+            EventProperties();
             Debug.Log($"PINE_AUTHORING_EDIT_PASSED {_count}");
+        }
+
+        private static void ActiveProperties()
+        {
+            PineActivationProbe.PrematureAwake = 0;
+            PineActivationProbe.PrematureEnable = 0;
+            var configured = P.Set<PineActivationProbe, bool>(
+                "Configured",
+                (target, value) => target.Configured = value,
+                true
+            );
+            using (
+                var mount = P.Mount(
+                    P.Declare<PineActivationProbe>(
+                        properties: new IProperty<PineActivationProbe>[]
+                        {
+                            P.Active(false),
+                            configured,
+                        }
+                    )
+                )
+            )
+                Check(
+                    !mount.Root.activeSelf,
+                    "Literal Active properties preserve initial inactivity."
+                );
+
+            using (
+                var mount = P.Mount(
+                    P.Declare<PineActivationProbe>(
+                        properties: new IProperty<PineActivationProbe>[]
+                        {
+                            P.Active(true),
+                            configured,
+                        }
+                    )
+                )
+            )
+                Check(
+                    mount.Root.activeSelf,
+                    "Literal Active properties activate fully configured views."
+                );
+
+            var active = P.Source(false);
+            var probe = P.Ref<PineActivationProbe>();
+            using (
+                var mount = P.Mount(
+                    P.Declare<PineActivationProbe>(
+                        reference: probe,
+                        properties: new IProperty<PineActivationProbe>[]
+                        {
+                            P.Active(active),
+                            configured,
+                        }
+                    )
+                )
+            )
+            {
+                Check(
+                    !mount.Root.activeSelf,
+                    "Source Active properties preserve initial inactivity."
+                );
+                active.Value = true;
+                Check(
+                    mount.Root.activeSelf,
+                    "Active property Sources activate the configured graph."
+                );
+                active.Value = false;
+                Check(
+                    !mount.Root.activeSelf,
+                    "Active property Sources can deactivate retained views."
+                );
+            }
+            active.Value = true;
+            Check(
+                probe.Value == null,
+                "Active property bindings and references end with their owner."
+            );
+
+            using (
+                var mount = P.Mount(
+                    P.Frame(
+                        components: new[]
+                        {
+                            P.Declare<PineActivationProbe>(
+                                modifier: true,
+                                properties: new[]
+                                {
+                                    P.Group<PineActivationProbe>(
+                                        P.Group<PineActivationProbe>(P.Active(active)),
+                                        configured
+                                    ),
+                                }
+                            ),
+                        }
+                    )
+                )
+            )
+            {
+                Check(
+                    mount.Root.activeSelf,
+                    "Grouped modifier Active properties control their visual owner."
+                );
+                active.Value = false;
+                Check(
+                    !mount.Root.activeSelf,
+                    "Grouped modifier Active properties retain reactive updates."
+                );
+            }
+
+            active.Value = false;
+            using (
+                var mount = P.Mount(
+                    P.Declare<PineActivationProbe>(
+                        reference: _ => active.Value = true,
+                        properties: new IProperty<PineActivationProbe>[]
+                        {
+                            P.Active(active),
+                            configured,
+                        }
+                    )
+                )
+            )
+                Check(
+                    mount.Root.activeSelf,
+                    "Active properties read Source changes from reference callbacks before activation."
+                );
+
+            bool rejected = false;
+            try
+            {
+                using var mount = P.Mount(
+                    P.Declare<PineActivationProbe>(
+                        active: false,
+                        properties: new IProperty<PineActivationProbe>[]
+                        {
+                            P.Active(true),
+                            configured,
+                        }
+                    )
+                );
+            }
+            catch (InvalidOperationException)
+            {
+                rejected = true;
+            }
+            Check(
+                rejected,
+                "Named active and Active properties reject conflicting activation declarations."
+            );
+            Check(
+                PineActivationProbe.PrematureAwake == 0 && PineActivationProbe.PrematureEnable == 0,
+                "Active properties defer Awake and OnEnable until all native settings are configured."
+            );
+
+            using (
+                var scope = P.Root(() =>
+                {
+                    var native = P.Create<RectTransform>(P.Active(false));
+                    Check(
+                        !native.gameObject.activeSelf,
+                        "Imperative Active properties retain immediate application."
+                    );
+                })
+            ) { }
+
+            var order = new List<int>();
+            var repeated = P.Action<RectTransform>(_ => order.Add(4));
+            using (
+                var mount = P.Mount(
+                    P.Declare<RectTransform>(
+                        properties: new[]
+                        {
+                            P.Action<RectTransform>(_ => order.Add(2), 2),
+                            repeated,
+                            P.Action<RectTransform>(_ => order.Add(1), 1),
+                            repeated,
+                            P.Action<RectTransform>(_ => order.Add(3), 2),
+                        }
+                    )
+                )
+            )
+                Check(
+                    order.Count == 5
+                        && order[0] == 4
+                        && order[1] == 1
+                        && order[2] == 4
+                        && order[3] == 2
+                        && order[4] == 3,
+                    "Property actions retain priority and declaration ordering, including repeated instances."
+                );
+        }
+
+        private static void EventProperties()
+        {
+            int clicks = 0;
+            var button = P.Ref<Button>();
+            UnityEngine.Events.UnityEvent saved;
+            using (
+                var mount = P.Mount(
+                    P.Declare<Button>(
+                        reference: button,
+                        properties: new[] { P.OnClick(() => clicks++), P.OnClick(null) }
+                    )
+                )
+            )
+            {
+                saved = button.Value.onClick;
+                saved.Invoke();
+                Check(
+                    clicks == 1,
+                    "Property event adapters use native listeners and ignore absent callbacks."
+                );
+            }
+            saved.Invoke();
+            Check(clicks == 1, "Property event listeners detach with their declaration scope.");
+
+            bool rejected = false;
+            try
+            {
+                P.On<Button>(null, () => { });
+            }
+            catch (ArgumentNullException)
+            {
+                rejected = true;
+            }
+            Check(
+                rejected,
+                "Property event adapters validate their event selector at declaration."
+            );
         }
     }
 }

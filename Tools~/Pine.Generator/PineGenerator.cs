@@ -371,9 +371,7 @@ namespace Pine.Generator
                     )
                 );
                 source.Append(") =>\n        ").Append(runtime).Append(".Component<").Append(type);
-                if (
-                    !method.ReturnType.ToDisplayString().EndsWith(".View", StringComparison.Ordinal)
-                )
+                if (Inherits(method.ReturnType, "UnityEngine.Component"))
                     source.Append(", ").Append(result);
                 source.Append(">(render: instance => instance.Create(");
                 source.Append(

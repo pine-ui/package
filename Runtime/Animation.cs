@@ -242,22 +242,25 @@ namespace Pine
                 double[] next = space.Pack(target());
                 Validate(next);
                 bool reduced = P.ReducedMotion.Value;
+                if (_period != nextPeriod || _damping != nextDamping)
+                {
+                    Coefficients(
+                        2 * Math.PI / nextPeriod,
+                        nextDamping,
+                        1d / 120d,
+                        out double xx,
+                        out double xv,
+                        out double vx,
+                        out double vv
+                    );
+                    (_xx, _xv, _vx, _vv) = (xx, xv, vx, vv);
+                }
                 if (reduced)
                 {
                     _position = (double[])next.Clone();
                     System.Array.Clear(_velocity, 0, _velocity.Length);
                     _output.Value = _space.Unpack(_position);
                 }
-                if (_period != nextPeriod || _damping != nextDamping)
-                    Coefficients(
-                        2 * Math.PI / nextPeriod,
-                        nextDamping,
-                        1d / 120d,
-                        out _xx,
-                        out _xv,
-                        out _vx,
-                        out _vv
-                    );
                 _target = next;
                 _period = nextPeriod;
                 _damping = nextDamping;
@@ -277,9 +280,11 @@ namespace Pine
             }
             set
             {
-                Control(position: new Value<T>(value));
-                System.Array.Clear(_velocity, 0, _velocity.Length);
-                _output.Value = value;
+                P.Batch(() =>
+                {
+                    Control(position: new Value<T>(value));
+                    System.Array.Clear(_velocity, 0, _velocity.Length);
+                });
             }
         }
 
@@ -309,7 +314,9 @@ namespace Pine
                 double[] next = _space.Pack(impulse.Value.Read());
                 Validate(next);
                 for (int lane = 0; lane < next.Length; lane++)
-                    _velocity[lane] += next[lane];
+                    next[lane] += _velocity[lane];
+                Validate(next);
+                _velocity = next;
             }
             if (P.ReducedMotion.Peek())
             {
@@ -321,6 +328,8 @@ namespace Pine
                 return;
             }
             Activate();
+            if (position.HasValue)
+                _output.Value = _space.Unpack(_position);
         }
 
         private void Activate()
@@ -341,9 +350,12 @@ namespace Pine
             if (value.Length != _position.Length)
                 throw new ArgumentException("Spring component count cannot change.");
             foreach (double lane in value)
-                if (double.IsNaN(lane) || double.IsInfinity(lane))
+                if (!IsFinite(lane))
                     throw new ArgumentException("Spring components must be finite.");
         }
+
+        private static bool IsFinite(double value) =>
+            !double.IsNaN(value) && !double.IsInfinity(value);
 
         private void Update(double dt)
         {
@@ -366,6 +378,8 @@ namespace Pine
             bool settled = true;
             for (int lane = 0; lane < _position.Length; lane++)
             {
+                if (!IsFinite(_position[lane]) || !IsFinite(_velocity[lane]))
+                    throw new ArgumentException("Spring motion must remain finite.");
                 double tolerance = 0.00001 * Math.Max(1, Math.Abs(_target[lane]));
                 if (
                     Math.Abs(_position[lane] - _target[lane]) > tolerance
@@ -428,6 +442,11 @@ namespace Pine
                 vx = r1 * r2 * (e2 - e1) / denominator;
                 vv = (r1 * e1 - r2 * e2) / denominator;
             }
+            if (!IsFinite(xx) || !IsFinite(xv) || !IsFinite(vx) || !IsFinite(vv))
+                throw new ArgumentOutOfRangeException(
+                    nameof(damping),
+                    "Spring parameters must produce finite motion coefficients."
+                );
         }
 
         /// <summary>Ends this owned lifetime idempotently.</summary>

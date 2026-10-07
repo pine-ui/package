@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -235,10 +236,17 @@ namespace Pine
 
         /// <summary>Binds GameObject activeSelf; disabling a native object does not dispose its construction scope.</summary>
         public static IProperty<Component> Active(Value<bool> active) =>
-            Set<Component, bool>(
-                "Active",
-                (target, value) => target.gameObject.SetActive(value),
-                active
+            new Property<Component>(
+                target =>
+                {
+                    if (!View.TrySetActive(target.gameObject, active))
+                        BindValue(
+                            target,
+                            active,
+                            (item, value) => item.gameObject.SetActive(value)
+                        );
+                },
+                typeof(Component).FullName + ".Active"
             );
 
         /// <summary>Binds GameObject activeSelf; disabling a native object does not dispose its construction scope.</summary>
@@ -383,38 +391,24 @@ namespace Pine
 
         /// <summary>Registers a native UnityEvent handler for the compatible target type and removes it when the scope ends.</summary>
         public static IProperty<T> On<T>(Func<T, UnityEvent> select, Action action)
-            where T : Component =>
-            Action<T>(target =>
-            {
-                UnityEvent evt = select(target);
-                Scope scope = RequireScope();
-                UnityAction handler = () =>
-                {
-                    if (!scope.IsDisposed)
-                        scope.Run(() => Batch(() => Untrack(action)));
-                };
-                evt.AddListener(handler);
-                Cleanup(() => evt.RemoveListener(handler));
-            });
+            where T : Component
+        {
+            if (select == null)
+                throw new ArgumentNullException(nameof(select));
+            return Action<T>(target => Listen(select(target), action));
+        }
 
         /// <summary>Registers a native UnityEvent handler for the compatible target type and removes it when the scope ends.</summary>
         public static IProperty<T> On<T, TValue>(
             Func<T, UnityEvent<TValue>> select,
             Action<TValue> action
         )
-            where T : Component =>
-            Action<T>(target =>
-            {
-                UnityEvent<TValue> evt = select(target);
-                Scope scope = RequireScope();
-                UnityAction<TValue> handler = value =>
-                {
-                    if (!scope.IsDisposed)
-                        scope.Run(() => Batch(() => Untrack(() => action(value))));
-                };
-                evt.AddListener(handler);
-                Cleanup(() => evt.RemoveListener(handler));
-            });
+            where T : Component
+        {
+            if (select == null)
+                throw new ArgumentNullException(nameof(select));
+            return Action<T>(target => Listen(select(target), action));
+        }
 
         /// <summary>Registers an owned Button click handler.</summary>
         public static IProperty<Button> OnClick(Action action) =>
@@ -627,22 +621,11 @@ namespace Pine
             var ordered = new List<IProperty<T>>();
             Flatten(properties, ordered);
             // Stable ordering preserves declaration order for actions of equal priority.
-            var actions = new List<IProperty<T>>();
-            foreach (IProperty<T> item in ordered)
-                if (item is IOperation op && op.Priority.HasValue)
-                    actions.Add(item);
-            actions.Sort(
-                (a, b) =>
-                {
-                    int priority = ((IOperation)a).Priority.Value.CompareTo(
-                        ((IOperation)b).Priority.Value
-                    );
-                    return priority != 0
-                        ? priority
-                        : ordered.IndexOf(a).CompareTo(ordered.IndexOf(b));
-                }
-            );
-            foreach (IProperty<T> action in actions)
+            foreach (
+                IProperty<T> action in ordered
+                    .Where(item => item is IOperation op && op.Priority.HasValue)
+                    .OrderBy(item => ((IOperation)item).Priority.Value)
+            )
                 action.Apply(target);
             foreach (IProperty<T> item in ordered)
                 if (!(item is IOperation op) || (!op.Priority.HasValue && !op.Parent))

@@ -101,6 +101,20 @@ var views = Generate(
         "using Pine; public sealed class Counter:UnityEngine.MonoBehaviour { public Pine.View Create()=>new Pine.View(); }"
     )
 );
+var nativeViewName = Generate(
+    (
+        "Assets/Panel.cs",
+        "using Pine; namespace Game { public sealed class View:UnityEngine.MonoBehaviour {} public sealed class Panel:UnityEngine.MonoBehaviour { public View Create()=>new View(); } }"
+    )
+);
+Compiles(nativeViewName.Output);
+Check(
+    nativeViewName
+        .Result.GeneratedTrees.Single()
+        .ToString()
+        .Contains("P.Component<global::Game.Panel, global::Game.View>"),
+    "Native types named View retain the native factory overload"
+);
 Compiles(views.Output);
 Check(
     views.Result.GeneratedTrees.Any(t => t.ToString().Contains("P.Component<global::Counter>")),

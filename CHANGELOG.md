@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Map safe areas through parent/canvas/camera geometry, restore layout when disabled, and validate supported screen-space transforms.
+- Fix scoped cleanup error reporting, custom Active property ordering, reused-action ordering, spring control/overflow handling and source-generator handling of native types named View.
+- Remove bulk-disposal list scans and per-resource delegates, index native observation cleanup, and reuse source references without allocating getter adapters.
+- Reuse the native event lifetime implementation and avoid Transform enumerator allocation in grid validation.
 - Accept typed reactive `properties` in custom `P.Declare<T>` declarations, with copied arrays and scoped bindings.
 - Use the native top-left scroll viewport pivot so expanding viewports do not cover linked scrollbars.
 - Keep generated toggle checkmarks, dropdown images and captions in separate layout regions.

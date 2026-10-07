@@ -653,6 +653,77 @@ namespace Pine.Tests
                 "Never-active parent disposal safely removes all child observation records."
             );
             inactive.Dispose();
+
+            var lifetimeRefs = new Ref<RectTransform>[64];
+            var lifetimeViews = new View[lifetimeRefs.Length];
+            var lifetimeName = P.Source("Owned");
+            int lifetimeReads = 0;
+            for (int i = 0; i < lifetimeViews.Length; i++)
+            {
+                lifetimeRefs[i] = P.Ref<RectTransform>();
+                lifetimeViews[i] = P.Frame(
+                    active: false,
+                    reference: lifetimeRefs[i],
+                    name: new Value<string>(() =>
+                    {
+                        lifetimeReads++;
+                        return lifetimeName.Value;
+                    })
+                );
+            }
+            var firstGroup = P.Ref<RectTransform>();
+            using (
+                var lifetimeMount = P.Mount(
+                    P.Frame(
+                        active: false,
+                        children: new[]
+                        {
+                            P.Frame(
+                                reference: firstGroup,
+                                active: false,
+                                children: lifetimeViews.Take(32).ToArray()
+                            ),
+                            P.Frame(active: false, children: lifetimeViews.Skip(32).ToArray()),
+                        }
+                    )
+                )
+            )
+            {
+                UnityEngine.Object.Destroy(firstGroup.Value.gameObject);
+                UnityEngine.Object.Destroy(lifetimeRefs[35].Value.gameObject);
+                yield return null;
+                yield return null;
+                Check(
+                    firstGroup.Value == null
+                        && lifetimeRefs.Take(32).All(reference => reference.Value == null)
+                        && lifetimeRefs[35].Value == null
+                        && lifetimeRefs
+                            .Skip(32)
+                            .Where((_, i) => i != 3)
+                            .All(reference => reference.Value != null),
+                    "Nested never-active destruction cleans every removed scope after observation swap removal."
+                );
+                int before = lifetimeReads;
+                lifetimeName.Value = "Remaining";
+                Check(
+                    lifetimeReads - before == 31,
+                    "Only surviving native scopes retain their bindings after nested destruction."
+                );
+                UnityEngine.Object.Destroy(lifetimeMount.Root);
+                yield return null;
+                yield return null;
+                Check(
+                    lifetimeMount.Scope.IsDisposed
+                        && lifetimeRefs.All(reference => reference.Value == null),
+                    "Never-active root polling removes all remaining observation records and references."
+                );
+                before = lifetimeReads;
+                lifetimeName.Value = "Disposed";
+                Check(
+                    lifetimeReads == before,
+                    "Bulk native cleanup leaves no observing child bindings."
+                );
+            }
         }
     }
 }
