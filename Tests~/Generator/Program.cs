@@ -12,10 +12,10 @@ namespace UnityEngine {
  public class RuntimeInitializeOnLoadMethodAttribute : System.Attribute { public RuntimeInitializeOnLoadMethodAttribute(RuntimeInitializeLoadType t){} }
 }
 namespace UnityEngine.Scripting { public class AlwaysLinkAssemblyAttribute : System.Attribute { } }
-namespace Pine {
+namespace Pine { public struct Value<T> { } }
+namespace Pine.uGUI {
  public class Mount { }
  public class CanvasOptions { }
- public struct Value<T> { }
  public class View { }
  public static class P {
   public static UnityEngine.RectTransform Column(float gap, params UnityEngine.Component[] children) => new();
@@ -23,7 +23,22 @@ namespace Pine {
   public static Mount Mount(System.Func<UnityEngine.GameObject> component, CanvasOptions options = null) => new();
   public static Mount Mount(System.Func<View> component, CanvasOptions options = null) => new();
   public static View Component<T>(System.Func<T,View> render) where T:UnityEngine.MonoBehaviour => new();
+  public static View Component(System.Func<View> render) => new();
   public static TView Component<T,TView>(System.Func<T,TView> render) where T:UnityEngine.MonoBehaviour where TView:UnityEngine.Component => null;
+ }
+}
+namespace UnityEngine.UIElements { public class VisualElement { } }
+namespace Pine.UIToolkit {
+ public class View { }
+ public class Mount { }
+ public class PanelOptions { }
+ public static class P {
+  public static Mount Mount(System.Func<View> component, PanelOptions options=null)=>new();
+  public static Mount Mount(System.Func<UnityEngine.UIElements.VisualElement> component, PanelOptions options=null)=>new();
+  public static View Component(System.Func<View> create)=>new();
+  public static View Component<T>(System.Func<T,View> render) where T:UnityEngine.MonoBehaviour=>new();
+  public static TNative Component<T,TNative>(System.Func<T,TNative> render) where T:UnityEngine.MonoBehaviour where TNative:UnityEngine.UIElements.VisualElement=>null;
+  public static TNative Component<TNative>(System.Func<TNative> render) where TNative:UnityEngine.UIElements.VisualElement=>null;
  }
 }
 namespace Pine.CompilerServices { public static class AppStartup { public static void Register(string assembly, System.Action start){} } }
@@ -70,11 +85,11 @@ void Compiles(Compilation output)
 var good = Generate(
     (
         "Assets/UI/App.cs",
-        "using UnityEngine; public static class App { public static Component Mount() => Pine.P.Column(gap: 12, Components.Counter(title: default, initialValue: 10)); }"
+        "using UnityEngine; public static class App { public static Component Mount() => Pine.uGUI.P.Column(gap: 12, Components.Counter(title: default, initialValue: 10)); }"
     ),
     (
         "Assets/UI/Counter.cs",
-        "using Pine; using UnityEngine; public sealed class Counter : MonoBehaviour { public RectTransform Create(Value<string> title, int initialValue = 0) => new RectTransform(); }"
+        "using Pine; using Pine.uGUI; using UnityEngine; public sealed class Counter : MonoBehaviour { public RectTransform Create(Value<string> title, int initialValue = 0) => new RectTransform(); }"
     )
 );
 Compiles(good.Output);
@@ -94,11 +109,11 @@ Check(
 var views = Generate(
     (
         "Assets/App.cs",
-        "public static class App { public static Pine.View Mount() => Components.Counter(); }"
+        "public static class App { public static Pine.uGUI.View Mount() => Components.Counter(); }"
     ),
     (
         "Assets/Counter.cs",
-        "using Pine; public sealed class Counter:UnityEngine.MonoBehaviour { public Pine.View Create()=>new Pine.View(); }"
+        "using Pine; using Pine.uGUI; public sealed class Counter:UnityEngine.MonoBehaviour { public Pine.uGUI.View Create()=>new Pine.uGUI.View(); }"
     )
 );
 Compiles(views.Output);
@@ -113,22 +128,22 @@ Check(
 var childFactories = Generate(
     (
         "Assets/App.cs",
-        "using Pine; public static class App { public static View Mount() => Components.Container(children: new[] { Components.Rows(children: () => new[] { new View() }) }); }"
+        "using Pine; using Pine.uGUI; public static class App { public static View Mount() => Components.Container(children: new[] { Components.Rows(children: () => new[] { new View() }) }); }"
     ),
     (
         "Assets/Container.cs",
-        "using Pine; public sealed class Container:UnityEngine.MonoBehaviour { public View Create(View[] children = null)=>new View(); }"
+        "using Pine; using Pine.uGUI; public sealed class Container:UnityEngine.MonoBehaviour { public View Create(View[] children = null)=>new View(); }"
     ),
     (
         "Assets/Rows.cs",
-        "using Pine; public sealed class Rows:UnityEngine.MonoBehaviour { public View Create(System.Func<System.Collections.Generic.IEnumerable<View>> children)=>new View(); }"
+        "using Pine; using Pine.uGUI; public sealed class Rows:UnityEngine.MonoBehaviour { public View Create(System.Func<System.Collections.Generic.IEnumerable<View>> children)=>new View(); }"
     )
 );
 Compiles(childFactories.Output);
 var advanced = Generate(
     (
         "Assets/App.cs",
-        "public static class App { public static Pine.Mount Mount() => Pine.P.Mount(component: () => new UnityEngine.RectTransform()); }"
+        "public static class App { public static Pine.uGUI.Mount Mount() => Pine.uGUI.P.Mount(component: () => new UnityEngine.RectTransform()); }"
     )
 );
 Compiles(advanced.Output);
@@ -139,7 +154,7 @@ Check(
 var options = Generate(
     (
         "Assets/App.cs",
-        "public static class App { public static Pine.CanvasOptions Options => new Pine.CanvasOptions(); public static UnityEngine.Component Mount()=>new UnityEngine.RectTransform(); }"
+        "public static class App { public static Pine.uGUI.CanvasOptions Options => new Pine.uGUI.CanvasOptions(); public static UnityEngine.Component Mount()=>new UnityEngine.RectTransform(); }"
     )
 );
 Compiles(options.Output);
@@ -181,7 +196,7 @@ Check(
 var namespaced = Generate(
     (
         "Assets/App.cs",
-        "using Pine; namespace Game.UI { public static class App { public static UnityEngine.Component Mount()=> Components.Clock(); } public sealed class Clock:UnityEngine.MonoBehaviour { public UnityEngine.RectTransform Create(int mode=1, string label=\"Time\")=>new UnityEngine.RectTransform(); } }"
+        "using Pine; using Pine.uGUI; namespace Game.UI { public static class App { public static UnityEngine.Component Mount()=> Components.Clock(); } public sealed class Clock:UnityEngine.MonoBehaviour { public UnityEngine.RectTransform Create(int mode=1, string label=\"Time\")=>new UnityEngine.RectTransform(); } }"
     )
 );
 Compiles(namespaced.Output);
@@ -199,14 +214,14 @@ Check(ignored.Result.GeneratedTrees.Length == 0, "Editor entry files are not run
 var badProp = Generate(
     (
         "Assets/Counter.cs",
-        "using Pine; public sealed class Counter:UnityEngine.MonoBehaviour { public UnityEngine.RectTransform Create(ref int value)=>new UnityEngine.RectTransform(); }"
+        "using Pine; using Pine.uGUI; public sealed class Counter:UnityEngine.MonoBehaviour { public UnityEngine.RectTransform Create(ref int value)=>new UnityEngine.RectTransform(); }"
     )
 );
 Check(badProp.Result.Diagnostics.Any(d => d.Id == "PINE001"), "Ref props get a clear diagnostic");
 var special = Generate(
     (
         "Assets/Gauge.cs",
-        "using Pine; public sealed class Gauge:UnityEngine.MonoBehaviour { public UnityEngine.RectTransform Create(float low=float.NaN, double high=double.PositiveInfinity)=>new UnityEngine.RectTransform(); }"
+        "using Pine; using Pine.uGUI; public sealed class Gauge:UnityEngine.MonoBehaviour { public UnityEngine.RectTransform Create(float low=float.NaN, double high=double.PositiveInfinity)=>new UnityEngine.RectTransform(); }"
     )
 );
 Compiles(special.Output);
@@ -242,12 +257,96 @@ var partialComponent = Generate(
     ("Assets/ClockFields.cs", "public sealed partial class Clock:UnityEngine.MonoBehaviour {}"),
     (
         "Assets/Clock.cs",
-        "using Pine; public sealed partial class Clock { public UnityEngine.RectTransform Create()=>new UnityEngine.RectTransform(); }"
+        "using Pine; using Pine.uGUI; public sealed partial class Clock { public UnityEngine.RectTransform Create()=>new UnityEngine.RectTransform(); }"
     )
 );
 Compiles(partialComponent.Output);
 Check(
     partialComponent.Result.GeneratedTrees.Length == 1,
     "Component opt-in works across partial declarations"
+);
+var toolkit = Generate(
+    (
+        "Assets/App.cs",
+        "using Pine; using Pine.UIToolkit; public static class App { public static PanelOptions Options=>new(); public static View Mount()=>Components.Card(); }"
+    ),
+    (
+        "Assets/Card.cs",
+        "using Pine; using Pine.UIToolkit; public static class Card { public static View Create(int initial=0)=>new(); }"
+    )
+);
+Compiles(toolkit.Output);
+Check(
+    toolkit.Result.GeneratedTrees.Any(t =>
+        t.ToString().Contains("global::Pine.UIToolkit.P.Component(() => global::Card.Create(")
+    ),
+    "Plain toolkit components own their setup scopes"
+);
+Check(
+    toolkit.Result.GeneratedTrees.Any(t =>
+        t.ToString().Contains("global::Pine.CompilerServices.AppStartup.Register")
+    ),
+    "Both renderers share startup coordination"
+);
+var mixed = Generate(
+    (
+        "Assets/U.cs",
+        "using Pine; using Pine.uGUI; public sealed class U:UnityEngine.MonoBehaviour { public View Create()=>new(); }"
+    ),
+    (
+        "Assets/T.cs",
+        "using Pine; using Pine.UIToolkit; public sealed class T:UnityEngine.MonoBehaviour { public View Create()=>new(); }"
+    )
+);
+Compiles(mixed.Output);
+Check(
+    mixed.Result.GeneratedTrees.Single().ToString().Contains("global::Pine.uGUI.P.Component")
+        && mixed
+            .Result.GeneratedTrees.Single()
+            .ToString()
+            .Contains("global::Pine.UIToolkit.P.Component"),
+    "Component factories select their native renderer independently"
+);
+var nativeViewName = Generate(
+    (
+        "Assets/Panel.cs",
+        "using Pine; using Pine.uGUI; namespace Game { public sealed class View:UnityEngine.MonoBehaviour {} public sealed class Panel:UnityEngine.MonoBehaviour { public View Create()=>new View(); } }"
+    )
+);
+Compiles(nativeViewName.Output);
+Check(
+    nativeViewName
+        .Result.GeneratedTrees.Single()
+        .ToString()
+        .Contains("P.Component<global::Game.Panel, global::Game.View>"),
+    "Native types named View retain the native factory overload"
+);
+var editorComponent = Generate(
+    (
+        "Assets/Editor/InspectorCard.cs",
+        "using Pine; using Pine.UIToolkit; public static class InspectorCard { public static View Create()=>new(); }"
+    )
+);
+Compiles(editorComponent.Output);
+Check(
+    editorComponent
+        .Result.GeneratedTrees.Single()
+        .ToString()
+        .Contains("global::InspectorCard.Create("),
+    "Editor components receive scoped generated factories"
+);
+var nativeToolkit = Generate(
+    (
+        "Assets/NativePanel.cs",
+        "using Pine; using Pine.UIToolkit; public sealed class NativePanel:UnityEngine.MonoBehaviour { public UnityEngine.UIElements.VisualElement Create()=>new(); }"
+    )
+);
+Compiles(nativeToolkit.Output);
+Check(
+    nativeToolkit
+        .Result.GeneratedTrees.Single()
+        .ToString()
+        .Contains("P.Component<global::NativePanel, global::UnityEngine.UIElements.VisualElement>"),
+    "Native toolkit components select native lifecycle factories"
 );
 Console.WriteLine($"Pine generator: {checks} checks passed.");

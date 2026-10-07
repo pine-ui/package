@@ -1,4 +1,5 @@
 using Pine;
+using Pine.uGUI;
 using UnityEngine;
 
 namespace PineComposition.Examples

@@ -2,10 +2,53 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Pine
+namespace Pine.uGUI
 {
     public static partial class P
     {
+        /// <summary>Declares a reusable component with an independent setup scope.</summary>
+        public static View Component(Func<View> render) =>
+            new View(
+                null,
+                null,
+                null,
+                null,
+                false,
+                null,
+                factory: parent =>
+                {
+                    var view =
+                        render()
+                        ?? throw new InvalidOperationException("A component must return a View.");
+                    var native = view.Build(parent, false, out var active);
+                    return (native, active);
+                }
+            );
+
+        /// <summary>Runs an imperative native component factory in its own lifetime.</summary>
+        public static TView Component<TView>(Func<TView> render)
+            where TView : UnityEngine.Component
+        {
+            TView view = null;
+            var scope = OwnedRoot(() => view = render());
+            try
+            {
+                if (view == null)
+                    throw new InvalidOperationException(
+                        "A component must return a live native component."
+                    );
+                view.gameObject.AddComponent<MountLifetime>().Scope = scope;
+                RuntimeHost.Ensure();
+                RuntimeHost.Observe(new Mount { Scope = scope, Root = view.gameObject });
+                return view;
+            }
+            catch
+            {
+                scope.Dispose();
+                throw;
+            }
+        }
+
         /// <summary>Declares an owned Unity behaviour and its deferred UI.</summary>
         public static View Component<TBehaviour>(
             Func<TBehaviour, View> render,

@@ -1,7 +1,19 @@
 # Changelog
 
-## Unreleased
+## 1.2.0 — 2026-10-08
 
+- Split native declarations into `Pine.uGUI` and `Pine.UIToolkit`, with shared reactive types in `Pine`. Import the shared namespace and exactly one renderer to keep `P` unambiguous.
+- Existing users must add `using Pine.uGUI;` alongside `using Pine;`; this namespace change is breaking.
+- Add native UI Toolkit controls, inherited properties, callbacks, styles, USS/UXML, bindings, typed references, custom drawing, native Editor controls and owned virtualized row/cell templates.
+- Add code-only UI Toolkit startup and explicit mounting into borrowed runtime/Editor roots.
+- Generate owned component factories from plain C# and MonoBehaviour declarations.
+
+## 1.1.1 — 2026-10-07
+
+- Fix scoped cleanup error reporting, custom Active property ordering, reused-action ordering, spring control/overflow handling and source-generator handling of native types named View.
+- Remove bulk-disposal list scans and per-resource delegates, index native observation cleanup, and reuse source references without allocating getter adapters.
+- Reuse the native event lifetime implementation and avoid Transform enumerator allocation in grid validation.
+- Map safe areas through parent/canvas/camera geometry, restore layout when disabled, and validate supported screen-space transforms.
 - Accept typed reactive `properties` in custom `P.Declare<T>` declarations, with copied arrays and scoped bindings.
 - Use the native top-left scroll viewport pivot so expanding viewports do not cover linked scrollbars.
 - Keep generated toggle checkmarks, dropdown images and captions in separate layout regions.

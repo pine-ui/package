@@ -1,5 +1,14 @@
 # Native factory generator
 
+For the shared renderer facades and UI Toolkit declarations:
+
+```text
+dotnet run --project Tools~/NativeApi/Pine.NativeApi.csproj -- --shared <PackageCheckout>
+dotnet run --project Tools~/NativeApi/Pine.NativeApi.csproj -- --toolkit <6000.3.0f1 Editor/Data> <6000.3.25f1 Editor/Data> <PackageCheckout>
+```
+
+`toolkit-types.json` records reviewed native type names. The generator reads actual native metadata for constructors, inherited current members, events, style/conversion adapters and constraints. Editor-only controls and `MonoBehaviour.runInEditMode` are gated separately; verified patch additions use the assembly's Unity version define. Format the generated C# and run native checks after regeneration. Editor engine metadata alone does not prove player compilation.
+
 Using .NET 10 and compiled native assemblies from a disposable Unity project:
 
 ```text

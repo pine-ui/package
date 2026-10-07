@@ -1,5 +1,7 @@
 # Native Pine API
 
+Import `using Pine;` and `using Pine.uGUI;` for the uGUI examples below. For the other renderer use `using Pine.UIToolkit;` with [the UI Toolkit API](ui-toolkit.md). `P` lives in the selected renderer; reactive types stay in `Pine`. This is the Pine 1.2.0 namespace contract.
+
 Plain C# functions return reusable `View` declarations. `children: new[] { ... }` nests declarations inside the factory without creating native objects. Child arrays are copied. Visual/control/layout entries create children. Modifiers attach to the containing GameObject. `P.Self(...)` explicitly places a visual component on that same object.
 
 ```csharp

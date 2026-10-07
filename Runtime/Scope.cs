@@ -83,7 +83,11 @@ namespace Pine
             return resource;
         }
 
-        internal void Release(IDisposable resource) => _resources?.Remove(resource);
+        internal void Release(IDisposable resource)
+        {
+            if (!IsDisposed)
+                _resources?.Remove(resource);
+        }
 
         internal void Reset()
         {
@@ -112,6 +116,8 @@ namespace Pine
                 return;
             }
             ReactiveRuntime.BatchDepth++;
+            Observer previous = ReactiveRuntime.Observer;
+            ReactiveRuntime.Observer = null;
             try
             {
                 while (_resources.Count > 0)
@@ -121,7 +127,7 @@ namespace Pine
                     _resources.RemoveAt(index);
                     try
                     {
-                        P.Untrack(resource.Dispose);
+                        resource.Dispose();
                     }
                     catch (Exception error)
                     {
@@ -131,9 +137,17 @@ namespace Pine
             }
             finally
             {
+                ReactiveRuntime.Observer = previous;
                 _contexts?.Clear();
                 ReactiveRuntime.BatchDepth--;
-                ReactiveRuntime.Flush();
+                try
+                {
+                    ReactiveRuntime.Flush();
+                }
+                catch (Exception error)
+                {
+                    (errors ??= new List<Exception>()).Add(error);
+                }
             }
             if (errors != null)
                 throw new AggregateException("Pine cleanup failed.", errors);
@@ -162,11 +176,11 @@ namespace Pine
         /// <summary>Constructs a parent-owned provider scope with this typed value.</summary>
         public void Provide(T value, Action build)
         {
-            Scope scope = new(P.RequireScope(), true);
+            Scope scope = new(Core.RequireScope(), true);
             scope.ContextValues[this] = value;
             try
             {
-                P.Untrack(() => scope.Run(build));
+                Core.Untrack(() => scope.Run(build));
             }
             catch
             {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pine
+namespace Pine.uGUI
 {
     /// <summary>A declared native part, supplied target, or tracked native relationship.</summary>
     public readonly struct Part<T>

@@ -1,0 +1,1958 @@
+{
+  "versions": [
+    {
+      "controls": [
+        {
+          "type": "UnityEditor.AdaptivePerformance.UI.Editor.UsageDial",
+          "metadataName": "UsageDial",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Blackboard",
+          "metadataName": "Blackboard",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.BlackboardField",
+          "metadataName": "BlackboardField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.BlackboardRow",
+          "metadataName": "BlackboardRow",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.BlackboardSection",
+          "metadataName": "BlackboardSection",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Edge",
+          "metadataName": "Edge",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeControl",
+          "metadataName": "EdgeControl",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GraphElement",
+          "metadataName": "GraphElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GraphView",
+          "metadataName": "GraphView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GraphView.Layer",
+          "metadataName": "Layer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GridBackground",
+          "metadataName": "GridBackground",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Group",
+          "metadataName": "Group",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.IconBadge",
+          "metadataName": "IconBadge",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.MiniMap",
+          "metadataName": "MiniMap",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Node",
+          "metadataName": "Node",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Pill",
+          "metadataName": "Pill",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Placemat",
+          "metadataName": "Placemat",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.PlacematContainer",
+          "metadataName": "PlacematContainer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Port",
+          "metadataName": "Port",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ResizableElement",
+          "metadataName": "ResizableElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Resizer",
+          "metadataName": "Resizer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Scope",
+          "metadataName": "Scope",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.StackNode",
+          "metadataName": "StackNode",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.StickyNote",
+          "metadataName": "StickyNote",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.TokenNode",
+          "metadataName": "TokenNode",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Overlays.OverlayToolbar",
+          "metadataName": "OverlayToolbar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Search.ObjectField",
+          "metadataName": "ObjectField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Search.QueryBlock",
+          "metadataName": "QueryBlock",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Search.QueryListBlock",
+          "metadataName": "QueryListBlock",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarButton",
+          "metadataName": "EditorToolbarButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarDropdown",
+          "metadataName": "EditorToolbarDropdown",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarDropdownToggle",
+          "metadataName": "EditorToolbarDropdownToggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarFloatField",
+          "metadataName": "EditorToolbarFloatField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarSlider",
+          "metadataName": "EditorToolbarSlider",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarToggle",
+          "metadataName": "EditorToolbarToggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.BaseMask64Field",
+          "metadataName": "BaseMask64Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.BaseMaskField<TChoice>",
+          "metadataName": "BaseMaskField`1",
+          "constraints": [
+            {
+              "Name": "TChoice",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEditor.UIElements.ColorField",
+          "metadataName": "ColorField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.CurveField",
+          "metadataName": "CurveField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.EnumFlagsField",
+          "metadataName": "EnumFlagsField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.GradientField",
+          "metadataName": "GradientField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.InspectorElement",
+          "metadataName": "InspectorElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.LayerField",
+          "metadataName": "LayerField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.LayerMaskField",
+          "metadataName": "LayerMaskField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.Mask64Field",
+          "metadataName": "Mask64Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.MaskField",
+          "metadataName": "MaskField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ObjectField",
+          "metadataName": "ObjectField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.PropertyField",
+          "metadataName": "PropertyField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.RenderingLayerMaskField",
+          "metadataName": "RenderingLayerMaskField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.SearchFieldBase<TextInputType, T>",
+          "metadataName": "SearchFieldBase`2",
+          "constraints": [
+            {
+              "Name": "TextInputType",
+              "reference": false,
+              "value": false,
+              "ctor": true,
+              "types": [
+                "UnityEngine.UIElements.TextInputBaseField<T>"
+              ]
+            },
+            {
+              "Name": "T",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEditor.UIElements.TagField",
+          "metadataName": "TagField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.Toolbar",
+          "metadataName": "Toolbar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarBreadcrumbs",
+          "metadataName": "ToolbarBreadcrumbs",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarButton",
+          "metadataName": "ToolbarButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarMenu",
+          "metadataName": "ToolbarMenu",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarPopupSearchField",
+          "metadataName": "ToolbarPopupSearchField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarSearchField",
+          "metadataName": "ToolbarSearchField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarSpacer",
+          "metadataName": "ToolbarSpacer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarToggle",
+          "metadataName": "ToolbarToggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.AbstractProgressBar",
+          "metadataName": "AbstractProgressBar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseBoolField",
+          "metadataName": "BaseBoolField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseCompositeField<TValueType, TField, TFieldValue>",
+          "metadataName": "BaseCompositeField`3",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            },
+            {
+              "Name": "TField",
+              "reference": false,
+              "value": false,
+              "ctor": true,
+              "types": [
+                "UnityEngine.UIElements.TextValueField<TFieldValue>"
+              ]
+            },
+            {
+              "Name": "TFieldValue",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseField<TValueType>",
+          "metadataName": "BaseField`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseListView",
+          "metadataName": "BaseListView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BasePopupField<TValueType, TValueChoice>",
+          "metadataName": "BasePopupField`2",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            },
+            {
+              "Name": "TValueChoice",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseSlider<TValueType>",
+          "metadataName": "BaseSlider`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": [
+                "System.IComparable<TValueType>"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseTreeView",
+          "metadataName": "BaseTreeView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseVerticalCollectionView",
+          "metadataName": "BaseVerticalCollectionView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BindableElement",
+          "metadataName": "BindableElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BoundsField",
+          "metadataName": "BoundsField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BoundsIntField",
+          "metadataName": "BoundsIntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Box",
+          "metadataName": "Box",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Button",
+          "metadataName": "Button",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DoubleField",
+          "metadataName": "DoubleField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownField",
+          "metadataName": "DropdownField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.EnumField",
+          "metadataName": "EnumField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.FloatField",
+          "metadataName": "FloatField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Foldout",
+          "metadataName": "Foldout",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.GroupBox",
+          "metadataName": "GroupBox",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Hash128Field",
+          "metadataName": "Hash128Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.HelpBox",
+          "metadataName": "HelpBox",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Image",
+          "metadataName": "Image",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IMGUIContainer",
+          "metadataName": "IMGUIContainer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ImmediateModeElement",
+          "metadataName": "ImmediateModeElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IntegerField",
+          "metadataName": "IntegerField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Label",
+          "metadataName": "Label",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ListView",
+          "metadataName": "ListView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.LongField",
+          "metadataName": "LongField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MinMaxSlider",
+          "metadataName": "MinMaxSlider",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MultiColumnListView",
+          "metadataName": "MultiColumnListView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MultiColumnTreeView",
+          "metadataName": "MultiColumnTreeView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.PopupField<T>",
+          "metadataName": "PopupField`1",
+          "constraints": [
+            {
+              "Name": "T",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.PopupWindow",
+          "metadataName": "PopupWindow",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ProgressBar",
+          "metadataName": "ProgressBar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RadioButton",
+          "metadataName": "RadioButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RadioButtonGroup",
+          "metadataName": "RadioButtonGroup",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RectField",
+          "metadataName": "RectField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RectIntField",
+          "metadataName": "RectIntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RepeatButton",
+          "metadataName": "RepeatButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Scroller",
+          "metadataName": "Scroller",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ScrollView",
+          "metadataName": "ScrollView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Slider",
+          "metadataName": "Slider",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.SliderInt",
+          "metadataName": "SliderInt",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Tab",
+          "metadataName": "Tab",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TabView",
+          "metadataName": "TabView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TemplateContainer",
+          "metadataName": "TemplateContainer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TextElement",
+          "metadataName": "TextElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TextField",
+          "metadataName": "TextField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TextInputBaseField<TValueType>",
+          "metadataName": "TextInputBaseField`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.TextValueField<TValueType>",
+          "metadataName": "TextValueField`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.Toggle",
+          "metadataName": "Toggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ToggleButtonGroup",
+          "metadataName": "ToggleButtonGroup",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TreeView",
+          "metadataName": "TreeView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TwoPaneSplitView",
+          "metadataName": "TwoPaneSplitView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.UnsignedIntegerField",
+          "metadataName": "UnsignedIntegerField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.UnsignedLongField",
+          "metadataName": "UnsignedLongField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector2Field",
+          "metadataName": "Vector2Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector2IntField",
+          "metadataName": "Vector2IntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector3Field",
+          "metadataName": "Vector3Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector3IntField",
+          "metadataName": "Vector3IntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector4Field",
+          "metadataName": "Vector4Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.VisualElement",
+          "metadataName": "VisualElement",
+          "constraints": []
+        }
+      ],
+      "infrastructure": [
+        {
+          "type": "UnityEditor.Experimental.GraphView.ClickSelector",
+          "metadataName": "ClickSelector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ContentDragger",
+          "metadataName": "ContentDragger",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ContentZoomer",
+          "metadataName": "ContentZoomer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Dragger",
+          "metadataName": "Dragger",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeConnector",
+          "metadataName": "EdgeConnector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeConnector<TEdge>",
+          "metadataName": "EdgeConnector`1",
+          "constraints": [
+            {
+              "Name": "TEdge",
+              "reference": false,
+              "value": false,
+              "ctor": true,
+              "types": [
+                "UnityEditor.Experimental.GraphView.Edge"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeManipulator",
+          "metadataName": "EdgeManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.FreehandSelector",
+          "metadataName": "FreehandSelector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.RectangleSelector",
+          "metadataName": "RectangleSelector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.SelectionDragger",
+          "metadataName": "SelectionDragger",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.SelectionDropper",
+          "metadataName": "SelectionDropper",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ShortcutHandler",
+          "metadataName": "ShortcutHandler",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Binding",
+          "metadataName": "Binding",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Clickable",
+          "metadataName": "Clickable",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ContextualMenuManipulator",
+          "metadataName": "ContextualMenuManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.CustomBinding",
+          "metadataName": "CustomBinding",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DataBinding",
+          "metadataName": "DataBinding",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.KeyboardNavigationManipulator",
+          "metadataName": "KeyboardNavigationManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Manipulator",
+          "metadataName": "Manipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MouseManipulator",
+          "metadataName": "MouseManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.PanelSettings",
+          "metadataName": "PanelSettings",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.PointerManipulator",
+          "metadataName": "PointerManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.UIDocument",
+          "metadataName": "UIDocument",
+          "constraints": []
+        }
+      ],
+      "auxiliary": [
+        {
+          "type": "UnityEngine.UIElements.BindingContext",
+          "metadataName": "BindingContext",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BindingId",
+          "metadataName": "BindingId",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BindingInfo",
+          "metadataName": "BindingInfo",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Column",
+          "metadataName": "Column",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Columns",
+          "metadataName": "Columns",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ConverterGroup",
+          "metadataName": "ConverterGroup",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownMenu",
+          "metadataName": "DropdownMenu",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownMenuAction",
+          "metadataName": "DropdownMenuAction",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownMenuSeparator",
+          "metadataName": "DropdownMenuSeparator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DynamicAtlasSettings",
+          "metadataName": "DynamicAtlasSettings",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IPanel",
+          "metadataName": "IPanel",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IRuntimePanel",
+          "metadataName": "IRuntimePanel",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITextEdition",
+          "metadataName": "ITextEdition",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITextElementExperimentalFeatures",
+          "metadataName": "ITextElementExperimentalFeatures",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITextSelection",
+          "metadataName": "ITextSelection",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITransform",
+          "metadataName": "ITransform",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ManipulatorActivationFilter",
+          "metadataName": "ManipulatorActivationFilter",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MeshGenerationContext",
+          "metadataName": "MeshGenerationContext",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Painter2D",
+          "metadataName": "Painter2D",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.SortColumnDescription",
+          "metadataName": "SortColumnDescription",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.SortColumnDescriptions",
+          "metadataName": "SortColumnDescriptions",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TreeViewItemData<T>",
+          "metadataName": "TreeViewItemData`1",
+          "constraints": [
+            {
+              "Name": "T",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.VisualElementStyleSheetSet",
+          "metadataName": "VisualElementStyleSheetSet",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.VisualTreeAsset",
+          "metadataName": "VisualTreeAsset",
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "controls": [
+        {
+          "type": "UnityEditor.AdaptivePerformance.UI.Editor.UsageDial",
+          "metadataName": "UsageDial",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Blackboard",
+          "metadataName": "Blackboard",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.BlackboardField",
+          "metadataName": "BlackboardField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.BlackboardRow",
+          "metadataName": "BlackboardRow",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.BlackboardSection",
+          "metadataName": "BlackboardSection",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Edge",
+          "metadataName": "Edge",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeControl",
+          "metadataName": "EdgeControl",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GraphElement",
+          "metadataName": "GraphElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GraphView",
+          "metadataName": "GraphView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GraphView.Layer",
+          "metadataName": "Layer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.GridBackground",
+          "metadataName": "GridBackground",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Group",
+          "metadataName": "Group",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.IconBadge",
+          "metadataName": "IconBadge",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.MiniMap",
+          "metadataName": "MiniMap",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Node",
+          "metadataName": "Node",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Pill",
+          "metadataName": "Pill",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Placemat",
+          "metadataName": "Placemat",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.PlacematContainer",
+          "metadataName": "PlacematContainer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Port",
+          "metadataName": "Port",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ResizableElement",
+          "metadataName": "ResizableElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Resizer",
+          "metadataName": "Resizer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Scope",
+          "metadataName": "Scope",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.StackNode",
+          "metadataName": "StackNode",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.StickyNote",
+          "metadataName": "StickyNote",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.TokenNode",
+          "metadataName": "TokenNode",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Overlays.OverlayToolbar",
+          "metadataName": "OverlayToolbar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Search.ObjectField",
+          "metadataName": "ObjectField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Search.QueryBlock",
+          "metadataName": "QueryBlock",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Search.QueryListBlock",
+          "metadataName": "QueryListBlock",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarButton",
+          "metadataName": "EditorToolbarButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarDropdown",
+          "metadataName": "EditorToolbarDropdown",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarDropdownToggle",
+          "metadataName": "EditorToolbarDropdownToggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarFloatField",
+          "metadataName": "EditorToolbarFloatField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarSlider",
+          "metadataName": "EditorToolbarSlider",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Toolbars.EditorToolbarToggle",
+          "metadataName": "EditorToolbarToggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.BaseMask64Field",
+          "metadataName": "BaseMask64Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.BaseMaskField<TChoice>",
+          "metadataName": "BaseMaskField`1",
+          "constraints": [
+            {
+              "Name": "TChoice",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEditor.UIElements.ColorField",
+          "metadataName": "ColorField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.CurveField",
+          "metadataName": "CurveField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.EnumFlagsField",
+          "metadataName": "EnumFlagsField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.GradientField",
+          "metadataName": "GradientField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.InspectorElement",
+          "metadataName": "InspectorElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.LayerField",
+          "metadataName": "LayerField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.LayerMaskField",
+          "metadataName": "LayerMaskField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.Mask64Field",
+          "metadataName": "Mask64Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.MaskField",
+          "metadataName": "MaskField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ObjectField",
+          "metadataName": "ObjectField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.PropertyField",
+          "metadataName": "PropertyField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.RenderingLayerMaskField",
+          "metadataName": "RenderingLayerMaskField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.SearchFieldBase<TextInputType, T>",
+          "metadataName": "SearchFieldBase`2",
+          "constraints": [
+            {
+              "Name": "TextInputType",
+              "reference": false,
+              "value": false,
+              "ctor": true,
+              "types": [
+                "UnityEngine.UIElements.TextInputBaseField<T>"
+              ]
+            },
+            {
+              "Name": "T",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEditor.UIElements.TagField",
+          "metadataName": "TagField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.Toolbar",
+          "metadataName": "Toolbar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarBreadcrumbs",
+          "metadataName": "ToolbarBreadcrumbs",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarButton",
+          "metadataName": "ToolbarButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarMenu",
+          "metadataName": "ToolbarMenu",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarPopupSearchField",
+          "metadataName": "ToolbarPopupSearchField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarSearchField",
+          "metadataName": "ToolbarSearchField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarSpacer",
+          "metadataName": "ToolbarSpacer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.UIElements.ToolbarToggle",
+          "metadataName": "ToolbarToggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.AbstractProgressBar",
+          "metadataName": "AbstractProgressBar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseBoolField",
+          "metadataName": "BaseBoolField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseCompositeField<TValueType, TField, TFieldValue>",
+          "metadataName": "BaseCompositeField`3",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            },
+            {
+              "Name": "TField",
+              "reference": false,
+              "value": false,
+              "ctor": true,
+              "types": [
+                "UnityEngine.UIElements.TextValueField<TFieldValue>"
+              ]
+            },
+            {
+              "Name": "TFieldValue",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseField<TValueType>",
+          "metadataName": "BaseField`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseListView",
+          "metadataName": "BaseListView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BasePopupField<TValueType, TValueChoice>",
+          "metadataName": "BasePopupField`2",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            },
+            {
+              "Name": "TValueChoice",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseSlider<TValueType>",
+          "metadataName": "BaseSlider`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": [
+                "System.IComparable<TValueType>"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseTreeView",
+          "metadataName": "BaseTreeView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BaseVerticalCollectionView",
+          "metadataName": "BaseVerticalCollectionView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BindableElement",
+          "metadataName": "BindableElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BoundsField",
+          "metadataName": "BoundsField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BoundsIntField",
+          "metadataName": "BoundsIntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Box",
+          "metadataName": "Box",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Button",
+          "metadataName": "Button",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DoubleField",
+          "metadataName": "DoubleField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownField",
+          "metadataName": "DropdownField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.EnumField",
+          "metadataName": "EnumField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.FloatField",
+          "metadataName": "FloatField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Foldout",
+          "metadataName": "Foldout",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.GroupBox",
+          "metadataName": "GroupBox",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Hash128Field",
+          "metadataName": "Hash128Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.HelpBox",
+          "metadataName": "HelpBox",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Image",
+          "metadataName": "Image",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IMGUIContainer",
+          "metadataName": "IMGUIContainer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ImmediateModeElement",
+          "metadataName": "ImmediateModeElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IntegerField",
+          "metadataName": "IntegerField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Label",
+          "metadataName": "Label",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ListView",
+          "metadataName": "ListView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.LongField",
+          "metadataName": "LongField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MinMaxSlider",
+          "metadataName": "MinMaxSlider",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MultiColumnListView",
+          "metadataName": "MultiColumnListView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MultiColumnTreeView",
+          "metadataName": "MultiColumnTreeView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.PopupField<T>",
+          "metadataName": "PopupField`1",
+          "constraints": [
+            {
+              "Name": "T",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.PopupWindow",
+          "metadataName": "PopupWindow",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ProgressBar",
+          "metadataName": "ProgressBar",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RadioButton",
+          "metadataName": "RadioButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RadioButtonGroup",
+          "metadataName": "RadioButtonGroup",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RectField",
+          "metadataName": "RectField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RectIntField",
+          "metadataName": "RectIntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.RepeatButton",
+          "metadataName": "RepeatButton",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Scroller",
+          "metadataName": "Scroller",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ScrollView",
+          "metadataName": "ScrollView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Slider",
+          "metadataName": "Slider",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.SliderInt",
+          "metadataName": "SliderInt",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Tab",
+          "metadataName": "Tab",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TabView",
+          "metadataName": "TabView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TemplateContainer",
+          "metadataName": "TemplateContainer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TextElement",
+          "metadataName": "TextElement",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TextField",
+          "metadataName": "TextField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TextInputBaseField<TValueType>",
+          "metadataName": "TextInputBaseField`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.TextValueField<TValueType>",
+          "metadataName": "TextValueField`1",
+          "constraints": [
+            {
+              "Name": "TValueType",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.Toggle",
+          "metadataName": "Toggle",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ToggleButtonGroup",
+          "metadataName": "ToggleButtonGroup",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TreeView",
+          "metadataName": "TreeView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TwoPaneSplitView",
+          "metadataName": "TwoPaneSplitView",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.UnsignedIntegerField",
+          "metadataName": "UnsignedIntegerField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.UnsignedLongField",
+          "metadataName": "UnsignedLongField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector2Field",
+          "metadataName": "Vector2Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector2IntField",
+          "metadataName": "Vector2IntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector3Field",
+          "metadataName": "Vector3Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector3IntField",
+          "metadataName": "Vector3IntField",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Vector4Field",
+          "metadataName": "Vector4Field",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.VisualElement",
+          "metadataName": "VisualElement",
+          "constraints": []
+        }
+      ],
+      "infrastructure": [
+        {
+          "type": "UnityEditor.Experimental.GraphView.ClickSelector",
+          "metadataName": "ClickSelector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ContentDragger",
+          "metadataName": "ContentDragger",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ContentZoomer",
+          "metadataName": "ContentZoomer",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.Dragger",
+          "metadataName": "Dragger",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeConnector",
+          "metadataName": "EdgeConnector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeConnector<TEdge>",
+          "metadataName": "EdgeConnector`1",
+          "constraints": [
+            {
+              "Name": "TEdge",
+              "reference": false,
+              "value": false,
+              "ctor": true,
+              "types": [
+                "UnityEditor.Experimental.GraphView.Edge"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.EdgeManipulator",
+          "metadataName": "EdgeManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.FreehandSelector",
+          "metadataName": "FreehandSelector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.RectangleSelector",
+          "metadataName": "RectangleSelector",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.SelectionDragger",
+          "metadataName": "SelectionDragger",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.SelectionDropper",
+          "metadataName": "SelectionDropper",
+          "constraints": []
+        },
+        {
+          "type": "UnityEditor.Experimental.GraphView.ShortcutHandler",
+          "metadataName": "ShortcutHandler",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Binding",
+          "metadataName": "Binding",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Clickable",
+          "metadataName": "Clickable",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ContextualMenuManipulator",
+          "metadataName": "ContextualMenuManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.CustomBinding",
+          "metadataName": "CustomBinding",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DataBinding",
+          "metadataName": "DataBinding",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.KeyboardNavigationManipulator",
+          "metadataName": "KeyboardNavigationManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Manipulator",
+          "metadataName": "Manipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MouseManipulator",
+          "metadataName": "MouseManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.PanelSettings",
+          "metadataName": "PanelSettings",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.PointerManipulator",
+          "metadataName": "PointerManipulator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.UIDocument",
+          "metadataName": "UIDocument",
+          "constraints": []
+        }
+      ],
+      "auxiliary": [
+        {
+          "type": "UnityEngine.UIElements.BindingContext",
+          "metadataName": "BindingContext",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BindingId",
+          "metadataName": "BindingId",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.BindingInfo",
+          "metadataName": "BindingInfo",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Column",
+          "metadataName": "Column",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Columns",
+          "metadataName": "Columns",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ConverterGroup",
+          "metadataName": "ConverterGroup",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownMenu",
+          "metadataName": "DropdownMenu",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownMenuAction",
+          "metadataName": "DropdownMenuAction",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DropdownMenuSeparator",
+          "metadataName": "DropdownMenuSeparator",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.DynamicAtlasSettings",
+          "metadataName": "DynamicAtlasSettings",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IPanel",
+          "metadataName": "IPanel",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.IRuntimePanel",
+          "metadataName": "IRuntimePanel",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITextEdition",
+          "metadataName": "ITextEdition",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITextElementExperimentalFeatures",
+          "metadataName": "ITextElementExperimentalFeatures",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITextSelection",
+          "metadataName": "ITextSelection",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ITransform",
+          "metadataName": "ITransform",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.ManipulatorActivationFilter",
+          "metadataName": "ManipulatorActivationFilter",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.MeshGenerationContext",
+          "metadataName": "MeshGenerationContext",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.Painter2D",
+          "metadataName": "Painter2D",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.SortColumnDescription",
+          "metadataName": "SortColumnDescription",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.SortColumnDescriptions",
+          "metadataName": "SortColumnDescriptions",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.TreeViewItemData<T>",
+          "metadataName": "TreeViewItemData`1",
+          "constraints": [
+            {
+              "Name": "T",
+              "reference": false,
+              "value": false,
+              "ctor": false,
+              "types": []
+            }
+          ]
+        },
+        {
+          "type": "UnityEngine.UIElements.VisualElementStyleSheetSet",
+          "metadataName": "VisualElementStyleSheetSet",
+          "constraints": []
+        },
+        {
+          "type": "UnityEngine.UIElements.VisualTreeAsset",
+          "metadataName": "VisualTreeAsset",
+          "constraints": []
+        }
+      ]
+    }
+  ]
+}

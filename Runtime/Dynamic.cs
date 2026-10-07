@@ -26,7 +26,7 @@ namespace Pine
         public static implicit operator Branch<T>(T value) => new(value);
     }
 
-    public static partial class P
+    internal static partial class Core
     {
         /// <summary>Constructs an owned conditional branch while its condition is true, with an optional fallback.</summary>
         public static ReadOnly<IReadOnlyList<TResult>> Show<TResult>(
@@ -217,9 +217,9 @@ namespace Pine
         private readonly HashSet<TKey> _seen;
         private bool _outputChanged;
         private bool _disposed;
-        private readonly Source<IReadOnlyList<TResult>> _output = P.Source<IReadOnlyList<TResult>>(
-            Array.Empty<TResult>()
-        );
+        private readonly Source<IReadOnlyList<TResult>> _output = Core.Source<
+            IReadOnlyList<TResult>
+        >(Array.Empty<TResult>());
         internal readonly ReadOnly<IReadOnlyList<TResult>> Output;
 
         internal DynamicRows(
@@ -231,7 +231,7 @@ namespace Pine
             _seen = new HashSet<TKey>(_rows.Comparer);
             Output = new ReadOnly<IReadOnlyList<TResult>>(_output);
             _build = build;
-            _owner = P.RequireScope();
+            _owner = Core.RequireScope();
             _owner.Own(this);
         }
 
@@ -243,7 +243,7 @@ namespace Pine
             foreach (var item in items)
                 if (item.Key == null || !_seen.Add(item.Key))
                     throw new ArgumentException("Dynamic keys must be non-null and unique.");
-            P.Batch(() =>
+            Core.Batch(() =>
                 _owner.Run(() =>
                 {
                     List<Exception> errors = null;
@@ -319,13 +319,13 @@ namespace Pine
             Row row = new()
             {
                 Key = key,
-                Value = P.Source(value),
-                Index = P.Source(index),
-                Present = P.Source(true),
+                Value = Core.Source(value),
+                Index = Core.Source(index),
+                Present = Core.Source(true),
             };
             try
             {
-                row.Scope = P.OwnedRoot(() =>
+                row.Scope = Core.OwnedRoot(() =>
                     row.Branch = _build(
                         row.Key,
                         new ReadOnly<TValue>(row.Value),

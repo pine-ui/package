@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pine;
+using Pine.uGUI;
 
 internal static class Program
 {
@@ -401,6 +402,6 @@ internal static class Program
             disposed = true;
         }
         Check(disposed, "Spring owned disposal");
-        Check(P.Version == new Version(1, 1, 0), "Pine version");
+        Check(P.Version == new Version(1, 2, 0), "Pine version");
     }
 }

@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Mount = Pine.uGUI.Mount;
+using MountLifetime = Pine.uGUI.MountLifetime;
+using P = Pine.uGUI.P;
+using View = Pine.uGUI.View;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem.UI;
 #endif
@@ -11,17 +15,19 @@ namespace Pine
     internal sealed class RuntimeHost : MonoBehaviour
     {
         private static RuntimeHost _instance;
+        private static bool _usesUGui;
         private GameObject _input;
         private Scope _inputScope;
         private readonly List<Mount> _mounts = new();
-        private readonly HashSet<Scope> _observedScopes = new();
+        private readonly Dictionary<Scope, int> _mountIndices = new();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetState()
         {
             Clock.Reset();
-            Clock.EnsureHost = Ensure;
+            Clock.EnsureHost = EnsureClock;
             _instance = null;
+            _usesUGui = false;
             P.Strict = true;
             P.Defaults = true;
             P.DeferNestedProperties = true;
@@ -31,7 +37,14 @@ namespace Pine
 
         internal static void Ensure()
         {
-            Clock.EnsureHost = Ensure;
+            _usesUGui = true;
+            EnsureClock();
+            EnsureInput();
+        }
+
+        internal static void EnsureClock()
+        {
+            Clock.EnsureHost = EnsureClock;
             if (_instance == null)
             {
                 var host = new GameObject("Pine Runtime");
@@ -39,6 +52,10 @@ namespace Pine
                 if (Application.isPlaying)
                     DontDestroyOnLoad(host);
             }
+        }
+
+        private static void EnsureInput()
+        {
             if (View.IsConstructing)
                 return;
 #if UNITY_6000_7_OR_NEWER
@@ -114,15 +131,24 @@ namespace Pine
 
         internal static void Observe(Mount mount)
         {
-            if (!_instance._observedScopes.Add(mount.Scope))
+            if (_instance._mountIndices.ContainsKey(mount.Scope))
                 return;
+            _instance._mountIndices.Add(mount.Scope, _instance._mounts.Count);
             _instance._mounts.Add(mount);
             var host = _instance;
             mount.Scope.Run(() =>
                 P.Cleanup(() =>
                 {
-                    host._mounts.Remove(mount);
-                    host._observedScopes.Remove(mount.Scope);
+                    if (!host._mountIndices.Remove(mount.Scope, out var index))
+                        return;
+                    int last = host._mounts.Count - 1;
+                    if (index != last)
+                    {
+                        var moved = host._mounts[last];
+                        host._mounts[index] = moved;
+                        host._mountIndices[moved.Scope] = index;
+                    }
+                    host._mounts.RemoveAt(last);
                 })
             );
         }
@@ -135,20 +161,28 @@ namespace Pine
 
         private void DisposeDestroyedRoots()
         {
-            // Unity skips OnDestroy for never-active objects. Disposing a parent can also
-            // remove its children's records, so clamp the next index after cleanup.
-            for (int i = _mounts.Count - 1; i >= 0; i = Math.Min(i - 1, _mounts.Count - 1))
-                if (_mounts[i].Root == null)
+            // Unity skips OnDestroy for never-active objects. Cleanup can swap another
+            // root into this index or remove descendants, so revisit before advancing.
+            for (int i = _mounts.Count - 1; i >= 0; )
+            {
+                var mount = _mounts[i];
+                if (mount.Root != null)
                 {
-                    try
-                    {
-                        _mounts[i].Dispose();
-                    }
-                    catch (Exception error)
-                    {
-                        Debug.LogException(error);
-                    }
+                    i--;
+                    continue;
                 }
+                try
+                {
+                    mount.Dispose();
+                }
+                catch (Exception error)
+                {
+                    Debug.LogException(error);
+                }
+                i = Math.Min(i, _mounts.Count - 1);
+                if (i >= 0 && ReferenceEquals(_mounts[i], mount))
+                    i--;
+            }
         }
 
         private void Awake()
@@ -160,12 +194,17 @@ namespace Pine
         private void SceneLoaded(
             UnityEngine.SceneManagement.Scene scene,
             UnityEngine.SceneManagement.LoadSceneMode mode
-        ) => Ensure();
+        )
+        {
+            if (_usesUGui)
+                Ensure();
+        }
 
         private void SceneUnloaded(UnityEngine.SceneManagement.Scene scene)
         {
             DisposeDestroyedRoots();
-            Ensure();
+            if (_usesUGui)
+                Ensure();
         }
 
         private void Update()

@@ -51,8 +51,8 @@ namespace Pine.Generator
         public void Execute(GeneratorExecutionContext context)
         {
             var ui =
-                context.Compilation.GetTypeByMetadataName("Pine.P")
-                ?? context.Compilation.GetTypeByMetadataName("Assets.Scripts.Utils.Pine.P");
+                context.Compilation.GetTypeByMetadataName("Pine.uGUI.P")
+                ?? context.Compilation.GetTypeByMetadataName("Pine.UIToolkit.P");
             if (ui == null)
                 return;
             string runtime = Name(ui),
@@ -65,14 +65,13 @@ namespace Pine.Generator
                 if (
                     path.StartsWith("Packages/", StringComparison.Ordinal)
                     || path.Contains("/Packages/")
-                    || path.Contains("/Editor/")
                     || path.Contains("/Tests/")
                     || path.Contains("/Tests~/")
                 )
                     continue;
                 var model = context.Compilation.GetSemanticModel(tree);
                 var classes = tree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>();
-                bool entryFile = Path.GetFileName(path) == "App.cs",
+                bool entryFile = Path.GetFileName(path) == "App.cs" && !path.Contains("/Editor/"),
                     foundApp = false;
                 foreach (var declaration in classes)
                 {
@@ -96,11 +95,10 @@ namespace Pine.Generator
                             && methods[0].Arity == 0
                             && methods[0].Parameters.Length == 0
                             && (
-                                methods[0].ReturnType.ToDisplayString() == ns + ".View"
+                                Renderer(methods[0].ReturnType) != null
                                 || Inherits(methods[0].ReturnType, "UnityEngine.Component")
                                 || methods[0].ReturnType.ToDisplayString()
                                     == "UnityEngine.GameObject"
-                                || methods[0].ReturnType.ToDisplayString() == ns + ".Mount"
                                 || methods[0].ReturnsVoid
                             );
                         if (!valid)
@@ -118,7 +116,7 @@ namespace Pine.Generator
                     }
                     if (
                         type.DeclaringSyntaxReferences[0].SyntaxTree != tree
-                        || !Inherits(type, "UnityEngine.MonoBehaviour")
+                        || (!type.IsStatic && !Inherits(type, "UnityEngine.MonoBehaviour"))
                     )
                         continue;
                     bool importsPine = type.DeclaringSyntaxReferences.Any(r =>
@@ -128,8 +126,8 @@ namespace Pine.Generator
                             .Any(u =>
                             {
                                 string imported = u.Name.ToString().Replace("global::", "");
-                                return imported == ns
-                                    || imported.StartsWith(ns + ".", StringComparison.Ordinal);
+                                return imported == "Pine"
+                                    || imported.StartsWith("Pine.", StringComparison.Ordinal);
                             })
                     );
                     bool pineNamespace =
@@ -163,11 +161,11 @@ namespace Pine.Generator
                     foreach (var method in type.GetMembers("Create").OfType<IMethodSymbol>())
                     {
                         if (
-                            method.IsStatic
+                            method.IsStatic != type.IsStatic
                             || method.DeclaredAccessibility != Accessibility.Public
                             || (
                                 !Inherits(method.ReturnType, "UnityEngine.Component")
-                                && method.ReturnType.ToDisplayString() != ns + ".View"
+                                && Renderer(method.ReturnType) == null
                             )
                         )
                             continue;
@@ -202,10 +200,40 @@ namespace Pine.Generator
                         Diagnostic.Create(Duplicate, method.Locations.FirstOrDefault())
                     );
             else if (appMethods.Count == 1)
-                GenerateApp(context, appMethods[0], runtime, ns);
+            {
+                string renderer =
+                    Renderer(appMethods[0].ReturnType) ?? ImportedRenderer(appMethods[0]);
+                GenerateApp(context, appMethods[0], "global::" + renderer + ".P", renderer);
+            }
             foreach (var group in components.GroupBy(m => m.ContainingNamespace.ToDisplayString()))
                 GenerateComponents(context, group.Key, group.ToArray(), runtime);
         }
+
+        private static string Renderer(ITypeSymbol type)
+        {
+            string name = type.ToDisplayString();
+            if (name == "Pine.uGUI.View" || name == "Pine.uGUI.Mount")
+                return "Pine.uGUI";
+            if (
+                name == "Pine.UIToolkit.View"
+                || name == "Pine.UIToolkit.Mount"
+                || Inherits(type, "UnityEngine.UIElements.VisualElement")
+            )
+                return "Pine.UIToolkit";
+            if (Inherits(type, "UnityEngine.Component") || name == "UnityEngine.GameObject")
+                return "Pine.uGUI";
+            return null;
+        }
+
+        private static string ImportedRenderer(IMethodSymbol method) =>
+            method.DeclaringSyntaxReferences.Any(r =>
+                r.SyntaxTree.GetRoot()
+                    .DescendantNodes()
+                    .OfType<UsingDirectiveSyntax>()
+                    .Any(u => u.Name.ToString() == "Pine.UIToolkit")
+            )
+                ? "Pine.UIToolkit"
+                : "Pine.uGUI";
 
         private static void Error(
             GeneratorExecutionContext context,
@@ -232,7 +260,8 @@ namespace Pine.Generator
                     || property.DeclaredAccessibility != Accessibility.Public
                     || property.GetMethod == null
                     || property.GetMethod.DeclaredAccessibility != Accessibility.Public
-                    || property.Type.ToDisplayString() != ns + ".CanvasOptions"
+                    || property.Type.ToDisplayString()
+                        != ns + (ns == "Pine.UIToolkit" ? ".PanelOptions" : ".CanvasOptions")
                 )
                 {
                     Error(
@@ -271,7 +300,7 @@ namespace Pine.Generator
                 + "internal static class PineGeneratedAppEntry\n{\n"
                 + "    [global::UnityEngine.RuntimeInitializeOnLoadMethod(global::UnityEngine.RuntimeInitializeLoadType.BeforeSceneLoad)]\n"
                 + "    private static void Register() => global::"
-                + ns
+                + "Pine"
                 + ".CompilerServices.AppStartup.Register("
                 + SymbolDisplay.FormatLiteral(context.Compilation.AssemblyName, true)
                 + ", () => { "
@@ -318,6 +347,8 @@ namespace Pine.Generator
             );
             foreach (var method in methods)
             {
+                runtime =
+                    "global::" + (Renderer(method.ReturnType) ?? ImportedRenderer(method)) + ".P";
                 string type = Name(method.ContainingType),
                     result = Name(method.ReturnType);
                 source
@@ -370,9 +401,27 @@ namespace Pine.Generator
                         )
                     )
                 );
+                if (method.IsStatic)
+                {
+                    source
+                        .Append(") =>\n        ")
+                        .Append(runtime)
+                        .Append(".Component(() => ")
+                        .Append(type)
+                        .Append(".Create(");
+                    source.Append(
+                        string.Join(
+                            ", ",
+                            method.Parameters.Select(p => "@" + p.Name + ": @" + p.Name)
+                        )
+                    );
+                    source.Append("));\n\n");
+                    continue;
+                }
                 source.Append(") =>\n        ").Append(runtime).Append(".Component<").Append(type);
                 if (
-                    !method.ReturnType.ToDisplayString().EndsWith(".View", StringComparison.Ordinal)
+                    Inherits(method.ReturnType, "UnityEngine.Component")
+                    || Inherits(method.ReturnType, "UnityEngine.UIElements.VisualElement")
                 )
                     source.Append(", ").Append(result);
                 source.Append(">(render: instance => instance.Create(");

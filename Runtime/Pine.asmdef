@@ -4,6 +4,7 @@
   "references": ["Unity.ugui", "Unity.TextMeshPro", "Unity.InputSystem"],
   "autoReferenced": true,
   "versionDefines": [
+    { "name": "Unity", "expression": "6000.3.25", "define": "PINE_UNITY_6000_3_25_OR_NEWER" },
     { "name": "com.unity.ugui", "expression": "2.5.0", "define": "PINE_UGUI_2_5_OR_NEWER" },
     { "name": "com.unity.ugui", "expression": "2.6.0", "define": "PINE_UGUI_2_6_OR_NEWER" },
     { "name": "com.unity.ugui", "expression": "2.7.0", "define": "PINE_UGUI_2_7_OR_NEWER" }

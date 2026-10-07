@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 #pragma warning disable 0618
-namespace Pine
+namespace Pine.uGUI
 {
     public static partial class P
     {

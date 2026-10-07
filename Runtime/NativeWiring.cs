@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Pine
+namespace Pine.uGUI
 {
     public static partial class P
     {

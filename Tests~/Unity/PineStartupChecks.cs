@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Pine;
+using Pine.uGUI;
 using TMPro;
 using UnityEditor;
 using UnityEngine;

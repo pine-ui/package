@@ -1,5 +1,6 @@
 using System;
 using Pine;
+using Pine.uGUI;
 
 namespace PineComposition.Examples
 {

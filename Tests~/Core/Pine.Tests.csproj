@@ -14,5 +14,7 @@
         <Compile Include="../../Runtime/Signal.cs" />
         <Compile Include="../../Runtime/Dynamic.cs" />
         <Compile Include="../../Runtime/Animation.cs" />
+        <Compile Include="../../Runtime/Ref.cs" />
+        <Compile Include="../../Runtime/SharedApi.g.cs" />
     </ItemGroup>
 </Project>

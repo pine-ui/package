@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 #endif
 
-namespace Pine
+namespace Pine.uGUI
 {
     internal sealed class MountLifetime : MonoBehaviour
     {

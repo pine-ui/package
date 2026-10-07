@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Pine
+namespace Pine.uGUI
 {
     internal sealed class PineSize : MonoBehaviour
     {

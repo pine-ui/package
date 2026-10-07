@@ -20,7 +20,7 @@ namespace Pine.Tests
             "P.Show(() => true, () => 1).Value = new[] { 2 };",
             "P.Show(() => true, () => 1).Value[0] = 2;",
             "P.Values(() => new[] { 1 }, (value, index) => { index.Value = 2; return value; });",
-            "P.Declare<UnityEngine.Canvas>(properties: new Pine.IProperty<UnityEngine.UI.Button>[] { P.Enabled(true) });",
+            "P.Declare<UnityEngine.Canvas>(properties: new Pine.uGUI.IProperty<UnityEngine.UI.Button>[] { P.Enabled(true) });",
         };
         private static int _index;
         private static readonly string DirectoryPath = "Library/PineCompilerChecks";
@@ -48,7 +48,7 @@ namespace Pine.Tests
             string source = DirectoryPath + "/Case.cs";
             File.WriteAllText(
                 source,
-                "using Pine; public static class CompileCase { public static void Build() { "
+                "using Pine; using Pine.uGUI; public static class CompileCase { public static void Build() { "
                     + Cases[_index]
                     + " } }"
             );

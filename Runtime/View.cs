@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Pine
+namespace Pine.uGUI
 {
     /// <summary>A deferred native UI declaration.</summary>
     public sealed class View
@@ -62,6 +62,23 @@ namespace Pine
         }
 
         internal static bool IsConstructing => _construction != null;
+
+        internal static bool TrySetActive(GameObject target, Value<bool> active)
+        {
+            if (_construction == null)
+                return false;
+            for (int i = _construction.Nodes.Count - 1; i >= 0; i--)
+            {
+                var node = _construction.Nodes[i];
+                if (node.View.Modifier || node.View.SameObject || node.Native.gameObject != target)
+                    continue;
+                if (node.Active.HasValue)
+                    throw new InvalidOperationException("Declare active once per GameObject.");
+                node.Active = active;
+                return true;
+            }
+            return false;
+        }
 
         internal static void Construct(Action action)
         {
@@ -299,7 +316,7 @@ namespace Pine
             internal readonly Component Native;
             internal readonly Scope Scope;
             internal readonly bool Activate;
-            internal readonly Value<bool>? Active;
+            internal Value<bool>? Active;
             internal readonly Dictionary<string, Component> Parts = new();
 
             internal Node(

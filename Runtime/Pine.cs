@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace Pine
 {
     /// <summary>Creates retained Unity UI and reactive state in typed C# declarations.</summary>
-    public static partial class P
+    internal static partial class Core
     {
         /// <summary>Returns the API version.</summary>
-        public static Version Version => new(1, 1, 0);
+        public static Version Version => new(1, 2, 0);
 
         /// <summary>Global explicit reactive motion preference.</summary>
         public static Source<bool> ReducedMotion { get; } = new(false, null);
@@ -26,6 +26,9 @@ namespace Pine
             T value = default,
             IEqualityComparer<T> comparer = null
         ) => new(value, comparer);
+
+        /// <summary>Adapts a tracked calculation to a typed declaration input.</summary>
+        public static Value<T> Value<T>(Func<T> read) => new(read);
 
         /// <summary>Reads a typed literal or reactive adapter.</summary>
         public static T Read<T>(Value<T> value) => value.Read();

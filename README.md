@@ -1,9 +1,12 @@
 # Pine
 
-Native uGUI declarations and reactive props in C#. Import `using Pine;`, declare one `App.cs`, and return a `View` from `App.Mount()`. Generated startup builds it once. Sources/getters update the same native components.
+Reactive native uGUI and UI Toolkit declarations in C#. Import `using Pine;` and either `using Pine.uGUI;` or `using Pine.UIToolkit;`. The selected renderer supplies `P` and `View`; sources, scopes and components share one reactive core. Declare one `App.cs` returning a `View` from `App.Mount()` for automatic startup.
+
+Pine **1.2.0** adds UI Toolkit. Existing users must add `using Pine.uGUI;` alongside `using Pine;`; the renderer namespace change is breaking. Install through Package Manager with `https://github.com/pine-ui/package.git#v1.2.0`, or download the [UPM archive](https://github.com/pine-ui/package/releases/download/v1.2.0/com.kbenim.pine-1.2.0.tgz).
 
 ```csharp
 using Pine;
+using Pine.uGUI;
 using UnityEngine;
 
 public static class App
@@ -49,7 +52,7 @@ Import the Counter or Component composition sample. For Unity callbacks, define 
 
 Custom `P.Declare<T>` views accept `properties: new IProperty<T>[] { ... }` for the existing typed `P.Set`, `P.Group` and event bindings. Sources/getters remain reactive; property arrays are copied and bindings end with the declaration's lifetime. The [native API guide](Documentation~/index.md) shows custom field and forward-reference mappings without a required `configure` callback.
 
-Install `https://github.com/pine-ui/package.git#v1.1.0` with Package Manager, or use the [1.1.0 archive](https://pine-ui.com/packages/com.kbenim.pine-1.1.0.tgz). The manifest baseline remains Unity 6000.3/uGUI 2.0.0/Input System 1.20.1. [Compatibility](COMPATIBILITY.md) records the verification boundary.
+The manifest baseline remains Unity 6000.3/uGUI 2.0.0/Input System 1.20.1. [Compatibility](COMPATIBILITY.md) records the verification boundary. [UI Toolkit](Documentation~/ui-toolkit.md) covers native controls, reactive USS properties, UXML, bindings, virtualized collections and Editor roots.
 
 Missing-only TMP/input setup preserves project resources and external ownership. Native transitions, navigation and structs keep their declared settings. The auto canvas persists by default; `CanvasOptions.Persistent=false` gives scene lifetime. Explicit Canvas roots retain their own settings.
 
