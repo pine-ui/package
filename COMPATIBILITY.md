@@ -1,6 +1,6 @@
 # Pine compatibility
 
-## Source audit — 2026-10-07
+## 1.1.1 source audit — 2026-10-07
 
 The source-audit patch was executed against the committed uGUI implementation based on `eb502c4`, in separate Windows projects using Unity 6000.3.0f1 and 6000.3.25f1, uGUI 2.0.0 and Input System 1.20.1.
 
@@ -19,9 +19,9 @@ The patch fixes Active property activation ordering, stable ordering when an ass
 
 A warmed .NET 8 Release benchmark (median of five samples) reduced disposal of 20,000 empty effects from 255.516 ms / 1,280,000 allocated bytes to 0.464 ms / 0 allocated bytes. This establishes the bulk-cleanup improvement; it is not a Unity frame-time benchmark. Standalone, mobile, WebGL and IL2CPP/AOT remain unverified. Concurrent UI Toolkit development is covered by its own verification.
 
-## Unreleased declarative extensions
+## Declarative extension verification before the source audit
 
-Verified on 2026-10-07 against Unity 6000.3.0f1 and 6000.3.25f1 on Windows, with uGUI 2.0.0 and Input System 1.20.1. The published 1.1.0 results below remain historical.
+This earlier stage was verified on 2026-10-07 against Unity 6000.3.0f1 and 6000.3.25f1 on Windows, with uGUI 2.0.0 and Input System 1.20.1. The 1.1.1 source-audit results above supersede these counts. The published 1.1.0 results below remain historical.
 
 | Check | Result in each Editor |
 | --- | --- |

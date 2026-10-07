@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.1 — 2026-10-07
 
 - Map safe areas through parent/canvas/camera geometry, restore layout when disabled, and validate supported screen-space transforms.
 - Fix scoped cleanup error reporting, custom Active property ordering, reused-action ordering, spring control/overflow handling and source-generator handling of native types named View.

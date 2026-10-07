@@ -7,7 +7,7 @@ namespace Pine
     public static partial class P
     {
         /// <summary>Returns the API version.</summary>
-        public static Version Version => new(1, 1, 0);
+        public static Version Version => new(1, 1, 1);
 
         /// <summary>Global explicit reactive motion preference.</summary>
         public static Source<bool> ReducedMotion { get; } = new(false, null);
