@@ -76,6 +76,7 @@ namespace Pine.Tests
                 _deadline = EditorApplication.timeSinceStartup + 90;
                 EditorApplication.update += Advance;
             }
+
             if (state == PlayModeStateChange.EnteredEditMode)
             {
                 SessionState.SetBool(Requested, false);
@@ -99,6 +100,7 @@ namespace Pine.Tests
             {
                 Debug.LogException(error);
             }
+
             EditorApplication.update -= Advance;
             Application.logMessageReceived -= Log;
             (_checks as IDisposable)?.Dispose();
@@ -129,6 +131,7 @@ namespace Pine.Tests
             {
                 rejected = true;
             }
+
             Check(rejected, message);
         }
 
@@ -143,20 +146,28 @@ namespace Pine.Tests
 
         private static void Verify()
         {
+            PineAuthoringChecks.Run();
             var count = P.Source(0);
             UnityEngine.Events.UnityEvent click = null;
             Button button = null;
             TMP_Text label = null;
-            var recipe = P.Button(onClick: () => count.Value++, reference: b => button = b)
-                .With(
+            var recipe = P.Button(
+                onClick: () => count.Value++,
+                reference: b => button = b,
+                children: new[]
+                {
                     P.Self(P.Image(color: Color.gray)),
                     P.Shadow(effectDistance: new Vector2(1, -1)),
                     P.Outline(effectColor: Color.black),
-                    P.Text(() => $"Count: {count.Value}", reference: t => label = t)
-                        .With(P.Outline(effectColor: Color.red))
-                );
+                    P.Text(
+                        () => $"Count: {count.Value}",
+                        reference: t => label = t,
+                        children: new[] { P.Outline(effectColor: Color.red) }
+                    ),
+                }
+            );
             Check(button == null, "Declarations defer native creation.");
-            using (var mount = P.Mount(P.Vertical().With(recipe)))
+            using (var mount = P.Mount(P.Vertical(children: new[] { recipe })))
             {
                 var background = button.GetComponent<Image>();
                 Check(
@@ -204,10 +215,10 @@ namespace Pine.Tests
                 );
                 P.ReducedMotion.Value = false;
             }
+
             Check(label == null, "Mount disposal destroys native children.");
             click.Invoke();
             Check(count.Value == 2, "Disposed events are disconnected.");
-
             var colors = ColorBlock.defaultColorBlock;
             colors.highlightedColor = Color.magenta;
             colors.fadeDuration = .7f;
@@ -231,6 +242,7 @@ namespace Pine.Tests
                     "Button caption convenience is wired."
                 );
             }
+
             TMP_InputField input = null;
             Slider slider = null;
             Toggle toggle = null;
@@ -241,8 +253,9 @@ namespace Pine.Tests
             var isOn = P.Source(false);
             using (
                 var mount = P.Mount(
-                    P.Frame()
-                        .With(
+                    P.Frame(
+                        children: new[]
+                        {
                             P.InputField(text: text, reference: i => input = i),
                             P.Slider(
                                 minValue: 0,
@@ -259,8 +272,9 @@ namespace Pine.Tests
                                 },
                                 value: selected,
                                 reference: d => dropdown = d
-                            )
-                        )
+                            ),
+                        }
+                    )
                 )
             )
             {
@@ -299,6 +313,7 @@ namespace Pine.Tests
                     "Dropdown owns an inactive native template."
                 );
             }
+
             using (
                 var mount = P.Mount(
                     P.InputField(
@@ -319,7 +334,6 @@ namespace Pine.Tests
                             .GetValue(input) == "^[0-9]+$",
                     "Private serialized TMP regex setting matches the Inspector."
                 );
-
             bool changed = false;
             UnityEngine.Events.UnityEvent<bool> toggleEvent = null;
             using (
@@ -342,6 +356,7 @@ namespace Pine.Tests
                 toggleEvent = toggle.onValueChanged;
                 Check(changed, "Public field UnityEvents accept owned callbacks.");
             }
+
             changed = false;
             toggleEvent.Invoke(true);
             Check(!changed, "Public field event callbacks detach on disposal.");
@@ -351,13 +366,15 @@ namespace Pine.Tests
             UnityEngine.InputSystem.UI.InputSystemUIInputModule module = null;
             using (
                 var mount = P.Mount(
-                    P.EventSystem()
-                        .With(
+                    P.EventSystem(
+                        children: new[]
+                        {
                             P.InputSystemUIInputModule(
                                 sendPointerHoverToParent: false,
                                 reference: m => module = m
-                            )
-                        )
+                            ),
+                        }
+                    )
                 )
             )
                 Check(
@@ -375,7 +392,7 @@ namespace Pine.Tests
             var first = P.Text("First", name: "First");
             var second = P.Text("Second", name: "Second");
             var rows = P.Source<IReadOnlyList<View>>(new[] { first, second });
-            using (var mount = P.Mount(P.Vertical().With(() => rows.Value)))
+            using (var mount = P.Mount(P.Vertical(children: () => rows.Value)))
             {
                 var original = mount.Root.transform.GetChild(0);
                 rows.Value = new[] { second, first };
@@ -389,6 +406,7 @@ namespace Pine.Tests
                     "Removed tracked children are disposed."
                 );
             }
+
             using (
                 var mount = P.Mount(() =>
                 {
@@ -398,14 +416,13 @@ namespace Pine.Tests
                         (item, index) => P.Text(() => $"{index.Value}:{item}")
                     );
                     P.Cleanup(() => items.Value = Array.Empty<string>());
-                    return P.Vertical().With(() => mapped.Value);
+                    return P.Vertical(children: () => mapped.Value);
                 })
             )
                 Check(
                     mount.Root.transform.childCount == 2,
                     "Existing keyed operators compose deferred children."
                 );
-
             var context = P.Context("fallback");
             string seen = null;
             using (
@@ -425,66 +442,67 @@ namespace Pine.Tests
                 button.onClick.Invoke();
                 Check(seen == "provided", "Deferred callbacks retain their declaration context.");
             }
-            foreach (
-                var attachment in new[]
-                {
-                    P.Outline(),
-                    P.Self(P.Image()),
-                    P.Component<PineNativeProbe>(probe => probe.Create(true)),
-                }
-            )
-            {
-                bool rejected = false;
-                try
-                {
-                    attachment.With(() => Array.Empty<View>());
-                }
-                catch (InvalidOperationException)
-                {
-                    rejected = true;
-                }
-                Check(rejected, "Tracked children belong on the containing visual view.");
-            }
+
             bool selfChildrenRejected = false;
             try
             {
-                P.Self(P.Image().With(() => Array.Empty<View>()));
+                P.Self(P.Image(children: () => Array.Empty<View>()));
             }
             catch (InvalidOperationException)
             {
                 selfChildrenRejected = true;
             }
+
             Check(
                 selfChildrenRejected,
                 "Self cannot hide a second tracked child group on its parent."
             );
             Reject(P.Outline(), "A modifier cannot be a root.");
             Reject(
-                P.Image().With(P.Self(P.RawImage())),
+                P.Image(children: new[] { P.Self(P.RawImage()) }),
                 "Conflicting same-object Graphics fail clearly."
             );
+            using (
+                var repeated = P.Mount(
+                    P.Button(
+                        children: new[]
+                        {
+                            P.Outline(effectColor: Color.red),
+                            P.Outline(effectColor: Color.blue),
+                        }
+                    )
+                )
+            )
+            {
+                var outlines = repeated.Root.GetComponents<Outline>();
+                Check(
+                    outlines.Length == 2
+                        && outlines[0].effectColor == Color.red
+                        && outlines[1].effectColor == Color.blue,
+                    "Unity-allowed repeated components retain independent settings."
+                );
+            }
+
             Reject(
-                P.Button().With(P.Outline(), P.Outline()),
-                "Duplicate same-object native declarations fail clearly."
-            );
-            Reject(
-                P.Frame().With(() => new[] { first, first }),
+                P.Frame(children: () => new[] { first, first }),
                 "Duplicate dynamic children fail clearly."
             );
-
-            var owner = P.Text("Owner");
-            var extended = owner.With(P.Text("Child"));
-            using (var mount = P.Mount(P.Frame().With(owner, extended)))
+            var childArray = new[] { P.Text("Child") };
+            var owner = P.Frame(children: childArray);
+            childArray[0] = P.Text("Changed");
+            using (var mount = P.Mount(owner))
                 Check(
-                    mount.Root.transform.GetChild(0).childCount == 0
-                        && mount.Root.transform.GetChild(1).childCount == 1,
-                    "With is immutable and reusable."
+                    mount.Root.GetComponentInChildren<TMP_Text>().text == "Child",
+                    "Factory children are copied into reusable declarations."
                 );
             UnityEngine.Canvas explicitCanvas = null;
             using (
                 var mount = P.Mount(
-                    P.Canvas(sortingOrder: 7, reference: c => explicitCanvas = c)
-                        .With(P.CanvasScaler(scaleFactor: 2), P.Text("Canvas"))
+                    P.Canvas(
+                        sortingOrder: 7,
+                        reference: c => explicitCanvas = c,
+                        children: new[] { P.CanvasScaler(scaleFactor: 2), P.Text("Canvas") }
+                    )
                 )
             )
                 Check(
@@ -493,7 +511,6 @@ namespace Pine.Tests
                         && explicitCanvas.sortingOrder == 7,
                     "Explicit Canvas settings do not create a second canvas."
                 );
-
             var factories = typeof(P)
                 .GetMethods()
                 .Where(m =>
@@ -513,9 +530,17 @@ namespace Pine.Tests
                     );
                 View root;
                 if (factory.Name == "EventSystem")
-                    root = view.With(InputModule());
-                else if (new[] { "CanvasScaler", "GraphicRaycaster" }.Contains(factory.Name))
-                    root = P.Canvas().With(view);
+                    root = view;
+                else if (
+                    new[]
+                    {
+                        "CanvasScaler",
+                        "GraphicRaycaster",
+                        "TrackedDeviceRaycaster",
+                        "VirtualMouseInput",
+                    }.Contains(factory.Name)
+                )
+                    root = P.Canvas(children: new[] { view });
                 else if (
                     new[]
                     {
@@ -524,14 +549,14 @@ namespace Pine.Tests
                         "BaseInput",
                     }.Contains(factory.Name)
                 )
-                    root = P.EventSystem().With(view, InputModule());
+                    root = P.EventSystem(children: new[] { view, InputModule() });
                 else
-                    root = P.Frame().With(view, P.Self(P.Image()));
+                    root = P.Frame(children: new[] { view, P.Self(P.Image()) });
                 if (
                     factory.Name == "InputSystemUIInputModule"
                     || factory.Name == "StandaloneInputModule"
                 )
-                    root = P.EventSystem().With(view);
+                    root = P.EventSystem(children: new[] { view });
                 using var mount = P.Mount(root);
                 Check(mount.Root != null, "Native catalog factory mounts: " + factory.Name);
             }
@@ -564,7 +589,6 @@ namespace Pine.Tests
                 "Native destruction disposes behaviour and bindings once."
             );
             mount.Dispose();
-
             TMP_Dropdown dropdown = null;
             using (
                 var menu = P.Mount(
@@ -575,6 +599,9 @@ namespace Pine.Tests
                 )
             )
             {
+                int readyFrame = Time.frameCount + 1;
+                while (Time.frameCount < readyFrame)
+                    yield return null;
                 dropdown.Show();
                 yield return null;
                 Check(
@@ -584,12 +611,14 @@ namespace Pine.Tests
                 dropdown.Hide();
                 yield return null;
             }
+
             Source<string> text = P.Source("Inactive");
             int reads = 0;
             using (
                 var parent = P.Mount(
-                    P.Frame()
-                        .With(
+                    P.Frame(
+                        children: new[]
+                        {
                             P.Text(
                                 () =>
                                 {
@@ -598,8 +627,9 @@ namespace Pine.Tests
                                 },
                                 active: false,
                                 name: "Inactive child"
-                            )
-                        )
+                            ),
+                        }
+                    )
                 )
             )
             {
@@ -611,8 +641,9 @@ namespace Pine.Tests
                 text.Value = "Changed";
                 Check(reads == before, "Never-active destroyed children stop observing sources.");
             }
+
             var inactive = P.Mount(
-                P.Frame(active: false).With(P.Text("Inactive child", active: false))
+                P.Frame(active: false, children: new[] { P.Text("Inactive child", active: false) })
             );
             UnityEngine.Object.Destroy(inactive.Root);
             yield return null;

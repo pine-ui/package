@@ -7,7 +7,10 @@ namespace Pine
     public static partial class P
     {
         /// <summary>Declares an owned Unity behaviour and its deferred UI.</summary>
-        public static View Component<TBehaviour>(Func<TBehaviour, View> render)
+        public static View Component<TBehaviour>(
+            Func<TBehaviour, View> render,
+            View[] children = null
+        )
             where TBehaviour : MonoBehaviour
         {
             if (render == null)
@@ -19,6 +22,7 @@ namespace Pine
                 null,
                 false,
                 null,
+                entries: children,
                 factory: parent =>
                 {
                     var owner = new GameObject(

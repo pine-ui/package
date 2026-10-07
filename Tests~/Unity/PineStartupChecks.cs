@@ -31,7 +31,7 @@ namespace Pine.Tests
             });
             P.Cleanup(() => Cleaned++);
             Initialized = true;
-            return P.Vertical(spacing: 8).With(P.Text(() => Count.Value.ToString()));
+            return P.Vertical(spacing: 8, children: new[] { P.Text(() => Count.Value.ToString()) });
         }
 
         private void Awake() => AwakeAfterCreate = Initialized;
@@ -99,6 +99,7 @@ namespace Pine.Tests
                     EditorApplication.delayCall += () => EditorApplication.isPlaying = true;
                     return;
                 }
+
                 if (SessionState.GetBool(Requested + ".RestoreOptions", false))
                 {
                     EditorSettings.enterPlayModeOptionsEnabled = SessionState.GetBool(
@@ -109,6 +110,7 @@ namespace Pine.Tests
                         SessionState.GetInt(Requested + ".OldOptions", 0);
                     SessionState.SetBool(Requested + ".RestoreOptions", false);
                 }
+
                 SessionState.SetBool(Requested, false);
                 EditorApplication.Exit(SessionState.GetInt(Requested + ".Exit", 1));
             }
@@ -129,6 +131,7 @@ namespace Pine.Tests
             {
                 Debug.LogException(error);
             }
+
             EditorApplication.update -= Advance;
             (_checks as IDisposable)?.Dispose();
             EditorApplication.isPlaying = false;
@@ -159,13 +162,17 @@ namespace Pine.Tests
                 application.GetComponentsInChildren<MonoBehaviour>().Length >= 4,
                 "Generated factories create nested Unity behaviours."
             );
-
             PineCallbackProbe.Destroyed = PineCallbackProbe.Cleaned = PineCallbackProbe.Reads = 0;
             RectTransform view = null;
             var mount = P.Mount(component: () =>
-                P.Component<PineCallbackProbe>(render: p => p.Create())
-                    .With(P.Self(P.Declare<RectTransform>(reference: native => view = native)))
+                P.Component<PineCallbackProbe>(p =>
+                {
+                    var declaration = p.Create();
+                    view = (RectTransform)p.transform;
+                    return declaration;
+                })
             );
+            view = mount.Root.GetComponent<RectTransform>();
             var instance = PineCallbackProbe.Instance;
             var count = instance.Count;
             try
@@ -252,6 +259,7 @@ namespace Pine.Tests
             {
                 rejected = true;
             }
+
             Check(
                 rejected && external.transform.parent == null,
                 "Persistence never reparents an externally owned parent."

@@ -15,7 +15,15 @@ namespace Pine.Editor
     {
         private const string RestartKey = "Pine.Setup.RestartPending";
 
-        static PinePackageSetup() => EditorApplication.delayCall += Configure;
+        static PinePackageSetup()
+        {
+            EditorApplication.delayCall += Configure;
+            EditorApplication.playModeStateChanged += state =>
+            {
+                if (state == PlayModeStateChange.ExitingEditMode)
+                    Configure();
+            };
+        }
 
         internal static void Configure()
         {
@@ -45,6 +53,13 @@ namespace Pine.Editor
             var copies = CopyDefaultResources(font);
             var settings =
                 existing != null ? existing : ScriptableObject.CreateInstance<TMP_Settings>();
+            typeof(TMP_Settings)
+                .GetMethod(
+                    "SetAssetVersion",
+                    System.Reflection.BindingFlags.Instance
+                        | System.Reflection.BindingFlags.NonPublic
+                )
+                ?.Invoke(settings, null);
             var serialized = new SerializedObject(settings);
             foreach (
                 var pair in new[]
@@ -98,6 +113,9 @@ namespace Pine.Editor
                     .FindAssets("", new[] { source })
                     .Select(AssetDatabase.GUIDToAssetPath)
                     .Where(file => !AssetDatabase.IsValidFolder(file))
+                    .OrderBy(file =>
+                        file.EndsWith(".shader", StringComparison.OrdinalIgnoreCase) ? 1 : 0
+                    )
             )
             {
                 string original = file.Replace('\\', '/');

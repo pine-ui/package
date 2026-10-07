@@ -16,6 +16,12 @@ var paths = Directory
         Directory.GetFiles(Path.Combine(editor, "MonoBleedingEdge/lib/mono/4.7.2-api"), "*.dll")
     )
     .Concat(
+        Directory.GetFiles(
+            Path.Combine(editor, "MonoBleedingEdge/lib/mono/4.7.2-api/Facades"),
+            "*.dll"
+        )
+    )
+    .Concat(
         new[] { "UnityEngine.UI.dll", "Unity.TextMeshPro.dll", "Unity.InputSystem.dll" }.Select(n =>
             Path.Combine(assemblies, n)
         )
@@ -61,9 +67,29 @@ var catalog = new (string Factory, string Type, bool Modifier, string? Gate)[]
     ("PositionAsUV1", "UnityEngine.UI.PositionAsUV1", true, null),
     ("ToggleGroup", "UnityEngine.UI.ToggleGroup", true, null),
     ("CanvasRenderer", "UnityEngine.CanvasRenderer", true, null),
+    ("Animator", "UnityEngine.Animator", true, null),
     ("EventTrigger", "UnityEngine.EventSystems.EventTrigger", true, null),
     ("EventSystem", "UnityEngine.EventSystems.EventSystem", false, null),
     ("BaseInput", "UnityEngine.EventSystems.BaseInput", true, null),
+    ("PlayerInput", "UnityEngine.InputSystem.PlayerInput", true, "ENABLE_INPUT_SYSTEM"),
+    (
+        "MultiplayerEventSystem",
+        "UnityEngine.InputSystem.UI.MultiplayerEventSystem",
+        false,
+        "ENABLE_INPUT_SYSTEM"
+    ),
+    (
+        "TrackedDeviceRaycaster",
+        "UnityEngine.InputSystem.UI.TrackedDeviceRaycaster",
+        true,
+        "ENABLE_INPUT_SYSTEM"
+    ),
+    (
+        "VirtualMouseInput",
+        "UnityEngine.InputSystem.UI.VirtualMouseInput",
+        true,
+        "ENABLE_INPUT_SYSTEM"
+    ),
     (
         "StandaloneInputModule",
         "UnityEngine.EventSystems.StandaloneInputModule",
@@ -89,15 +115,12 @@ var excluded = new HashSet<string>
     "useGUILayout",
     "runInEditMode",
     "destroyCancellationToken",
-    "isOverlay",
     "maskType",
     "isUsingLegacyAnimationComponent",
     "isUsingBold",
     "hasPropertiesChanged",
     "isVolumetricText",
     "havePropertiesChanged",
-    "autoSizeTextContainer",
-    "maskOffset",
     "fontSizeBase",
     "isUsingLegacyAnimationComponent",
     "isInputParsingRequired",
@@ -142,12 +165,42 @@ foreach (var entry in catalog)
         throw new InvalidOperationException("Missing native type " + entry.Type);
     var props = Properties(type)
         .Where(p => !excluded.Contains(p.Name) && p.Type.SpecialType != SpecialType.System_Void)
-        .Select(p => new Prop(p.Name, Name(p.Type), EventArguments(p.Type), Gate(p), false))
+        .Select(p => new Prop(
+            Alias(entry.Type, p.Name),
+            Name(p.Type),
+            EventArguments(p.Type),
+            Gate(p),
+            false,
+            NativeMember: p.Name,
+            Part: IsPart(p.Type)
+        ))
         .ToList();
     props.AddRange(
         Fields(type)
             .Where(f => !excluded.Contains(f.Name) && !props.Any(p => p.Name == f.Name))
-            .Select(f => new Prop(f.Name, Name(f.Type), EventArguments(f.Type), null, false))
+            .Select(f => new Prop(
+                f.Name,
+                Name(f.Type),
+                EventArguments(f.Type),
+                null,
+                false,
+                NativeMember: f.Name,
+                Part: IsPart(f.Type)
+            ))
+    );
+    props.AddRange(
+        Events(type)
+            .Select(e => new Prop(
+                e.Name,
+                Name(e.Type),
+                ((INamedTypeSymbol)e.Type)
+                    .DelegateInvokeMethod!.Parameters.Select(p => Name(p.Type))
+                    .ToArray(),
+                null,
+                false,
+                NativeMember: e.Name,
+                NativeEvent: true
+            ))
     );
     if (entry.Factory is "StandaloneInputModule" or "InputSystemUIInputModule")
         props.Add(new Prop("sendPointerHoverToParent", "bool", null, null, false));
@@ -163,15 +216,70 @@ foreach (var entry in catalog)
     if (entry.Factory == "InputField")
         props.Add(new Prop("regexValue", "string", null, null, false));
     if (entry.Type == "UnityEngine.UI.Button" || entry.Type == "UnityEngine.UI.Toggle")
+    {
         props.Insert(0, new Prop("text", "string", null, null, false));
+        props.Add(
+            new Prop(
+                "caption",
+                "global::TMPro.TMP_Text",
+                null,
+                null,
+                false,
+                Part: true,
+                Synthetic: true
+            )
+        );
+    }
+    if (entry.Factory == "EventTrigger")
+    {
+        var triggerType = compilation.GetTypeByMetadataName(
+            "UnityEngine.EventSystems.EventTriggerType"
+        )!;
+        foreach (
+            var field in triggerType
+                .GetMembers()
+                .OfType<IFieldSymbol>()
+                .Where(f => f.HasConstantValue)
+        )
+            props.Add(
+                new Prop(
+                    "on" + field.Name,
+                    "global::UnityEngine.EventSystems.BaseEventData",
+                    new[] { "global::UnityEngine.EventSystems.BaseEventData" },
+                    null,
+                    false,
+                    NativeMember: field.Name,
+                    Synthetic: true,
+                    Trigger: true
+                )
+            );
+    }
+    if (entry.Factory is "Dropdown" or "LegacyDropdown")
+        props.Add(
+            new Prop(
+                "item",
+                "global::UnityEngine.UI.Toggle",
+                null,
+                null,
+                false,
+                Part: true,
+                Synthetic: true
+            )
+        );
     if (entry.Factory is "Text" or "LegacyText" or "InputField" or "LegacyInputField")
         props = props.OrderBy(p => p.Name == "text" ? 0 : 1).ToList();
     props = props.OrderBy(p => p.Name == "text" ? -1 : Priority(p.Name)).ToList();
     if (entry.Gate != null)
         output.Append("#if ").Append(entry.Gate).Append('\n');
-    EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, false);
+    EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, false, false);
+    if (!entry.Modifier)
+        EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, false, true);
     if (entry.Factory is "Text" or "LegacyText" or "Button")
-        EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, true);
+    {
+        EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, true, false);
+        if (!entry.Modifier)
+            EmitFactory(entry.Factory, entry.Type, entry.Modifier, props, true, true);
+    }
     if (entry.Gate != null)
         output.Append("#endif\n\n");
     inventory.Add(
@@ -181,6 +289,7 @@ foreach (var entry in catalog)
             nativeType = entry.Type,
             placement = entry.Modifier ? "component" : "child",
             gate = entry.Gate,
+            children = entry.Modifier ? "static" : "static-or-getter",
             properties = props,
         }
     );
@@ -202,6 +311,35 @@ File.WriteAllText(
     JsonSerializer.Serialize(inventory, new JsonSerializerOptions { WriteIndented = true })
 );
 Console.WriteLine($"Generated {catalog.Length} native factories from public Unity metadata.");
+
+bool IsPart(ITypeSymbol type)
+{
+    for (var current = type as INamedTypeSymbol; current != null; current = current.BaseType)
+        if (current.ToDisplayString() is "UnityEngine.Component" or "UnityEngine.GameObject")
+            return true;
+    return false;
+}
+string Alias(string type, string name) =>
+    (type, name) switch
+    {
+        ("UnityEngine.UI.Slider", "fillRect") => "fill",
+        ("UnityEngine.UI.Slider" or "UnityEngine.UI.Scrollbar", "handleRect") => "handle",
+        ("TMPro.TMP_InputField", "textViewport") => "viewport",
+        _ => name,
+    };
+IEnumerable<IEventSymbol> Events(INamedTypeSymbol type)
+{
+    var names = new HashSet<string>();
+    for (var current = type; current != null; current = current.BaseType)
+        foreach (var item in current.GetMembers().OfType<IEventSymbol>())
+            if (
+                !item.IsStatic
+                && item.DeclaredAccessibility == Accessibility.Public
+                && !Obsolete(item)
+                && names.Add(item.Name)
+            )
+                yield return item;
+}
 
 IEnumerable<IPropertySymbol> Properties(INamedTypeSymbol type)
 {
@@ -261,10 +399,18 @@ int Priority(string name) =>
         "maxValue" => 3,
         "wholeNumbers" => 4,
         "options" => 5,
+        "actionsAsset" or "runtimeAnimatorController" => 0,
         "value" or "isOn" => 30,
         _ => 10,
     };
-void EmitFactory(string factory, string native, bool modifier, List<Prop> props, bool getter)
+void EmitFactory(
+    string factory,
+    string native,
+    bool modifier,
+    List<Prop> props,
+    bool getter,
+    bool reactive
+)
 {
     var gate = props.FirstOrDefault(p => p.Gate != null)?.Gate;
     if (gate != null)
@@ -275,10 +421,18 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
             native,
             modifier,
             props.Select(p => p.Gate == gate ? p with { Gate = null } : p).ToList(),
-            getter
+            getter,
+            reactive
         );
         output.Append("#else\n");
-        EmitFactory(factory, native, modifier, props.Where(p => p.Gate != gate).ToList(), getter);
+        EmitFactory(
+            factory,
+            native,
+            modifier,
+            props.Where(p => p.Gate != gate).ToList(),
+            getter,
+            reactive
+        );
         output.Append("#endif\n\n");
         return;
     }
@@ -294,12 +448,17 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
         .Append("</summary>\n        public static View ")
         .Append(factory)
         .Append("(\n");
+    if (reactive && !getter)
+        output.Append(
+            "            Func<global::System.Collections.Generic.IEnumerable<View>> children,\n"
+        );
     foreach (var prop in props)
     {
         string type =
             prop.Event != null
                 ? "Action"
                     + (prop.Event.Length == 0 ? "" : "<" + string.Join(", ", prop.Event) + ">")
+            : prop.Part ? "Part<" + prop.Type + ">?"
             : getter && prop.Name == "text" ? "Func<string>"
             : "Value<" + prop.Type + ">?";
         output
@@ -308,7 +467,14 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
             .Append(' ')
             .Append(Escape(prop.Name))
             .Append(getter && prop.Name == "text" ? ",\n" : " = null,\n");
+        if (reactive && getter && prop.Name == "text")
+            output.Append(
+                "            Func<global::System.Collections.Generic.IEnumerable<View>> children,\n"
+            );
     }
+    if (!reactive)
+        output.Append("            View[] children = null,\n");
+    output.Append("            View[] components = null,\n");
     output
         .Append("            Action<global::")
         .Append(native)
@@ -327,20 +493,24 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
                 .Append(prop.Name == "text" ? "new Value<string>(text)" : Escape(prop.Name))
                 .Append(",\n");
         }
-        output.Append("                configure: configure, reference: reference);\n\n");
+        output.Append(
+            "                children: children, components: components, configure: configure, reference: reference);\n\n"
+        );
         return;
     }
     output
-        .Append("            => Declare<global::")
+        .Append("            => DeclareNative<global::")
         .Append(native)
         .Append(">(modifier: ")
         .Append(modifier ? "true" : "false")
-        .Append(", active: active, configure: target =>\n            {\n");
+        .Append(", active: active, configure: (target, partsMap) =>\n            {\n");
     if (entryIsTextCaption(native))
-        output.Append("                if (text.HasValue) ControlCaption(target, text.Value);\n");
+        output.Append(
+            "                if (text.HasValue) ControlCaption(target, text.Value, partsMap, caption);\n"
+        );
     foreach (
         var prop in props
-            .Where(p => p.Event == null && p.Name != "active")
+            .Where(p => p.Event == null && p.Name != "active" && !p.Part && !p.Synthetic)
             .OrderBy(p => Input(native, p.Name) != null ? 100 : Priority(p.Name))
     )
     {
@@ -349,7 +519,8 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
         var target = prop.Rect ? "(global::UnityEngine.RectTransform)target.transform" : "target";
         if (prop.Name is "layer" or "isStatic")
             target = "target.gameObject";
-        var input = Input(native, prop.Name);
+        var member = prop.NativeMember ?? prop.Name;
+        var input = Input(native, member);
         if (prop.Name == "regexValue")
             output.Append("                Prop(target, regexValue, SetRegex);\n");
         else if (prop.Name == "sendPointerHoverToParent")
@@ -361,7 +532,7 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
                 .Append("                InputProp(target, ")
                 .Append(Escape(prop.Name))
                 .Append(", t => t.")
-                .Append(prop.Name)
+                .Append(member)
                 .Append(", (t, v) => t.")
                 .Append(input.Value.Setter)
                 .Append("(v), t => t.")
@@ -374,11 +545,49 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
                 .Append(", ")
                 .Append(Escape(prop.Name))
                 .Append(", (t, v) => t.")
-                .Append(Escape(prop.Name))
+                .Append(Escape(member))
                 .Append(" = v);\n");
     }
     foreach (var prop in props.Where(p => p.Event != null))
     {
+        if (prop.Trigger)
+        {
+            output
+                .Append(
+                    "                ListenTrigger(target, global::UnityEngine.EventSystems.EventTriggerType."
+                )
+                .Append(prop.NativeMember)
+                .Append(", ")
+                .Append(prop.Name)
+                .Append(");\n");
+            continue;
+        }
+        if (prop.NativeEvent)
+        {
+            var arguments = string.Join(", ", prop.Event!.Select((_, index) => "arg" + index));
+            output
+                .Append("                if (")
+                .Append(Escape(prop.Name))
+                .Append(" != null)\n                {\n")
+                .Append(
+                    "                    var eventScope = RequireScope();\n                    "
+                )
+                .Append(prop.Type)
+                .Append(" handler = (")
+                .Append(arguments)
+                .Append(
+                    ") => { if (!eventScope.IsDisposed) eventScope.Run(() => Batch(() => Untrack(() => "
+                )
+                .Append(Escape(prop.Name))
+                .Append('(')
+                .Append(arguments)
+                .Append(")))); };\n                    target.")
+                .Append(prop.NativeMember)
+                .Append(" += handler;\n                    Cleanup(() => target.")
+                .Append(prop.NativeMember)
+                .Append(" -= handler);\n                }\n");
+            continue;
+        }
         output
             .Append("                Listen(target.")
             .Append(Escape(prop.Name))
@@ -386,9 +595,34 @@ void EmitFactory(string factory, string native, bool modifier, List<Prop> props,
             .Append(Escape(prop.Name))
             .Append(");\n");
     }
-    output.Append(
-        "                configure?.Invoke(target);\n            }, reference: reference);\n\n"
-    );
+    output
+        .Append(
+            "                configure?.Invoke(target);\n            }, reference: reference,\n"
+        )
+        .Append(
+            reactive
+                ? "            children: null, readChildren: children ?? throw new ArgumentNullException(nameof(children)),\n"
+                : "            children: children, readChildren: null,\n"
+        )
+        .Append("            parts: new NativePart[]\n            {\n");
+    foreach (var prop in props.Where(p => p.Part))
+        output
+            .Append("                NativePart<global::")
+            .Append(native)
+            .Append(", ")
+            .Append(prop.Type)
+            .Append("> (\"")
+            .Append(prop.Name)
+            .Append("\", ")
+            .Append(Escape(prop.Name))
+            .Append(", ")
+            .Append(
+                prop.Synthetic
+                    ? "null"
+                    : "(t, v) => t." + Escape(prop.NativeMember ?? prop.Name) + " = v"
+            )
+            .Append("),\n");
+    output.Append("            }, components: components);\n\n");
 }
 bool entryIsTextCaption(string native) =>
     native is "UnityEngine.UI.Button" or "UnityEngine.UI.Toggle";
@@ -412,4 +646,15 @@ bool entryIsTextCaption(string native) =>
 string Escape(string name) =>
     SyntaxFacts.GetKeywordKind(name) != SyntaxKind.None ? "@" + name : name;
 
-record Prop(string Name, string Type, string[]? Event, string? Gate, bool Rect);
+record Prop(
+    string Name,
+    string Type,
+    string[]? Event,
+    string? Gate,
+    bool Rect,
+    string? NativeMember = null,
+    bool Part = false,
+    bool NativeEvent = false,
+    bool Synthetic = false,
+    bool Trigger = false
+);

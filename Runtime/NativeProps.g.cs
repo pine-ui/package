@@ -33,13 +33,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.RectTransform> configure = null,
             Action<global::UnityEngine.RectTransform> reference = null
         ) =>
-            Declare<global::UnityEngine.RectTransform>(
+            DeclareNative<global::UnityEngine.RectTransform>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, anchorMin, (t, v) => t.anchorMin = v);
                     Prop(target, anchorMax, (t, v) => t.anchorMax = v);
@@ -71,13 +73,93 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.RectTransform view; omitted props keep native defaults.</summary>
+        public static View Frame(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<bool>? sendChildDimensionsChange = null,
+            Value<global::UnityEngine.Vector3>? position = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Vector3>? eulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? right = null,
+            Value<global::UnityEngine.Vector3>? up = null,
+            Value<global::UnityEngine.Vector3>? forward = null,
+            Value<global::UnityEngine.Quaternion>? rotation = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.RectTransform> configure = null,
+            Action<global::UnityEngine.RectTransform> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.RectTransform>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, anchorMin, (t, v) => t.anchorMin = v);
+                    Prop(target, anchorMax, (t, v) => t.anchorMax = v);
+                    Prop(target, anchoredPosition, (t, v) => t.anchoredPosition = v);
+                    Prop(target, sizeDelta, (t, v) => t.sizeDelta = v);
+                    Prop(target, pivot, (t, v) => t.pivot = v);
+                    Prop(target, anchoredPosition3D, (t, v) => t.anchoredPosition3D = v);
+                    Prop(target, offsetMin, (t, v) => t.offsetMin = v);
+                    Prop(target, offsetMax, (t, v) => t.offsetMax = v);
+                    Prop(
+                        target,
+                        sendChildDimensionsChange,
+                        (t, v) => t.sendChildDimensionsChange = v
+                    );
+                    Prop(target, position, (t, v) => t.position = v);
+                    Prop(target, localPosition, (t, v) => t.localPosition = v);
+                    Prop(target, eulerAngles, (t, v) => t.eulerAngles = v);
+                    Prop(target, localEulerAngles, (t, v) => t.localEulerAngles = v);
+                    Prop(target, right, (t, v) => t.right = v);
+                    Prop(target, up, (t, v) => t.up = v);
+                    Prop(target, forward, (t, v) => t.forward = v);
+                    Prop(target, rotation, (t, v) => t.rotation = v);
+                    Prop(target, localRotation, (t, v) => t.localRotation = v);
+                    Prop(target, localScale, (t, v) => t.localScale = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
 #if PINE_UGUI_2_7_OR_NEWER
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
         public static View Text(
             Value<string>? text = null,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
             Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
             Value<bool>? isRightToLeftText = null,
             Value<global::TMPro.TMP_FontAsset>? font = null,
@@ -117,7 +199,7 @@ namespace Pine
             Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
-            Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
             Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
                 null,
             Value<bool>? extraPadding = null,
@@ -125,6 +207,7 @@ namespace Pine
             Value<bool>? emojiFallbackSupport = null,
             Value<bool>? enableAdvancedText = null,
             Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
             Value<bool>? isOrthographic = null,
             Value<bool>? enableCulling = null,
             Value<bool>? ignoreVisibility = null,
@@ -152,6 +235,7 @@ namespace Pine
             Value<string>? tag = null,
             Value<string>? name = null,
             Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
             Value<global::UnityEngine.Vector2>? anchorMin = null,
             Value<global::UnityEngine.Vector2>? anchorMax = null,
             Value<global::UnityEngine.Vector2>? pivot = null,
@@ -167,15 +251,19 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
             Action<global::TMPro.TextMeshProUGUI> reference = null
         ) =>
-            Declare<global::TMPro.TextMeshProUGUI>(
+            DeclareNative<global::TMPro.TextMeshProUGUI>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, autoSizeTextContainer, (t, v) => t.autoSizeTextContainer = v);
+                    Prop(target, maskOffset, (t, v) => t.maskOffset = v);
                     Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
                     Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
                     Prop(target, font, (t, v) => t.font = v);
@@ -223,13 +311,13 @@ namespace Pine
                     Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
                     Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
                     Prop(target, overflowMode, (t, v) => t.overflowMode = v);
-                    Prop(target, linkedTextComponent, (t, v) => t.linkedTextComponent = v);
                     Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
                     Prop(target, extraPadding, (t, v) => t.extraPadding = v);
                     Prop(target, richText, (t, v) => t.richText = v);
                     Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
                     Prop(target, enableAdvancedText, (t, v) => t.enableAdvancedText = v);
                     Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
+                    Prop(target, isOverlay, (t, v) => t.isOverlay = v);
                     Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
                     Prop(target, enableCulling, (t, v) => t.enableCulling = v);
                     Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
@@ -323,15 +411,41 @@ namespace Pine
                     Prop(target.gameObject, layer, (t, v) => t.layer = v);
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     Listen(target.onCullStateChanged, onCullStateChanged);
+                    if (OnPreRenderText != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::TMPro.TMP_TextInfo> handler = (arg0) =>
+                        {
+                            if (!eventScope.IsDisposed)
+                                eventScope.Run(() =>
+                                    Batch(() => Untrack(() => OnPreRenderText(arg0)))
+                                );
+                        };
+                        target.OnPreRenderText += handler;
+                        Cleanup(() => target.OnPreRenderText -= handler);
+                    }
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TextMeshProUGUI, global::TMPro.TMP_Text>(
+                        "linkedTextComponent",
+                        linkedTextComponent,
+                        (t, v) => t.linkedTextComponent = v
+                    ),
+                },
+                components: components
             );
 
 #else
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
         public static View Text(
             Value<string>? text = null,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
             Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
             Value<bool>? isRightToLeftText = null,
             Value<global::TMPro.TMP_FontAsset>? font = null,
@@ -371,13 +485,14 @@ namespace Pine
             Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
-            Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
             Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
                 null,
             Value<bool>? extraPadding = null,
             Value<bool>? richText = null,
             Value<bool>? emojiFallbackSupport = null,
             Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
             Value<bool>? isOrthographic = null,
             Value<bool>? enableCulling = null,
             Value<bool>? ignoreVisibility = null,
@@ -405,6 +520,7 @@ namespace Pine
             Value<string>? tag = null,
             Value<string>? name = null,
             Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
             Value<global::UnityEngine.Vector2>? anchorMin = null,
             Value<global::UnityEngine.Vector2>? anchorMax = null,
             Value<global::UnityEngine.Vector2>? pivot = null,
@@ -420,15 +536,19 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
             Action<global::TMPro.TextMeshProUGUI> reference = null
         ) =>
-            Declare<global::TMPro.TextMeshProUGUI>(
+            DeclareNative<global::TMPro.TextMeshProUGUI>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, autoSizeTextContainer, (t, v) => t.autoSizeTextContainer = v);
+                    Prop(target, maskOffset, (t, v) => t.maskOffset = v);
                     Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
                     Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
                     Prop(target, font, (t, v) => t.font = v);
@@ -476,12 +596,12 @@ namespace Pine
                     Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
                     Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
                     Prop(target, overflowMode, (t, v) => t.overflowMode = v);
-                    Prop(target, linkedTextComponent, (t, v) => t.linkedTextComponent = v);
                     Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
                     Prop(target, extraPadding, (t, v) => t.extraPadding = v);
                     Prop(target, richText, (t, v) => t.richText = v);
                     Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
                     Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
+                    Prop(target, isOverlay, (t, v) => t.isOverlay = v);
                     Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
                     Prop(target, enableCulling, (t, v) => t.enableCulling = v);
                     Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
@@ -575,9 +695,605 @@ namespace Pine
                     Prop(target.gameObject, layer, (t, v) => t.layer = v);
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     Listen(target.onCullStateChanged, onCullStateChanged);
+                    if (OnPreRenderText != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::TMPro.TMP_TextInfo> handler = (arg0) =>
+                        {
+                            if (!eventScope.IsDisposed)
+                                eventScope.Run(() =>
+                                    Batch(() => Untrack(() => OnPreRenderText(arg0)))
+                                );
+                        };
+                        target.OnPreRenderText += handler;
+                        Cleanup(() => target.OnPreRenderText -= handler);
+                    }
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TextMeshProUGUI, global::TMPro.TMP_Text>(
+                        "linkedTextComponent",
+                        linkedTextComponent,
+                        (t, v) => t.linkedTextComponent = v
+                    ),
+                },
+                components: components
+            );
+
+#endif
+
+#if PINE_UGUI_2_7_OR_NEWER
+        /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
+        public static View Text(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
+            Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
+            Value<bool>? isRightToLeftText = null,
+            Value<global::TMPro.TMP_FontAsset>? font = null,
+            Value<global::UnityEngine.Material>? fontSharedMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontSharedMaterials = null,
+            Value<global::UnityEngine.Material>? fontMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontMaterials = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<float>? alpha = null,
+            Value<bool>? enableVertexGradient = null,
+            Value<global::TMPro.VertexGradient>? colorGradient = null,
+            Value<global::TMPro.TMP_ColorGradient>? colorGradientPreset = null,
+            Value<global::TMPro.TMP_SpriteAsset>? spriteAsset = null,
+            Value<bool>? tintAllSprites = null,
+            Value<global::TMPro.TMP_StyleSheet>? styleSheet = null,
+            Value<global::TMPro.TMP_Style>? textStyle = null,
+            Value<bool>? overrideColorTags = null,
+            Value<global::UnityEngine.Color32>? faceColor = null,
+            Value<global::UnityEngine.Color32>? outlineColor = null,
+            Value<float>? outlineWidth = null,
+            Value<float>? fontSize = null,
+            Value<global::TMPro.FontWeight>? fontWeight = null,
+            Value<bool>? enableAutoSizing = null,
+            Value<float>? fontSizeMin = null,
+            Value<float>? fontSizeMax = null,
+            Value<global::TMPro.FontStyles>? fontStyle = null,
+            Value<global::TMPro.HorizontalAlignmentOptions>? horizontalAlignment = null,
+            Value<global::TMPro.VerticalAlignmentOptions>? verticalAlignment = null,
+            Value<global::TMPro.TextAlignmentOptions>? alignment = null,
+            Value<float>? characterSpacing = null,
+            Value<float>? characterHorizontalScale = null,
+            Value<float>? wordSpacing = null,
+            Value<float>? lineSpacing = null,
+            Value<float>? lineSpacingAdjustment = null,
+            Value<float>? paragraphSpacing = null,
+            Value<float>? characterWidthAdjustment = null,
+            Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
+            Value<float>? wordWrappingRatios = null,
+            Value<global::TMPro.TextOverflowModes>? overflowMode = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
+            Value<bool>? extraPadding = null,
+            Value<bool>? richText = null,
+            Value<bool>? emojiFallbackSupport = null,
+            Value<bool>? enableAdvancedText = null,
+            Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
+            Value<bool>? isOrthographic = null,
+            Value<bool>? enableCulling = null,
+            Value<bool>? ignoreVisibility = null,
+            Value<global::TMPro.TextureMappingOptions>? horizontalMapping = null,
+            Value<global::TMPro.TextureMappingOptions>? verticalMapping = null,
+            Value<float>? mappingUvLineOffset = null,
+            Value<global::TMPro.TextRenderFlags>? renderMode = null,
+            Value<global::TMPro.VertexSortingOrder>? geometrySortingOrder = null,
+            Value<bool>? isTextObjectScaleStatic = null,
+            Value<bool>? vertexBufferAutoSizeReduction = null,
+            Value<int>? firstVisibleCharacter = null,
+            Value<int>? maxVisibleCharacters = null,
+            Value<int>? maxVisibleWords = null,
+            Value<int>? maxVisibleLines = null,
+            Value<bool>? useMaxVisibleDescender = null,
+            Value<int>? pageToDisplay = null,
+            Value<global::UnityEngine.Vector4>? margin = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::TMPro.TextMeshProUGUI> configure = null,
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            DeclareNative<global::TMPro.TextMeshProUGUI>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, autoSizeTextContainer, (t, v) => t.autoSizeTextContainer = v);
+                    Prop(target, maskOffset, (t, v) => t.maskOffset = v);
+                    Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
+                    Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
+                    Prop(target, font, (t, v) => t.font = v);
+                    Prop(target, fontSharedMaterial, (t, v) => t.fontSharedMaterial = v);
+                    Prop(target, fontSharedMaterials, (t, v) => t.fontSharedMaterials = v);
+                    Prop(target, fontMaterial, (t, v) => t.fontMaterial = v);
+                    Prop(target, fontMaterials, (t, v) => t.fontMaterials = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, alpha, (t, v) => t.alpha = v);
+                    Prop(target, enableVertexGradient, (t, v) => t.enableVertexGradient = v);
+                    Prop(target, colorGradient, (t, v) => t.colorGradient = v);
+                    Prop(target, colorGradientPreset, (t, v) => t.colorGradientPreset = v);
+                    Prop(target, spriteAsset, (t, v) => t.spriteAsset = v);
+                    Prop(target, tintAllSprites, (t, v) => t.tintAllSprites = v);
+                    Prop(target, styleSheet, (t, v) => t.styleSheet = v);
+                    Prop(target, textStyle, (t, v) => t.textStyle = v);
+                    Prop(target, overrideColorTags, (t, v) => t.overrideColorTags = v);
+                    Prop(target, faceColor, (t, v) => t.faceColor = v);
+                    Prop(target, outlineColor, (t, v) => t.outlineColor = v);
+                    Prop(target, outlineWidth, (t, v) => t.outlineWidth = v);
+                    Prop(target, fontSize, (t, v) => t.fontSize = v);
+                    Prop(target, fontWeight, (t, v) => t.fontWeight = v);
+                    Prop(target, enableAutoSizing, (t, v) => t.enableAutoSizing = v);
+                    Prop(target, fontSizeMin, (t, v) => t.fontSizeMin = v);
+                    Prop(target, fontSizeMax, (t, v) => t.fontSizeMax = v);
+                    Prop(target, fontStyle, (t, v) => t.fontStyle = v);
+                    Prop(target, horizontalAlignment, (t, v) => t.horizontalAlignment = v);
+                    Prop(target, verticalAlignment, (t, v) => t.verticalAlignment = v);
+                    Prop(target, alignment, (t, v) => t.alignment = v);
+                    Prop(target, characterSpacing, (t, v) => t.characterSpacing = v);
+                    Prop(
+                        target,
+                        characterHorizontalScale,
+                        (t, v) => t.characterHorizontalScale = v
+                    );
+                    Prop(target, wordSpacing, (t, v) => t.wordSpacing = v);
+                    Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
+                    Prop(target, lineSpacingAdjustment, (t, v) => t.lineSpacingAdjustment = v);
+                    Prop(target, paragraphSpacing, (t, v) => t.paragraphSpacing = v);
+                    Prop(
+                        target,
+                        characterWidthAdjustment,
+                        (t, v) => t.characterWidthAdjustment = v
+                    );
+                    Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
+                    Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
+                    Prop(target, overflowMode, (t, v) => t.overflowMode = v);
+                    Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
+                    Prop(target, extraPadding, (t, v) => t.extraPadding = v);
+                    Prop(target, richText, (t, v) => t.richText = v);
+                    Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
+                    Prop(target, enableAdvancedText, (t, v) => t.enableAdvancedText = v);
+                    Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
+                    Prop(target, isOverlay, (t, v) => t.isOverlay = v);
+                    Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
+                    Prop(target, enableCulling, (t, v) => t.enableCulling = v);
+                    Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
+                    Prop(target, horizontalMapping, (t, v) => t.horizontalMapping = v);
+                    Prop(target, verticalMapping, (t, v) => t.verticalMapping = v);
+                    Prop(target, mappingUvLineOffset, (t, v) => t.mappingUvLineOffset = v);
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, geometrySortingOrder, (t, v) => t.geometrySortingOrder = v);
+                    Prop(target, isTextObjectScaleStatic, (t, v) => t.isTextObjectScaleStatic = v);
+                    Prop(
+                        target,
+                        vertexBufferAutoSizeReduction,
+                        (t, v) => t.vertexBufferAutoSizeReduction = v
+                    );
+                    Prop(target, firstVisibleCharacter, (t, v) => t.firstVisibleCharacter = v);
+                    Prop(target, maxVisibleCharacters, (t, v) => t.maxVisibleCharacters = v);
+                    Prop(target, maxVisibleWords, (t, v) => t.maxVisibleWords = v);
+                    Prop(target, maxVisibleLines, (t, v) => t.maxVisibleLines = v);
+                    Prop(target, useMaxVisibleDescender, (t, v) => t.useMaxVisibleDescender = v);
+                    Prop(target, pageToDisplay, (t, v) => t.pageToDisplay = v);
+                    Prop(target, margin, (t, v) => t.margin = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    if (OnPreRenderText != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::TMPro.TMP_TextInfo> handler = (arg0) =>
+                        {
+                            if (!eventScope.IsDisposed)
+                                eventScope.Run(() =>
+                                    Batch(() => Untrack(() => OnPreRenderText(arg0)))
+                                );
+                        };
+                        target.OnPreRenderText += handler;
+                        Cleanup(() => target.OnPreRenderText -= handler);
+                    }
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TextMeshProUGUI, global::TMPro.TMP_Text>(
+                        "linkedTextComponent",
+                        linkedTextComponent,
+                        (t, v) => t.linkedTextComponent = v
+                    ),
+                },
+                components: components
+            );
+
+#else
+        /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
+        public static View Text(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
+            Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
+            Value<bool>? isRightToLeftText = null,
+            Value<global::TMPro.TMP_FontAsset>? font = null,
+            Value<global::UnityEngine.Material>? fontSharedMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontSharedMaterials = null,
+            Value<global::UnityEngine.Material>? fontMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontMaterials = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<float>? alpha = null,
+            Value<bool>? enableVertexGradient = null,
+            Value<global::TMPro.VertexGradient>? colorGradient = null,
+            Value<global::TMPro.TMP_ColorGradient>? colorGradientPreset = null,
+            Value<global::TMPro.TMP_SpriteAsset>? spriteAsset = null,
+            Value<bool>? tintAllSprites = null,
+            Value<global::TMPro.TMP_StyleSheet>? styleSheet = null,
+            Value<global::TMPro.TMP_Style>? textStyle = null,
+            Value<bool>? overrideColorTags = null,
+            Value<global::UnityEngine.Color32>? faceColor = null,
+            Value<global::UnityEngine.Color32>? outlineColor = null,
+            Value<float>? outlineWidth = null,
+            Value<float>? fontSize = null,
+            Value<global::TMPro.FontWeight>? fontWeight = null,
+            Value<bool>? enableAutoSizing = null,
+            Value<float>? fontSizeMin = null,
+            Value<float>? fontSizeMax = null,
+            Value<global::TMPro.FontStyles>? fontStyle = null,
+            Value<global::TMPro.HorizontalAlignmentOptions>? horizontalAlignment = null,
+            Value<global::TMPro.VerticalAlignmentOptions>? verticalAlignment = null,
+            Value<global::TMPro.TextAlignmentOptions>? alignment = null,
+            Value<float>? characterSpacing = null,
+            Value<float>? characterHorizontalScale = null,
+            Value<float>? wordSpacing = null,
+            Value<float>? lineSpacing = null,
+            Value<float>? lineSpacingAdjustment = null,
+            Value<float>? paragraphSpacing = null,
+            Value<float>? characterWidthAdjustment = null,
+            Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
+            Value<float>? wordWrappingRatios = null,
+            Value<global::TMPro.TextOverflowModes>? overflowMode = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
+            Value<bool>? extraPadding = null,
+            Value<bool>? richText = null,
+            Value<bool>? emojiFallbackSupport = null,
+            Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
+            Value<bool>? isOrthographic = null,
+            Value<bool>? enableCulling = null,
+            Value<bool>? ignoreVisibility = null,
+            Value<global::TMPro.TextureMappingOptions>? horizontalMapping = null,
+            Value<global::TMPro.TextureMappingOptions>? verticalMapping = null,
+            Value<float>? mappingUvLineOffset = null,
+            Value<global::TMPro.TextRenderFlags>? renderMode = null,
+            Value<global::TMPro.VertexSortingOrder>? geometrySortingOrder = null,
+            Value<bool>? isTextObjectScaleStatic = null,
+            Value<bool>? vertexBufferAutoSizeReduction = null,
+            Value<int>? firstVisibleCharacter = null,
+            Value<int>? maxVisibleCharacters = null,
+            Value<int>? maxVisibleWords = null,
+            Value<int>? maxVisibleLines = null,
+            Value<bool>? useMaxVisibleDescender = null,
+            Value<int>? pageToDisplay = null,
+            Value<global::UnityEngine.Vector4>? margin = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::TMPro.TextMeshProUGUI> configure = null,
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            DeclareNative<global::TMPro.TextMeshProUGUI>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, autoSizeTextContainer, (t, v) => t.autoSizeTextContainer = v);
+                    Prop(target, maskOffset, (t, v) => t.maskOffset = v);
+                    Prop(target, textPreprocessor, (t, v) => t.textPreprocessor = v);
+                    Prop(target, isRightToLeftText, (t, v) => t.isRightToLeftText = v);
+                    Prop(target, font, (t, v) => t.font = v);
+                    Prop(target, fontSharedMaterial, (t, v) => t.fontSharedMaterial = v);
+                    Prop(target, fontSharedMaterials, (t, v) => t.fontSharedMaterials = v);
+                    Prop(target, fontMaterial, (t, v) => t.fontMaterial = v);
+                    Prop(target, fontMaterials, (t, v) => t.fontMaterials = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, alpha, (t, v) => t.alpha = v);
+                    Prop(target, enableVertexGradient, (t, v) => t.enableVertexGradient = v);
+                    Prop(target, colorGradient, (t, v) => t.colorGradient = v);
+                    Prop(target, colorGradientPreset, (t, v) => t.colorGradientPreset = v);
+                    Prop(target, spriteAsset, (t, v) => t.spriteAsset = v);
+                    Prop(target, tintAllSprites, (t, v) => t.tintAllSprites = v);
+                    Prop(target, styleSheet, (t, v) => t.styleSheet = v);
+                    Prop(target, textStyle, (t, v) => t.textStyle = v);
+                    Prop(target, overrideColorTags, (t, v) => t.overrideColorTags = v);
+                    Prop(target, faceColor, (t, v) => t.faceColor = v);
+                    Prop(target, outlineColor, (t, v) => t.outlineColor = v);
+                    Prop(target, outlineWidth, (t, v) => t.outlineWidth = v);
+                    Prop(target, fontSize, (t, v) => t.fontSize = v);
+                    Prop(target, fontWeight, (t, v) => t.fontWeight = v);
+                    Prop(target, enableAutoSizing, (t, v) => t.enableAutoSizing = v);
+                    Prop(target, fontSizeMin, (t, v) => t.fontSizeMin = v);
+                    Prop(target, fontSizeMax, (t, v) => t.fontSizeMax = v);
+                    Prop(target, fontStyle, (t, v) => t.fontStyle = v);
+                    Prop(target, horizontalAlignment, (t, v) => t.horizontalAlignment = v);
+                    Prop(target, verticalAlignment, (t, v) => t.verticalAlignment = v);
+                    Prop(target, alignment, (t, v) => t.alignment = v);
+                    Prop(target, characterSpacing, (t, v) => t.characterSpacing = v);
+                    Prop(
+                        target,
+                        characterHorizontalScale,
+                        (t, v) => t.characterHorizontalScale = v
+                    );
+                    Prop(target, wordSpacing, (t, v) => t.wordSpacing = v);
+                    Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
+                    Prop(target, lineSpacingAdjustment, (t, v) => t.lineSpacingAdjustment = v);
+                    Prop(target, paragraphSpacing, (t, v) => t.paragraphSpacing = v);
+                    Prop(
+                        target,
+                        characterWidthAdjustment,
+                        (t, v) => t.characterWidthAdjustment = v
+                    );
+                    Prop(target, textWrappingMode, (t, v) => t.textWrappingMode = v);
+                    Prop(target, wordWrappingRatios, (t, v) => t.wordWrappingRatios = v);
+                    Prop(target, overflowMode, (t, v) => t.overflowMode = v);
+                    Prop(target, fontFeatures, (t, v) => t.fontFeatures = v);
+                    Prop(target, extraPadding, (t, v) => t.extraPadding = v);
+                    Prop(target, richText, (t, v) => t.richText = v);
+                    Prop(target, emojiFallbackSupport, (t, v) => t.emojiFallbackSupport = v);
+                    Prop(target, parseCtrlCharacters, (t, v) => t.parseCtrlCharacters = v);
+                    Prop(target, isOverlay, (t, v) => t.isOverlay = v);
+                    Prop(target, isOrthographic, (t, v) => t.isOrthographic = v);
+                    Prop(target, enableCulling, (t, v) => t.enableCulling = v);
+                    Prop(target, ignoreVisibility, (t, v) => t.ignoreVisibility = v);
+                    Prop(target, horizontalMapping, (t, v) => t.horizontalMapping = v);
+                    Prop(target, verticalMapping, (t, v) => t.verticalMapping = v);
+                    Prop(target, mappingUvLineOffset, (t, v) => t.mappingUvLineOffset = v);
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, geometrySortingOrder, (t, v) => t.geometrySortingOrder = v);
+                    Prop(target, isTextObjectScaleStatic, (t, v) => t.isTextObjectScaleStatic = v);
+                    Prop(
+                        target,
+                        vertexBufferAutoSizeReduction,
+                        (t, v) => t.vertexBufferAutoSizeReduction = v
+                    );
+                    Prop(target, firstVisibleCharacter, (t, v) => t.firstVisibleCharacter = v);
+                    Prop(target, maxVisibleCharacters, (t, v) => t.maxVisibleCharacters = v);
+                    Prop(target, maxVisibleWords, (t, v) => t.maxVisibleWords = v);
+                    Prop(target, maxVisibleLines, (t, v) => t.maxVisibleLines = v);
+                    Prop(target, useMaxVisibleDescender, (t, v) => t.useMaxVisibleDescender = v);
+                    Prop(target, pageToDisplay, (t, v) => t.pageToDisplay = v);
+                    Prop(target, margin, (t, v) => t.margin = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    if (OnPreRenderText != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::TMPro.TMP_TextInfo> handler = (arg0) =>
+                        {
+                            if (!eventScope.IsDisposed)
+                                eventScope.Run(() =>
+                                    Batch(() => Untrack(() => OnPreRenderText(arg0)))
+                                );
+                        };
+                        target.OnPreRenderText += handler;
+                        Cleanup(() => target.OnPreRenderText -= handler);
+                    }
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TextMeshProUGUI, global::TMPro.TMP_Text>(
+                        "linkedTextComponent",
+                        linkedTextComponent,
+                        (t, v) => t.linkedTextComponent = v
+                    ),
+                },
+                components: components
             );
 
 #endif
@@ -586,6 +1302,8 @@ namespace Pine
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
         public static View Text(
             Func<string> text,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
             Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
             Value<bool>? isRightToLeftText = null,
             Value<global::TMPro.TMP_FontAsset>? font = null,
@@ -625,7 +1343,7 @@ namespace Pine
             Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
-            Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
             Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
                 null,
             Value<bool>? extraPadding = null,
@@ -633,6 +1351,7 @@ namespace Pine
             Value<bool>? emojiFallbackSupport = null,
             Value<bool>? enableAdvancedText = null,
             Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
             Value<bool>? isOrthographic = null,
             Value<bool>? enableCulling = null,
             Value<bool>? ignoreVisibility = null,
@@ -660,6 +1379,7 @@ namespace Pine
             Value<string>? tag = null,
             Value<string>? name = null,
             Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
             Value<global::UnityEngine.Vector2>? anchorMin = null,
             Value<global::UnityEngine.Vector2>? anchorMax = null,
             Value<global::UnityEngine.Vector2>? pivot = null,
@@ -675,11 +1395,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
             Action<global::TMPro.TextMeshProUGUI> reference = null
         ) =>
             Text(
                 text: new Value<string>(text),
+                autoSizeTextContainer: autoSizeTextContainer,
+                maskOffset: maskOffset,
                 textPreprocessor: textPreprocessor,
                 isRightToLeftText: isRightToLeftText,
                 font: font,
@@ -726,6 +1450,7 @@ namespace Pine
                 emojiFallbackSupport: emojiFallbackSupport,
                 enableAdvancedText: enableAdvancedText,
                 parseCtrlCharacters: parseCtrlCharacters,
+                isOverlay: isOverlay,
                 isOrthographic: isOrthographic,
                 enableCulling: enableCulling,
                 ignoreVisibility: ignoreVisibility,
@@ -753,6 +1478,7 @@ namespace Pine
                 tag: tag,
                 name: name,
                 hideFlags: hideFlags,
+                OnPreRenderText: OnPreRenderText,
                 anchorMin: anchorMin,
                 anchorMax: anchorMax,
                 pivot: pivot,
@@ -768,13 +1494,18 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
+                children: children,
+                components: components,
                 configure: configure,
                 reference: reference
             );
+
 #else
         /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
         public static View Text(
             Func<string> text,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
             Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
             Value<bool>? isRightToLeftText = null,
             Value<global::TMPro.TMP_FontAsset>? font = null,
@@ -814,13 +1545,14 @@ namespace Pine
             Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
             Value<float>? wordWrappingRatios = null,
             Value<global::TMPro.TextOverflowModes>? overflowMode = null,
-            Value<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
             Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
                 null,
             Value<bool>? extraPadding = null,
             Value<bool>? richText = null,
             Value<bool>? emojiFallbackSupport = null,
             Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
             Value<bool>? isOrthographic = null,
             Value<bool>? enableCulling = null,
             Value<bool>? ignoreVisibility = null,
@@ -848,6 +1580,7 @@ namespace Pine
             Value<string>? tag = null,
             Value<string>? name = null,
             Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
             Value<global::UnityEngine.Vector2>? anchorMin = null,
             Value<global::UnityEngine.Vector2>? anchorMax = null,
             Value<global::UnityEngine.Vector2>? pivot = null,
@@ -863,11 +1596,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::TMPro.TextMeshProUGUI> configure = null,
             Action<global::TMPro.TextMeshProUGUI> reference = null
         ) =>
             Text(
                 text: new Value<string>(text),
+                autoSizeTextContainer: autoSizeTextContainer,
+                maskOffset: maskOffset,
                 textPreprocessor: textPreprocessor,
                 isRightToLeftText: isRightToLeftText,
                 font: font,
@@ -913,6 +1650,7 @@ namespace Pine
                 richText: richText,
                 emojiFallbackSupport: emojiFallbackSupport,
                 parseCtrlCharacters: parseCtrlCharacters,
+                isOverlay: isOverlay,
                 isOrthographic: isOrthographic,
                 enableCulling: enableCulling,
                 ignoreVisibility: ignoreVisibility,
@@ -940,6 +1678,7 @@ namespace Pine
                 tag: tag,
                 name: name,
                 hideFlags: hideFlags,
+                OnPreRenderText: OnPreRenderText,
                 anchorMin: anchorMin,
                 anchorMax: anchorMax,
                 pivot: pivot,
@@ -955,6 +1694,411 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
+                children: children,
+                components: components,
+                configure: configure,
+                reference: reference
+            );
+
+#endif
+
+#if PINE_UGUI_2_7_OR_NEWER
+        /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
+        public static View Text(
+            Func<string> text,
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
+            Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
+            Value<bool>? isRightToLeftText = null,
+            Value<global::TMPro.TMP_FontAsset>? font = null,
+            Value<global::UnityEngine.Material>? fontSharedMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontSharedMaterials = null,
+            Value<global::UnityEngine.Material>? fontMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontMaterials = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<float>? alpha = null,
+            Value<bool>? enableVertexGradient = null,
+            Value<global::TMPro.VertexGradient>? colorGradient = null,
+            Value<global::TMPro.TMP_ColorGradient>? colorGradientPreset = null,
+            Value<global::TMPro.TMP_SpriteAsset>? spriteAsset = null,
+            Value<bool>? tintAllSprites = null,
+            Value<global::TMPro.TMP_StyleSheet>? styleSheet = null,
+            Value<global::TMPro.TMP_Style>? textStyle = null,
+            Value<bool>? overrideColorTags = null,
+            Value<global::UnityEngine.Color32>? faceColor = null,
+            Value<global::UnityEngine.Color32>? outlineColor = null,
+            Value<float>? outlineWidth = null,
+            Value<float>? fontSize = null,
+            Value<global::TMPro.FontWeight>? fontWeight = null,
+            Value<bool>? enableAutoSizing = null,
+            Value<float>? fontSizeMin = null,
+            Value<float>? fontSizeMax = null,
+            Value<global::TMPro.FontStyles>? fontStyle = null,
+            Value<global::TMPro.HorizontalAlignmentOptions>? horizontalAlignment = null,
+            Value<global::TMPro.VerticalAlignmentOptions>? verticalAlignment = null,
+            Value<global::TMPro.TextAlignmentOptions>? alignment = null,
+            Value<float>? characterSpacing = null,
+            Value<float>? characterHorizontalScale = null,
+            Value<float>? wordSpacing = null,
+            Value<float>? lineSpacing = null,
+            Value<float>? lineSpacingAdjustment = null,
+            Value<float>? paragraphSpacing = null,
+            Value<float>? characterWidthAdjustment = null,
+            Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
+            Value<float>? wordWrappingRatios = null,
+            Value<global::TMPro.TextOverflowModes>? overflowMode = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
+            Value<bool>? extraPadding = null,
+            Value<bool>? richText = null,
+            Value<bool>? emojiFallbackSupport = null,
+            Value<bool>? enableAdvancedText = null,
+            Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
+            Value<bool>? isOrthographic = null,
+            Value<bool>? enableCulling = null,
+            Value<bool>? ignoreVisibility = null,
+            Value<global::TMPro.TextureMappingOptions>? horizontalMapping = null,
+            Value<global::TMPro.TextureMappingOptions>? verticalMapping = null,
+            Value<float>? mappingUvLineOffset = null,
+            Value<global::TMPro.TextRenderFlags>? renderMode = null,
+            Value<global::TMPro.VertexSortingOrder>? geometrySortingOrder = null,
+            Value<bool>? isTextObjectScaleStatic = null,
+            Value<bool>? vertexBufferAutoSizeReduction = null,
+            Value<int>? firstVisibleCharacter = null,
+            Value<int>? maxVisibleCharacters = null,
+            Value<int>? maxVisibleWords = null,
+            Value<int>? maxVisibleLines = null,
+            Value<bool>? useMaxVisibleDescender = null,
+            Value<int>? pageToDisplay = null,
+            Value<global::UnityEngine.Vector4>? margin = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::TMPro.TextMeshProUGUI> configure = null,
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            Text(
+                text: new Value<string>(text),
+                autoSizeTextContainer: autoSizeTextContainer,
+                maskOffset: maskOffset,
+                textPreprocessor: textPreprocessor,
+                isRightToLeftText: isRightToLeftText,
+                font: font,
+                fontSharedMaterial: fontSharedMaterial,
+                fontSharedMaterials: fontSharedMaterials,
+                fontMaterial: fontMaterial,
+                fontMaterials: fontMaterials,
+                color: color,
+                alpha: alpha,
+                enableVertexGradient: enableVertexGradient,
+                colorGradient: colorGradient,
+                colorGradientPreset: colorGradientPreset,
+                spriteAsset: spriteAsset,
+                tintAllSprites: tintAllSprites,
+                styleSheet: styleSheet,
+                textStyle: textStyle,
+                overrideColorTags: overrideColorTags,
+                faceColor: faceColor,
+                outlineColor: outlineColor,
+                outlineWidth: outlineWidth,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+                enableAutoSizing: enableAutoSizing,
+                fontSizeMin: fontSizeMin,
+                fontSizeMax: fontSizeMax,
+                fontStyle: fontStyle,
+                horizontalAlignment: horizontalAlignment,
+                verticalAlignment: verticalAlignment,
+                alignment: alignment,
+                characterSpacing: characterSpacing,
+                characterHorizontalScale: characterHorizontalScale,
+                wordSpacing: wordSpacing,
+                lineSpacing: lineSpacing,
+                lineSpacingAdjustment: lineSpacingAdjustment,
+                paragraphSpacing: paragraphSpacing,
+                characterWidthAdjustment: characterWidthAdjustment,
+                textWrappingMode: textWrappingMode,
+                wordWrappingRatios: wordWrappingRatios,
+                overflowMode: overflowMode,
+                linkedTextComponent: linkedTextComponent,
+                fontFeatures: fontFeatures,
+                extraPadding: extraPadding,
+                richText: richText,
+                emojiFallbackSupport: emojiFallbackSupport,
+                enableAdvancedText: enableAdvancedText,
+                parseCtrlCharacters: parseCtrlCharacters,
+                isOverlay: isOverlay,
+                isOrthographic: isOrthographic,
+                enableCulling: enableCulling,
+                ignoreVisibility: ignoreVisibility,
+                horizontalMapping: horizontalMapping,
+                verticalMapping: verticalMapping,
+                mappingUvLineOffset: mappingUvLineOffset,
+                renderMode: renderMode,
+                geometrySortingOrder: geometrySortingOrder,
+                isTextObjectScaleStatic: isTextObjectScaleStatic,
+                vertexBufferAutoSizeReduction: vertexBufferAutoSizeReduction,
+                firstVisibleCharacter: firstVisibleCharacter,
+                maxVisibleCharacters: maxVisibleCharacters,
+                maxVisibleWords: maxVisibleWords,
+                maxVisibleLines: maxVisibleLines,
+                useMaxVisibleDescender: useMaxVisibleDescender,
+                pageToDisplay: pageToDisplay,
+                margin: margin,
+                onCullStateChanged: onCullStateChanged,
+                maskable: maskable,
+                isMaskingGraphic: isMaskingGraphic,
+                raycastTarget: raycastTarget,
+                raycastPadding: raycastPadding,
+                material: material,
+                enabled: enabled,
+                tag: tag,
+                name: name,
+                hideFlags: hideFlags,
+                OnPreRenderText: OnPreRenderText,
+                anchorMin: anchorMin,
+                anchorMax: anchorMax,
+                pivot: pivot,
+                anchoredPosition: anchoredPosition,
+                anchoredPosition3D: anchoredPosition3D,
+                sizeDelta: sizeDelta,
+                offsetMin: offsetMin,
+                offsetMax: offsetMax,
+                localPosition: localPosition,
+                localRotation: localRotation,
+                localEulerAngles: localEulerAngles,
+                localScale: localScale,
+                active: active,
+                layer: layer,
+                isStatic: isStatic,
+                children: children,
+                components: components,
+                configure: configure,
+                reference: reference
+            );
+#else
+        /// <summary>Creates a TMPro.TextMeshProUGUI view; omitted props keep native defaults.</summary>
+        public static View Text(
+            Func<string> text,
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<bool>? autoSizeTextContainer = null,
+            Value<global::UnityEngine.Vector4>? maskOffset = null,
+            Value<global::TMPro.ITextPreprocessor>? textPreprocessor = null,
+            Value<bool>? isRightToLeftText = null,
+            Value<global::TMPro.TMP_FontAsset>? font = null,
+            Value<global::UnityEngine.Material>? fontSharedMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontSharedMaterials = null,
+            Value<global::UnityEngine.Material>? fontMaterial = null,
+            Value<global::UnityEngine.Material[]>? fontMaterials = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<float>? alpha = null,
+            Value<bool>? enableVertexGradient = null,
+            Value<global::TMPro.VertexGradient>? colorGradient = null,
+            Value<global::TMPro.TMP_ColorGradient>? colorGradientPreset = null,
+            Value<global::TMPro.TMP_SpriteAsset>? spriteAsset = null,
+            Value<bool>? tintAllSprites = null,
+            Value<global::TMPro.TMP_StyleSheet>? styleSheet = null,
+            Value<global::TMPro.TMP_Style>? textStyle = null,
+            Value<bool>? overrideColorTags = null,
+            Value<global::UnityEngine.Color32>? faceColor = null,
+            Value<global::UnityEngine.Color32>? outlineColor = null,
+            Value<float>? outlineWidth = null,
+            Value<float>? fontSize = null,
+            Value<global::TMPro.FontWeight>? fontWeight = null,
+            Value<bool>? enableAutoSizing = null,
+            Value<float>? fontSizeMin = null,
+            Value<float>? fontSizeMax = null,
+            Value<global::TMPro.FontStyles>? fontStyle = null,
+            Value<global::TMPro.HorizontalAlignmentOptions>? horizontalAlignment = null,
+            Value<global::TMPro.VerticalAlignmentOptions>? verticalAlignment = null,
+            Value<global::TMPro.TextAlignmentOptions>? alignment = null,
+            Value<float>? characterSpacing = null,
+            Value<float>? characterHorizontalScale = null,
+            Value<float>? wordSpacing = null,
+            Value<float>? lineSpacing = null,
+            Value<float>? lineSpacingAdjustment = null,
+            Value<float>? paragraphSpacing = null,
+            Value<float>? characterWidthAdjustment = null,
+            Value<global::TMPro.TextWrappingModes>? textWrappingMode = null,
+            Value<float>? wordWrappingRatios = null,
+            Value<global::TMPro.TextOverflowModes>? overflowMode = null,
+            Part<global::TMPro.TMP_Text>? linkedTextComponent = null,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.TextCore.OTL_FeatureTag>>? fontFeatures =
+                null,
+            Value<bool>? extraPadding = null,
+            Value<bool>? richText = null,
+            Value<bool>? emojiFallbackSupport = null,
+            Value<bool>? parseCtrlCharacters = null,
+            Value<bool>? isOverlay = null,
+            Value<bool>? isOrthographic = null,
+            Value<bool>? enableCulling = null,
+            Value<bool>? ignoreVisibility = null,
+            Value<global::TMPro.TextureMappingOptions>? horizontalMapping = null,
+            Value<global::TMPro.TextureMappingOptions>? verticalMapping = null,
+            Value<float>? mappingUvLineOffset = null,
+            Value<global::TMPro.TextRenderFlags>? renderMode = null,
+            Value<global::TMPro.VertexSortingOrder>? geometrySortingOrder = null,
+            Value<bool>? isTextObjectScaleStatic = null,
+            Value<bool>? vertexBufferAutoSizeReduction = null,
+            Value<int>? firstVisibleCharacter = null,
+            Value<int>? maxVisibleCharacters = null,
+            Value<int>? maxVisibleWords = null,
+            Value<int>? maxVisibleLines = null,
+            Value<bool>? useMaxVisibleDescender = null,
+            Value<int>? pageToDisplay = null,
+            Value<global::UnityEngine.Vector4>? margin = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::TMPro.TMP_TextInfo> OnPreRenderText = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::TMPro.TextMeshProUGUI> configure = null,
+            Action<global::TMPro.TextMeshProUGUI> reference = null
+        ) =>
+            Text(
+                text: new Value<string>(text),
+                autoSizeTextContainer: autoSizeTextContainer,
+                maskOffset: maskOffset,
+                textPreprocessor: textPreprocessor,
+                isRightToLeftText: isRightToLeftText,
+                font: font,
+                fontSharedMaterial: fontSharedMaterial,
+                fontSharedMaterials: fontSharedMaterials,
+                fontMaterial: fontMaterial,
+                fontMaterials: fontMaterials,
+                color: color,
+                alpha: alpha,
+                enableVertexGradient: enableVertexGradient,
+                colorGradient: colorGradient,
+                colorGradientPreset: colorGradientPreset,
+                spriteAsset: spriteAsset,
+                tintAllSprites: tintAllSprites,
+                styleSheet: styleSheet,
+                textStyle: textStyle,
+                overrideColorTags: overrideColorTags,
+                faceColor: faceColor,
+                outlineColor: outlineColor,
+                outlineWidth: outlineWidth,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+                enableAutoSizing: enableAutoSizing,
+                fontSizeMin: fontSizeMin,
+                fontSizeMax: fontSizeMax,
+                fontStyle: fontStyle,
+                horizontalAlignment: horizontalAlignment,
+                verticalAlignment: verticalAlignment,
+                alignment: alignment,
+                characterSpacing: characterSpacing,
+                characterHorizontalScale: characterHorizontalScale,
+                wordSpacing: wordSpacing,
+                lineSpacing: lineSpacing,
+                lineSpacingAdjustment: lineSpacingAdjustment,
+                paragraphSpacing: paragraphSpacing,
+                characterWidthAdjustment: characterWidthAdjustment,
+                textWrappingMode: textWrappingMode,
+                wordWrappingRatios: wordWrappingRatios,
+                overflowMode: overflowMode,
+                linkedTextComponent: linkedTextComponent,
+                fontFeatures: fontFeatures,
+                extraPadding: extraPadding,
+                richText: richText,
+                emojiFallbackSupport: emojiFallbackSupport,
+                parseCtrlCharacters: parseCtrlCharacters,
+                isOverlay: isOverlay,
+                isOrthographic: isOrthographic,
+                enableCulling: enableCulling,
+                ignoreVisibility: ignoreVisibility,
+                horizontalMapping: horizontalMapping,
+                verticalMapping: verticalMapping,
+                mappingUvLineOffset: mappingUvLineOffset,
+                renderMode: renderMode,
+                geometrySortingOrder: geometrySortingOrder,
+                isTextObjectScaleStatic: isTextObjectScaleStatic,
+                vertexBufferAutoSizeReduction: vertexBufferAutoSizeReduction,
+                firstVisibleCharacter: firstVisibleCharacter,
+                maxVisibleCharacters: maxVisibleCharacters,
+                maxVisibleWords: maxVisibleWords,
+                maxVisibleLines: maxVisibleLines,
+                useMaxVisibleDescender: useMaxVisibleDescender,
+                pageToDisplay: pageToDisplay,
+                margin: margin,
+                onCullStateChanged: onCullStateChanged,
+                maskable: maskable,
+                isMaskingGraphic: isMaskingGraphic,
+                raycastTarget: raycastTarget,
+                raycastPadding: raycastPadding,
+                material: material,
+                enabled: enabled,
+                tag: tag,
+                name: name,
+                hideFlags: hideFlags,
+                OnPreRenderText: OnPreRenderText,
+                anchorMin: anchorMin,
+                anchorMax: anchorMax,
+                pivot: pivot,
+                anchoredPosition: anchoredPosition,
+                anchoredPosition3D: anchoredPosition3D,
+                sizeDelta: sizeDelta,
+                offsetMin: offsetMin,
+                offsetMax: offsetMax,
+                localPosition: localPosition,
+                localRotation: localRotation,
+                localEulerAngles: localEulerAngles,
+                localScale: localScale,
+                active: active,
+                layer: layer,
+                isStatic: isStatic,
+                children: children,
+                components: components,
                 configure: configure,
                 reference: reference
             );
@@ -1000,13 +2144,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Image> configure = null,
             Action<global::UnityEngine.UI.Image> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Image>(
+            DeclareNative<global::UnityEngine.UI.Image>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, sprite, (t, v) => t.sprite = v);
                     Prop(target, overrideSprite, (t, v) => t.overrideSprite = v);
@@ -1099,7 +2245,159 @@ namespace Pine
                     Listen(target.onCullStateChanged, onCullStateChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Image view; omitted props keep native defaults.</summary>
+        public static View Image(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.Sprite>? sprite = null,
+            Value<global::UnityEngine.Sprite>? overrideSprite = null,
+            Value<global::UnityEngine.UI.Image.Type>? type = null,
+            Value<bool>? preserveAspect = null,
+            Value<bool>? fillCenter = null,
+            Value<global::UnityEngine.UI.Image.FillMethod>? fillMethod = null,
+            Value<float>? fillAmount = null,
+            Value<bool>? fillClockwise = null,
+            Value<int>? fillOrigin = null,
+            Value<float>? alphaHitTestMinimumThreshold = null,
+            Value<bool>? useSpriteMesh = null,
+            Value<float>? pixelsPerUnitMultiplier = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Image> configure = null,
+            Action<global::UnityEngine.UI.Image> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Image>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, sprite, (t, v) => t.sprite = v);
+                    Prop(target, overrideSprite, (t, v) => t.overrideSprite = v);
+                    Prop(target, type, (t, v) => t.type = v);
+                    Prop(target, preserveAspect, (t, v) => t.preserveAspect = v);
+                    Prop(target, fillCenter, (t, v) => t.fillCenter = v);
+                    Prop(target, fillMethod, (t, v) => t.fillMethod = v);
+                    Prop(target, fillAmount, (t, v) => t.fillAmount = v);
+                    Prop(target, fillClockwise, (t, v) => t.fillClockwise = v);
+                    Prop(target, fillOrigin, (t, v) => t.fillOrigin = v);
+                    Prop(
+                        target,
+                        alphaHitTestMinimumThreshold,
+                        (t, v) => t.alphaHitTestMinimumThreshold = v
+                    );
+                    Prop(target, useSpriteMesh, (t, v) => t.useSpriteMesh = v);
+                    Prop(target, pixelsPerUnitMultiplier, (t, v) => t.pixelsPerUnitMultiplier = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.RawImage view; omitted props keep native defaults.</summary>
@@ -1132,13 +2430,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.RawImage> configure = null,
             Action<global::UnityEngine.UI.RawImage> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.RawImage>(
+            DeclareNative<global::UnityEngine.UI.RawImage>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, texture, (t, v) => t.texture = v);
                     Prop(target, uvRect, (t, v) => t.uvRect = v);
@@ -1217,21 +2517,25 @@ namespace Pine
                     Listen(target.onCullStateChanged, onCullStateChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
-        /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
-        public static View Button(
-            Value<string>? text = null,
-            Action onClick = null,
-            Value<global::UnityEngine.UI.Navigation>? navigation = null,
-            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
-            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
-            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
-            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
-            Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+        /// <summary>Creates a UnityEngine.UI.RawImage view; omitted props keep native defaults.</summary>
+        public static View RawImage(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.Texture>? texture = null,
+            Value<global::UnityEngine.Rect>? uvRect = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -1251,24 +2555,149 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.RawImage> configure = null,
+            Action<global::UnityEngine.UI.RawImage> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.RawImage>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, texture, (t, v) => t.texture = v);
+                    Prop(target, uvRect, (t, v) => t.uvRect = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
+        public static View Button(
+            Value<string>? text = null,
+            Action onClick = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Part<global::TMPro.TMP_Text>? caption = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Button> configure = null,
             Action<global::UnityEngine.UI.Button> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Button>(
+            DeclareNative<global::UnityEngine.UI.Button>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     if (text.HasValue)
-                        ControlCaption(target, text.Value);
+                        ControlCaption(target, text.Value, partsMap, caption);
                     Prop(target, navigation, (t, v) => t.navigation = v);
                     Prop(target, transition, (t, v) => t.transition = v);
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -1338,21 +2767,43 @@ namespace Pine
                     Listen(target.onClick, onClick);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Button, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Button, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Button, global::TMPro.TMP_Text>(
+                        "caption",
+                        caption,
+                        null
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
         public static View Button(
-            Func<string> text,
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
             Action onClick = null,
             Value<global::UnityEngine.UI.Navigation>? navigation = null,
             Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -1372,6 +2823,151 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            Part<global::TMPro.TMP_Text>? caption = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Button> configure = null,
+            Action<global::UnityEngine.UI.Button> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Button>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    if (text.HasValue)
+                        ControlCaption(target, text.Value, partsMap, caption);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onClick, onClick);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Button, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Button, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Button, global::TMPro.TMP_Text>(
+                        "caption",
+                        caption,
+                        null
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
+        public static View Button(
+            Func<string> text,
+            Action onClick = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Part<global::TMPro.TMP_Text>? caption = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Button> configure = null,
             Action<global::UnityEngine.UI.Button> reference = null
         ) =>
@@ -1405,20 +3001,26 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
+                caption: caption,
+                children: children,
+                components: components,
                 configure: configure,
                 reference: reference
             );
 
-        /// <summary>Creates a UnityEngine.UI.Selectable view; omitted props keep native defaults.</summary>
-        public static View Selectable(
+        /// <summary>Creates a UnityEngine.UI.Button view; omitted props keep native defaults.</summary>
+        public static View Button(
+            Func<string> text,
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Action onClick = null,
             Value<global::UnityEngine.UI.Navigation>? navigation = null,
             Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -1438,22 +3040,93 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            Part<global::TMPro.TMP_Text>? caption = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Button> configure = null,
+            Action<global::UnityEngine.UI.Button> reference = null
+        ) =>
+            Button(
+                text: new Value<string>(text),
+                onClick: onClick,
+                navigation: navigation,
+                transition: transition,
+                colors: colors,
+                spriteState: spriteState,
+                animationTriggers: animationTriggers,
+                targetGraphic: targetGraphic,
+                interactable: interactable,
+                image: image,
+                enabled: enabled,
+                tag: tag,
+                name: name,
+                hideFlags: hideFlags,
+                anchorMin: anchorMin,
+                anchorMax: anchorMax,
+                pivot: pivot,
+                anchoredPosition: anchoredPosition,
+                anchoredPosition3D: anchoredPosition3D,
+                sizeDelta: sizeDelta,
+                offsetMin: offsetMin,
+                offsetMax: offsetMax,
+                localPosition: localPosition,
+                localRotation: localRotation,
+                localEulerAngles: localEulerAngles,
+                localScale: localScale,
+                active: active,
+                layer: layer,
+                isStatic: isStatic,
+                caption: caption,
+                children: children,
+                components: components,
+                configure: configure,
+                reference: reference
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Selectable view; omitted props keep native defaults.</summary>
+        public static View Selectable(
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Selectable> configure = null,
             Action<global::UnityEngine.UI.Selectable> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Selectable>(
+            DeclareNative<global::UnityEngine.UI.Selectable>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, navigation, (t, v) => t.navigation = v);
                     Prop(target, transition, (t, v) => t.transition = v);
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -1522,27 +3195,175 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Selectable, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Selectable, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
             );
 
-        /// <summary>Creates a UnityEngine.UI.Toggle view; omitted props keep native defaults.</summary>
-        public static View Toggle(
-            Value<string>? text = null,
-            Value<global::UnityEngine.UI.ToggleGroup>? group = null,
+        /// <summary>Creates a UnityEngine.UI.Selectable view; omitted props keep native defaults.</summary>
+        public static View Selectable(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
             Value<global::UnityEngine.UI.Navigation>? navigation = null,
             Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Selectable> configure = null,
+            Action<global::UnityEngine.UI.Selectable> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Selectable>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Selectable, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Selectable, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Toggle view; omitted props keep native defaults.</summary>
+        public static View Toggle(
+            Value<string>? text = null,
+            Part<global::UnityEngine.UI.ToggleGroup>? group = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
             Value<global::UnityEngine.HideFlags>? hideFlags = null,
             Value<global::UnityEngine.UI.Toggle.ToggleTransition>? toggleTransition = null,
-            Value<global::UnityEngine.UI.Graphic>? graphic = null,
+            Part<global::UnityEngine.UI.Graphic>? graphic = null,
             Action<bool> onValueChanged = null,
             Value<global::UnityEngine.Vector2>? anchorMin = null,
             Value<global::UnityEngine.Vector2>? anchorMax = null,
@@ -1559,32 +3380,31 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            Part<global::TMPro.TMP_Text>? caption = null,
             Value<bool>? isOn = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Toggle> configure = null,
             Action<global::UnityEngine.UI.Toggle> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Toggle>(
+            DeclareNative<global::UnityEngine.UI.Toggle>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     if (text.HasValue)
-                        ControlCaption(target, text.Value);
-                    Prop(target, group, (t, v) => t.group = v);
+                        ControlCaption(target, text.Value, partsMap, caption);
                     Prop(target, navigation, (t, v) => t.navigation = v);
                     Prop(target, transition, (t, v) => t.transition = v);
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
                     Prop(target, hideFlags, (t, v) => t.hideFlags = v);
                     Prop(target, toggleTransition, (t, v) => t.toggleTransition = v);
-                    Prop(target, graphic, (t, v) => t.graphic = v);
                     Prop(
                         (global::UnityEngine.RectTransform)target.transform,
                         anchorMin,
@@ -1657,7 +3477,203 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.ToggleGroup>(
+                        "group",
+                        group,
+                        (t, v) => t.group = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.Graphic>(
+                        "graphic",
+                        graphic,
+                        (t, v) => t.graphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::TMPro.TMP_Text>(
+                        "caption",
+                        caption,
+                        null
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Toggle view; omitted props keep native defaults.</summary>
+        public static View Toggle(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
+            Part<global::UnityEngine.UI.ToggleGroup>? group = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.UI.Toggle.ToggleTransition>? toggleTransition = null,
+            Part<global::UnityEngine.UI.Graphic>? graphic = null,
+            Action<bool> onValueChanged = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Part<global::TMPro.TMP_Text>? caption = null,
+            Value<bool>? isOn = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Toggle> configure = null,
+            Action<global::UnityEngine.UI.Toggle> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Toggle>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    if (text.HasValue)
+                        ControlCaption(target, text.Value, partsMap, caption);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target, toggleTransition, (t, v) => t.toggleTransition = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        isOn,
+                        t => t.isOn,
+                        (t, v) => t.SetIsOnWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.ToggleGroup>(
+                        "group",
+                        group,
+                        (t, v) => t.group = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::UnityEngine.UI.Graphic>(
+                        "graphic",
+                        graphic,
+                        (t, v) => t.graphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Toggle, global::TMPro.TMP_Text>(
+                        "caption",
+                        caption,
+                        null
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.Slider view; omitted props keep native defaults.</summary>
@@ -1665,8 +3681,8 @@ namespace Pine
             Value<float>? minValue = null,
             Value<float>? maxValue = null,
             Value<bool>? wholeNumbers = null,
-            Value<global::UnityEngine.RectTransform>? fillRect = null,
-            Value<global::UnityEngine.RectTransform>? handleRect = null,
+            Part<global::UnityEngine.RectTransform>? fill = null,
+            Part<global::UnityEngine.RectTransform>? handle = null,
             Value<global::UnityEngine.UI.Slider.Direction>? direction = null,
             Value<float>? normalizedValue = null,
             Action<float> onValueChanged = null,
@@ -1675,9 +3691,9 @@ namespace Pine
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -1698,19 +3714,19 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Value<float>? value = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Slider> configure = null,
             Action<global::UnityEngine.UI.Slider> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Slider>(
+            DeclareNative<global::UnityEngine.UI.Slider>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, minValue, (t, v) => t.minValue = v);
                     Prop(target, maxValue, (t, v) => t.maxValue = v);
                     Prop(target, wholeNumbers, (t, v) => t.wholeNumbers = v);
-                    Prop(target, fillRect, (t, v) => t.fillRect = v);
-                    Prop(target, handleRect, (t, v) => t.handleRect = v);
                     Prop(target, direction, (t, v) => t.direction = v);
                     Prop(target, normalizedValue, (t, v) => t.normalizedValue = v);
                     Prop(target, navigation, (t, v) => t.navigation = v);
@@ -1718,9 +3734,7 @@ namespace Pine
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -1797,12 +3811,202 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.RectTransform>(
+                        "fill",
+                        fill,
+                        (t, v) => t.fillRect = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.RectTransform>(
+                        "handle",
+                        handle,
+                        (t, v) => t.handleRect = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Slider view; omitted props keep native defaults.</summary>
+        public static View Slider(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<float>? minValue = null,
+            Value<float>? maxValue = null,
+            Value<bool>? wholeNumbers = null,
+            Part<global::UnityEngine.RectTransform>? fill = null,
+            Part<global::UnityEngine.RectTransform>? handle = null,
+            Value<global::UnityEngine.UI.Slider.Direction>? direction = null,
+            Value<float>? normalizedValue = null,
+            Action<float> onValueChanged = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Value<float>? value = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Slider> configure = null,
+            Action<global::UnityEngine.UI.Slider> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Slider>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, minValue, (t, v) => t.minValue = v);
+                    Prop(target, maxValue, (t, v) => t.maxValue = v);
+                    Prop(target, wholeNumbers, (t, v) => t.wholeNumbers = v);
+                    Prop(target, direction, (t, v) => t.direction = v);
+                    Prop(target, normalizedValue, (t, v) => t.normalizedValue = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.RectTransform>(
+                        "fill",
+                        fill,
+                        (t, v) => t.fillRect = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.RectTransform>(
+                        "handle",
+                        handle,
+                        (t, v) => t.handleRect = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Slider, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.Scrollbar view; omitted props keep native defaults.</summary>
         public static View Scrollbar(
-            Value<global::UnityEngine.RectTransform>? handleRect = null,
+            Part<global::UnityEngine.RectTransform>? handle = null,
             Value<global::UnityEngine.UI.Scrollbar.Direction>? direction = null,
             Value<float>? size = null,
             Value<int>? numberOfSteps = null,
@@ -1812,9 +4016,9 @@ namespace Pine
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -1835,15 +4039,16 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Value<float>? value = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Scrollbar> configure = null,
             Action<global::UnityEngine.UI.Scrollbar> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Scrollbar>(
+            DeclareNative<global::UnityEngine.UI.Scrollbar>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
-                    Prop(target, handleRect, (t, v) => t.handleRect = v);
                     Prop(target, direction, (t, v) => t.direction = v);
                     Prop(target, size, (t, v) => t.size = v);
                     Prop(target, numberOfSteps, (t, v) => t.numberOfSteps = v);
@@ -1852,9 +4057,7 @@ namespace Pine
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -1931,7 +4134,182 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Scrollbar, global::UnityEngine.RectTransform>(
+                        "handle",
+                        handle,
+                        (t, v) => t.handleRect = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Scrollbar, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Scrollbar, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Scrollbar view; omitted props keep native defaults.</summary>
+        public static View Scrollbar(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Part<global::UnityEngine.RectTransform>? handle = null,
+            Value<global::UnityEngine.UI.Scrollbar.Direction>? direction = null,
+            Value<float>? size = null,
+            Value<int>? numberOfSteps = null,
+            Action<float> onValueChanged = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Value<float>? value = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Scrollbar> configure = null,
+            Action<global::UnityEngine.UI.Scrollbar> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Scrollbar>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, direction, (t, v) => t.direction = v);
+                    Prop(target, size, (t, v) => t.size = v);
+                    Prop(target, numberOfSteps, (t, v) => t.numberOfSteps = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Scrollbar, global::UnityEngine.RectTransform>(
+                        "handle",
+                        handle,
+                        (t, v) => t.handleRect = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Scrollbar, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Scrollbar, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a TMPro.TMP_InputField view; omitted props keep native defaults.</summary>
@@ -1944,10 +4322,10 @@ namespace Pine
             Value<bool>? shouldHideSoftKeyboard = null,
             Value<float>? caretBlinkRate = null,
             Value<int>? caretWidth = null,
-            Value<global::UnityEngine.RectTransform>? textViewport = null,
-            Value<global::TMPro.TMP_Text>? textComponent = null,
-            Value<global::UnityEngine.UI.Graphic>? placeholder = null,
-            Value<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
+            Part<global::UnityEngine.RectTransform>? viewport = null,
+            Part<global::TMPro.TMP_Text>? textComponent = null,
+            Part<global::UnityEngine.UI.Graphic>? placeholder = null,
+            Part<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
             Value<float>? scrollSensitivity = null,
             Value<global::UnityEngine.Color>? caretColor = null,
             Value<bool>? customCaretColor = null,
@@ -1989,9 +4367,9 @@ namespace Pine
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -2013,13 +4391,15 @@ namespace Pine
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
             Value<string>? regexValue = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::TMPro.TMP_InputField> configure = null,
             Action<global::TMPro.TMP_InputField> reference = null
         ) =>
-            Declare<global::TMPro.TMP_InputField>(
+            DeclareNative<global::TMPro.TMP_InputField>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, contentType, (t, v) => t.contentType = v);
                     Prop(target, lineType, (t, v) => t.lineType = v);
@@ -2028,10 +4408,6 @@ namespace Pine
                     Prop(target, shouldHideSoftKeyboard, (t, v) => t.shouldHideSoftKeyboard = v);
                     Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
                     Prop(target, caretWidth, (t, v) => t.caretWidth = v);
-                    Prop(target, textViewport, (t, v) => t.textViewport = v);
-                    Prop(target, textComponent, (t, v) => t.textComponent = v);
-                    Prop(target, placeholder, (t, v) => t.placeholder = v);
-                    Prop(target, verticalScrollbar, (t, v) => t.verticalScrollbar = v);
                     Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
                     Prop(target, caretColor, (t, v) => t.caretColor = v);
                     Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
@@ -2084,9 +4460,7 @@ namespace Pine
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -2175,19 +4549,331 @@ namespace Pine
                     );
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.RectTransform>(
+                        "viewport",
+                        viewport,
+                        (t, v) => t.textViewport = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::TMPro.TMP_Text>(
+                        "textComponent",
+                        textComponent,
+                        (t, v) => t.textComponent = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Graphic>(
+                        "placeholder",
+                        placeholder,
+                        (t, v) => t.placeholder = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Scrollbar>(
+                        "verticalScrollbar",
+                        verticalScrollbar,
+                        (t, v) => t.verticalScrollbar = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a TMPro.TMP_InputField view; omitted props keep native defaults.</summary>
+        public static View InputField(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
+            Value<global::TMPro.TMP_InputField.ContentType>? contentType = null,
+            Value<global::TMPro.TMP_InputField.LineType>? lineType = null,
+            Value<bool>? shouldActivateOnSelect = null,
+            Value<bool>? shouldHideMobileInput = null,
+            Value<bool>? shouldHideSoftKeyboard = null,
+            Value<float>? caretBlinkRate = null,
+            Value<int>? caretWidth = null,
+            Part<global::UnityEngine.RectTransform>? viewport = null,
+            Part<global::TMPro.TMP_Text>? textComponent = null,
+            Part<global::UnityEngine.UI.Graphic>? placeholder = null,
+            Part<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
+            Value<float>? scrollSensitivity = null,
+            Value<global::UnityEngine.Color>? caretColor = null,
+            Value<bool>? customCaretColor = null,
+            Value<global::UnityEngine.Color>? selectionColor = null,
+            Action<string> onEndEdit = null,
+            Action<string> onSubmit = null,
+            Action<string> onSelect = null,
+            Action<string> onDeselect = null,
+            Action<string, int, int> onTextSelection = null,
+            Action<string, int, int> onEndTextSelection = null,
+            Action<string> onValueChanged = null,
+            Action<global::UnityEngine.TouchScreenKeyboard.Status> onTouchScreenKeyboardStatusChanged =
+                null,
+            Value<global::TMPro.TMP_InputField.OnValidateInput>? onValidateInput = null,
+            Value<int>? characterLimit = null,
+            Value<float>? pointSize = null,
+            Value<global::TMPro.TMP_FontAsset>? fontAsset = null,
+            Value<bool>? onFocusSelectAll = null,
+            Value<bool>? resetOnDeActivation = null,
+            Value<bool>? keepTextSelectionVisible = null,
+            Value<bool>? restoreOriginalTextOnEscape = null,
+            Value<bool>? isRichTextEditingAllowed = null,
+            Value<int>? lineLimit = null,
+            Value<global::TMPro.TMP_InputField.InputType>? inputType = null,
+            Value<global::UnityEngine.TouchScreenKeyboardType>? keyboardType = null,
+            Value<global::TMPro.TMP_InputField.CharacterValidation>? characterValidation = null,
+            Value<global::TMPro.TMP_InputValidator>? inputValidator = null,
+            Value<bool>? readOnly = null,
+            Value<bool>? richText = null,
+            Value<char>? asteriskChar = null,
+            Value<int>? caretPosition = null,
+            Value<int>? selectionAnchorPosition = null,
+            Value<int>? selectionFocusPosition = null,
+            Value<int>? stringPosition = null,
+            Value<int>? selectionStringAnchorPosition = null,
+            Value<int>? selectionStringFocusPosition = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<bool>? isAlert = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Value<string>? regexValue = null,
+            View[] components = null,
+            Action<global::TMPro.TMP_InputField> configure = null,
+            Action<global::TMPro.TMP_InputField> reference = null
+        ) =>
+            DeclareNative<global::TMPro.TMP_InputField>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, contentType, (t, v) => t.contentType = v);
+                    Prop(target, lineType, (t, v) => t.lineType = v);
+                    Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
+                    Prop(target, shouldHideMobileInput, (t, v) => t.shouldHideMobileInput = v);
+                    Prop(target, shouldHideSoftKeyboard, (t, v) => t.shouldHideSoftKeyboard = v);
+                    Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
+                    Prop(target, caretWidth, (t, v) => t.caretWidth = v);
+                    Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
+                    Prop(target, caretColor, (t, v) => t.caretColor = v);
+                    Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
+                    Prop(target, selectionColor, (t, v) => t.selectionColor = v);
+                    Prop(target, onValidateInput, (t, v) => t.onValidateInput = v);
+                    Prop(target, characterLimit, (t, v) => t.characterLimit = v);
+                    Prop(target, pointSize, (t, v) => t.pointSize = v);
+                    Prop(target, fontAsset, (t, v) => t.fontAsset = v);
+                    Prop(target, onFocusSelectAll, (t, v) => t.onFocusSelectAll = v);
+                    Prop(target, resetOnDeActivation, (t, v) => t.resetOnDeActivation = v);
+                    Prop(
+                        target,
+                        keepTextSelectionVisible,
+                        (t, v) => t.keepTextSelectionVisible = v
+                    );
+                    Prop(
+                        target,
+                        restoreOriginalTextOnEscape,
+                        (t, v) => t.restoreOriginalTextOnEscape = v
+                    );
+                    Prop(
+                        target,
+                        isRichTextEditingAllowed,
+                        (t, v) => t.isRichTextEditingAllowed = v
+                    );
+                    Prop(target, lineLimit, (t, v) => t.lineLimit = v);
+                    Prop(target, inputType, (t, v) => t.inputType = v);
+                    Prop(target, keyboardType, (t, v) => t.keyboardType = v);
+                    Prop(target, characterValidation, (t, v) => t.characterValidation = v);
+                    Prop(target, inputValidator, (t, v) => t.inputValidator = v);
+                    Prop(target, readOnly, (t, v) => t.readOnly = v);
+                    Prop(target, richText, (t, v) => t.richText = v);
+                    Prop(target, asteriskChar, (t, v) => t.asteriskChar = v);
+                    Prop(target, caretPosition, (t, v) => t.caretPosition = v);
+                    Prop(target, selectionAnchorPosition, (t, v) => t.selectionAnchorPosition = v);
+                    Prop(target, selectionFocusPosition, (t, v) => t.selectionFocusPosition = v);
+                    Prop(target, stringPosition, (t, v) => t.stringPosition = v);
+                    Prop(
+                        target,
+                        selectionStringAnchorPosition,
+                        (t, v) => t.selectionStringAnchorPosition = v
+                    );
+                    Prop(
+                        target,
+                        selectionStringFocusPosition,
+                        (t, v) => t.selectionStringFocusPosition = v
+                    );
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(target, isAlert, (t, v) => t.isAlert = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Prop(target, regexValue, SetRegex);
+                    InputProp(
+                        target,
+                        text,
+                        t => t.text,
+                        (t, v) => t.SetTextWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onEndEdit, onEndEdit);
+                    Listen(target.onSubmit, onSubmit);
+                    Listen(target.onSelect, onSelect);
+                    Listen(target.onDeselect, onDeselect);
+                    Listen(target.onTextSelection, onTextSelection);
+                    Listen(target.onEndTextSelection, onEndTextSelection);
+                    Listen(target.onValueChanged, onValueChanged);
+                    Listen(
+                        target.onTouchScreenKeyboardStatusChanged,
+                        onTouchScreenKeyboardStatusChanged
+                    );
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.RectTransform>(
+                        "viewport",
+                        viewport,
+                        (t, v) => t.textViewport = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::TMPro.TMP_Text>(
+                        "textComponent",
+                        textComponent,
+                        (t, v) => t.textComponent = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Graphic>(
+                        "placeholder",
+                        placeholder,
+                        (t, v) => t.placeholder = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Scrollbar>(
+                        "verticalScrollbar",
+                        verticalScrollbar,
+                        (t, v) => t.verticalScrollbar = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::TMPro.TMP_InputField, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a TMPro.TMP_Dropdown view; omitted props keep native defaults.</summary>
         public static View Dropdown(
             Value<global::System.Collections.Generic.List<global::TMPro.TMP_Dropdown.OptionData>>? options =
                 null,
-            Value<global::UnityEngine.RectTransform>? template = null,
-            Value<global::TMPro.TMP_Text>? captionText = null,
-            Value<global::UnityEngine.UI.Image>? captionImage = null,
-            Value<global::UnityEngine.UI.Graphic>? placeholder = null,
-            Value<global::TMPro.TMP_Text>? itemText = null,
-            Value<global::UnityEngine.UI.Image>? itemImage = null,
+            Part<global::UnityEngine.RectTransform>? template = null,
+            Part<global::TMPro.TMP_Text>? captionText = null,
+            Part<global::UnityEngine.UI.Image>? captionImage = null,
+            Part<global::UnityEngine.UI.Graphic>? placeholder = null,
+            Part<global::TMPro.TMP_Text>? itemText = null,
+            Part<global::UnityEngine.UI.Image>? itemImage = null,
             Action<int> onValueChanged = null,
             Value<float>? alphaFadeSpeed = null,
             Value<bool>? MultiSelect = null,
@@ -2196,9 +4882,9 @@ namespace Pine
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -2218,22 +4904,19 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            Part<global::UnityEngine.UI.Toggle>? item = null,
             Value<int>? value = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::TMPro.TMP_Dropdown> configure = null,
             Action<global::TMPro.TMP_Dropdown> reference = null
         ) =>
-            Declare<global::TMPro.TMP_Dropdown>(
+            DeclareNative<global::TMPro.TMP_Dropdown>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, options, (t, v) => t.options = v);
-                    Prop(target, template, (t, v) => t.template = v);
-                    Prop(target, captionText, (t, v) => t.captionText = v);
-                    Prop(target, captionImage, (t, v) => t.captionImage = v);
-                    Prop(target, placeholder, (t, v) => t.placeholder = v);
-                    Prop(target, itemText, (t, v) => t.itemText = v);
-                    Prop(target, itemImage, (t, v) => t.itemImage = v);
                     Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
                     Prop(target, MultiSelect, (t, v) => t.MultiSelect = v);
                     Prop(target, navigation, (t, v) => t.navigation = v);
@@ -2241,9 +4924,7 @@ namespace Pine
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -2320,7 +5001,249 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.RectTransform>(
+                        "template",
+                        template,
+                        (t, v) => t.template = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::TMPro.TMP_Text>(
+                        "captionText",
+                        captionText,
+                        (t, v) => t.captionText = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Image>(
+                        "captionImage",
+                        captionImage,
+                        (t, v) => t.captionImage = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Graphic>(
+                        "placeholder",
+                        placeholder,
+                        (t, v) => t.placeholder = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::TMPro.TMP_Text>(
+                        "itemText",
+                        itemText,
+                        (t, v) => t.itemText = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Image>(
+                        "itemImage",
+                        itemImage,
+                        (t, v) => t.itemImage = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Toggle>(
+                        "item",
+                        item,
+                        null
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a TMPro.TMP_Dropdown view; omitted props keep native defaults.</summary>
+        public static View Dropdown(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::System.Collections.Generic.List<global::TMPro.TMP_Dropdown.OptionData>>? options =
+                null,
+            Part<global::UnityEngine.RectTransform>? template = null,
+            Part<global::TMPro.TMP_Text>? captionText = null,
+            Part<global::UnityEngine.UI.Image>? captionImage = null,
+            Part<global::UnityEngine.UI.Graphic>? placeholder = null,
+            Part<global::TMPro.TMP_Text>? itemText = null,
+            Part<global::UnityEngine.UI.Image>? itemImage = null,
+            Action<int> onValueChanged = null,
+            Value<float>? alphaFadeSpeed = null,
+            Value<bool>? MultiSelect = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Part<global::UnityEngine.UI.Toggle>? item = null,
+            Value<int>? value = null,
+            View[] components = null,
+            Action<global::TMPro.TMP_Dropdown> configure = null,
+            Action<global::TMPro.TMP_Dropdown> reference = null
+        ) =>
+            DeclareNative<global::TMPro.TMP_Dropdown>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, options, (t, v) => t.options = v);
+                    Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
+                    Prop(target, MultiSelect, (t, v) => t.MultiSelect = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.RectTransform>(
+                        "template",
+                        template,
+                        (t, v) => t.template = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::TMPro.TMP_Text>(
+                        "captionText",
+                        captionText,
+                        (t, v) => t.captionText = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Image>(
+                        "captionImage",
+                        captionImage,
+                        (t, v) => t.captionImage = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Graphic>(
+                        "placeholder",
+                        placeholder,
+                        (t, v) => t.placeholder = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::TMPro.TMP_Text>(
+                        "itemText",
+                        itemText,
+                        (t, v) => t.itemText = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Image>(
+                        "itemImage",
+                        itemImage,
+                        (t, v) => t.itemImage = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::TMPro.TMP_Dropdown, global::UnityEngine.UI.Toggle>(
+                        "item",
+                        item,
+                        null
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.Text view; omitted props keep native defaults.</summary>
@@ -2364,13 +5287,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Text> configure = null,
             Action<global::UnityEngine.UI.Text> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Text>(
+            DeclareNative<global::UnityEngine.UI.Text>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, text, (t, v) => t.text = v);
                     Prop(target, font, (t, v) => t.font = v);
@@ -2460,7 +5385,157 @@ namespace Pine
                     Listen(target.onCullStateChanged, onCullStateChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Text view; omitted props keep native defaults.</summary>
+        public static View LegacyText(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
+            Value<global::UnityEngine.Font>? font = null,
+            Value<bool>? supportRichText = null,
+            Value<bool>? resizeTextForBestFit = null,
+            Value<int>? resizeTextMinSize = null,
+            Value<int>? resizeTextMaxSize = null,
+            Value<global::UnityEngine.TextAnchor>? alignment = null,
+            Value<bool>? alignByGeometry = null,
+            Value<int>? fontSize = null,
+            Value<global::UnityEngine.HorizontalWrapMode>? horizontalOverflow = null,
+            Value<global::UnityEngine.VerticalWrapMode>? verticalOverflow = null,
+            Value<float>? lineSpacing = null,
+            Value<global::UnityEngine.FontStyle>? fontStyle = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Text> configure = null,
+            Action<global::UnityEngine.UI.Text> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Text>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, text, (t, v) => t.text = v);
+                    Prop(target, font, (t, v) => t.font = v);
+                    Prop(target, supportRichText, (t, v) => t.supportRichText = v);
+                    Prop(target, resizeTextForBestFit, (t, v) => t.resizeTextForBestFit = v);
+                    Prop(target, resizeTextMinSize, (t, v) => t.resizeTextMinSize = v);
+                    Prop(target, resizeTextMaxSize, (t, v) => t.resizeTextMaxSize = v);
+                    Prop(target, alignment, (t, v) => t.alignment = v);
+                    Prop(target, alignByGeometry, (t, v) => t.alignByGeometry = v);
+                    Prop(target, fontSize, (t, v) => t.fontSize = v);
+                    Prop(target, horizontalOverflow, (t, v) => t.horizontalOverflow = v);
+                    Prop(target, verticalOverflow, (t, v) => t.verticalOverflow = v);
+                    Prop(target, lineSpacing, (t, v) => t.lineSpacing = v);
+                    Prop(target, fontStyle, (t, v) => t.fontStyle = v);
+                    Prop(target, maskable, (t, v) => t.maskable = v);
+                    Prop(target, isMaskingGraphic, (t, v) => t.isMaskingGraphic = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onCullStateChanged, onCullStateChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.Text view; omitted props keep native defaults.</summary>
@@ -2504,6 +5579,8 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Text> configure = null,
             Action<global::UnityEngine.UI.Text> reference = null
         ) =>
@@ -2547,6 +5624,100 @@ namespace Pine
                 active: active,
                 layer: layer,
                 isStatic: isStatic,
+                children: children,
+                components: components,
+                configure: configure,
+                reference: reference
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Text view; omitted props keep native defaults.</summary>
+        public static View LegacyText(
+            Func<string> text,
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.Font>? font = null,
+            Value<bool>? supportRichText = null,
+            Value<bool>? resizeTextForBestFit = null,
+            Value<int>? resizeTextMinSize = null,
+            Value<int>? resizeTextMaxSize = null,
+            Value<global::UnityEngine.TextAnchor>? alignment = null,
+            Value<bool>? alignByGeometry = null,
+            Value<int>? fontSize = null,
+            Value<global::UnityEngine.HorizontalWrapMode>? horizontalOverflow = null,
+            Value<global::UnityEngine.VerticalWrapMode>? verticalOverflow = null,
+            Value<float>? lineSpacing = null,
+            Value<global::UnityEngine.FontStyle>? fontStyle = null,
+            Action<bool> onCullStateChanged = null,
+            Value<bool>? maskable = null,
+            Value<bool>? isMaskingGraphic = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Text> configure = null,
+            Action<global::UnityEngine.UI.Text> reference = null
+        ) =>
+            LegacyText(
+                text: new Value<string>(text),
+                font: font,
+                supportRichText: supportRichText,
+                resizeTextForBestFit: resizeTextForBestFit,
+                resizeTextMinSize: resizeTextMinSize,
+                resizeTextMaxSize: resizeTextMaxSize,
+                alignment: alignment,
+                alignByGeometry: alignByGeometry,
+                fontSize: fontSize,
+                horizontalOverflow: horizontalOverflow,
+                verticalOverflow: verticalOverflow,
+                lineSpacing: lineSpacing,
+                fontStyle: fontStyle,
+                onCullStateChanged: onCullStateChanged,
+                maskable: maskable,
+                isMaskingGraphic: isMaskingGraphic,
+                color: color,
+                raycastTarget: raycastTarget,
+                raycastPadding: raycastPadding,
+                material: material,
+                enabled: enabled,
+                tag: tag,
+                name: name,
+                hideFlags: hideFlags,
+                anchorMin: anchorMin,
+                anchorMax: anchorMax,
+                pivot: pivot,
+                anchoredPosition: anchoredPosition,
+                anchoredPosition3D: anchoredPosition3D,
+                sizeDelta: sizeDelta,
+                offsetMin: offsetMin,
+                offsetMax: offsetMax,
+                localPosition: localPosition,
+                localRotation: localRotation,
+                localEulerAngles: localEulerAngles,
+                localScale: localScale,
+                active: active,
+                layer: layer,
+                isStatic: isStatic,
+                children: children,
+                components: components,
                 configure: configure,
                 reference: reference
             );
@@ -2560,8 +5731,8 @@ namespace Pine
             Value<bool>? shouldActivateOnSelect = null,
             Value<float>? caretBlinkRate = null,
             Value<int>? caretWidth = null,
-            Value<global::UnityEngine.UI.Text>? textComponent = null,
-            Value<global::UnityEngine.UI.Graphic>? placeholder = null,
+            Part<global::UnityEngine.UI.Text>? textComponent = null,
+            Part<global::UnityEngine.UI.Graphic>? placeholder = null,
             Value<global::UnityEngine.Color>? caretColor = null,
             Value<bool>? customCaretColor = null,
             Value<global::UnityEngine.Color>? selectionColor = null,
@@ -2584,9 +5755,9 @@ namespace Pine
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -2606,13 +5777,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.InputField> configure = null,
             Action<global::UnityEngine.UI.InputField> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.InputField>(
+            DeclareNative<global::UnityEngine.UI.InputField>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, contentType, (t, v) => t.contentType = v);
                     Prop(target, lineType, (t, v) => t.lineType = v);
@@ -2620,8 +5793,6 @@ namespace Pine
                     Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
                     Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
                     Prop(target, caretWidth, (t, v) => t.caretWidth = v);
-                    Prop(target, textComponent, (t, v) => t.textComponent = v);
-                    Prop(target, placeholder, (t, v) => t.placeholder = v);
                     Prop(target, caretColor, (t, v) => t.caretColor = v);
                     Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
                     Prop(target, selectionColor, (t, v) => t.selectionColor = v);
@@ -2640,9 +5811,7 @@ namespace Pine
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -2721,28 +5890,72 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Text>(
+                        "textComponent",
+                        textComponent,
+                        (t, v) => t.textComponent = v
+                    ),
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Graphic>(
+                        "placeholder",
+                        placeholder,
+                        (t, v) => t.placeholder = v
+                    ),
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
             );
 
-        /// <summary>Creates a UnityEngine.UI.Dropdown view; omitted props keep native defaults.</summary>
-        public static View LegacyDropdown(
-            Value<global::System.Collections.Generic.List<global::UnityEngine.UI.Dropdown.OptionData>>? options =
+        /// <summary>Creates a UnityEngine.UI.InputField view; omitted props keep native defaults.</summary>
+        public static View LegacyInputField(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<string>? text = null,
+            Value<global::UnityEngine.UI.InputField.ContentType>? contentType = null,
+            Value<global::UnityEngine.UI.InputField.LineType>? lineType = null,
+            Value<bool>? shouldHideMobileInput = null,
+            Value<bool>? shouldActivateOnSelect = null,
+            Value<float>? caretBlinkRate = null,
+            Value<int>? caretWidth = null,
+            Part<global::UnityEngine.UI.Text>? textComponent = null,
+            Part<global::UnityEngine.UI.Graphic>? placeholder = null,
+            Value<global::UnityEngine.Color>? caretColor = null,
+            Value<bool>? customCaretColor = null,
+            Value<global::UnityEngine.Color>? selectionColor = null,
+            Action<string> onEndEdit = null,
+            Action<string> onSubmit = null,
+            Action<string> onValueChanged = null,
+            Value<global::UnityEngine.UI.InputField.OnValidateInput>? onValidateInput = null,
+            Value<int>? characterLimit = null,
+            Value<global::UnityEngine.UI.InputField.InputType>? inputType = null,
+            Value<global::UnityEngine.TouchScreenKeyboardType>? keyboardType = null,
+            Value<global::UnityEngine.UI.InputField.CharacterValidation>? characterValidation =
                 null,
-            Value<global::UnityEngine.RectTransform>? template = null,
-            Value<global::UnityEngine.UI.Text>? captionText = null,
-            Value<global::UnityEngine.UI.Image>? captionImage = null,
-            Value<global::UnityEngine.UI.Text>? itemText = null,
-            Value<global::UnityEngine.UI.Image>? itemImage = null,
-            Action<int> onValueChanged = null,
-            Value<float>? alphaFadeSpeed = null,
+            Value<bool>? readOnly = null,
+            Value<char>? asteriskChar = null,
+            Value<int>? caretPosition = null,
+            Value<int>? selectionAnchorPosition = null,
+            Value<int>? selectionFocusPosition = null,
             Value<global::UnityEngine.UI.Navigation>? navigation = null,
             Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
             Value<global::UnityEngine.UI.ColorBlock>? colors = null,
             Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
             Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
-            Value<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
             Value<bool>? interactable = null,
-            Value<global::UnityEngine.UI.Image>? image = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -2762,30 +5975,205 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.InputField> configure = null,
+            Action<global::UnityEngine.UI.InputField> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.InputField>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, contentType, (t, v) => t.contentType = v);
+                    Prop(target, lineType, (t, v) => t.lineType = v);
+                    Prop(target, shouldHideMobileInput, (t, v) => t.shouldHideMobileInput = v);
+                    Prop(target, shouldActivateOnSelect, (t, v) => t.shouldActivateOnSelect = v);
+                    Prop(target, caretBlinkRate, (t, v) => t.caretBlinkRate = v);
+                    Prop(target, caretWidth, (t, v) => t.caretWidth = v);
+                    Prop(target, caretColor, (t, v) => t.caretColor = v);
+                    Prop(target, customCaretColor, (t, v) => t.customCaretColor = v);
+                    Prop(target, selectionColor, (t, v) => t.selectionColor = v);
+                    Prop(target, onValidateInput, (t, v) => t.onValidateInput = v);
+                    Prop(target, characterLimit, (t, v) => t.characterLimit = v);
+                    Prop(target, inputType, (t, v) => t.inputType = v);
+                    Prop(target, keyboardType, (t, v) => t.keyboardType = v);
+                    Prop(target, characterValidation, (t, v) => t.characterValidation = v);
+                    Prop(target, readOnly, (t, v) => t.readOnly = v);
+                    Prop(target, asteriskChar, (t, v) => t.asteriskChar = v);
+                    Prop(target, caretPosition, (t, v) => t.caretPosition = v);
+                    Prop(target, selectionAnchorPosition, (t, v) => t.selectionAnchorPosition = v);
+                    Prop(target, selectionFocusPosition, (t, v) => t.selectionFocusPosition = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        text,
+                        t => t.text,
+                        (t, v) => t.SetTextWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onEndEdit, onEndEdit);
+                    Listen(target.onSubmit, onSubmit);
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Text>(
+                        "textComponent",
+                        textComponent,
+                        (t, v) => t.textComponent = v
+                    ),
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Graphic>(
+                        "placeholder",
+                        placeholder,
+                        (t, v) => t.placeholder = v
+                    ),
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.InputField, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Dropdown view; omitted props keep native defaults.</summary>
+        public static View LegacyDropdown(
+            Value<global::System.Collections.Generic.List<global::UnityEngine.UI.Dropdown.OptionData>>? options =
+                null,
+            Part<global::UnityEngine.RectTransform>? template = null,
+            Part<global::UnityEngine.UI.Text>? captionText = null,
+            Part<global::UnityEngine.UI.Image>? captionImage = null,
+            Part<global::UnityEngine.UI.Text>? itemText = null,
+            Part<global::UnityEngine.UI.Image>? itemImage = null,
+            Action<int> onValueChanged = null,
+            Value<float>? alphaFadeSpeed = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Part<global::UnityEngine.UI.Toggle>? item = null,
             Value<int>? value = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Dropdown> configure = null,
             Action<global::UnityEngine.UI.Dropdown> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Dropdown>(
+            DeclareNative<global::UnityEngine.UI.Dropdown>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, options, (t, v) => t.options = v);
-                    Prop(target, template, (t, v) => t.template = v);
-                    Prop(target, captionText, (t, v) => t.captionText = v);
-                    Prop(target, captionImage, (t, v) => t.captionImage = v);
-                    Prop(target, itemText, (t, v) => t.itemText = v);
-                    Prop(target, itemImage, (t, v) => t.itemImage = v);
                     Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
                     Prop(target, navigation, (t, v) => t.navigation = v);
                     Prop(target, transition, (t, v) => t.transition = v);
                     Prop(target, colors, (t, v) => t.colors = v);
                     Prop(target, spriteState, (t, v) => t.spriteState = v);
                     Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
-                    Prop(target, targetGraphic, (t, v) => t.targetGraphic = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
-                    Prop(target, image, (t, v) => t.image = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -2862,12 +6250,241 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.RectTransform>(
+                        "template",
+                        template,
+                        (t, v) => t.template = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Text>(
+                        "captionText",
+                        captionText,
+                        (t, v) => t.captionText = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Image>(
+                        "captionImage",
+                        captionImage,
+                        (t, v) => t.captionImage = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Text>(
+                        "itemText",
+                        itemText,
+                        (t, v) => t.itemText = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Image>(
+                        "itemImage",
+                        itemImage,
+                        (t, v) => t.itemImage = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Toggle>(
+                        "item",
+                        item,
+                        null
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.Dropdown view; omitted props keep native defaults.</summary>
+        public static View LegacyDropdown(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::System.Collections.Generic.List<global::UnityEngine.UI.Dropdown.OptionData>>? options =
+                null,
+            Part<global::UnityEngine.RectTransform>? template = null,
+            Part<global::UnityEngine.UI.Text>? captionText = null,
+            Part<global::UnityEngine.UI.Image>? captionImage = null,
+            Part<global::UnityEngine.UI.Text>? itemText = null,
+            Part<global::UnityEngine.UI.Image>? itemImage = null,
+            Action<int> onValueChanged = null,
+            Value<float>? alphaFadeSpeed = null,
+            Value<global::UnityEngine.UI.Navigation>? navigation = null,
+            Value<global::UnityEngine.UI.Selectable.Transition>? transition = null,
+            Value<global::UnityEngine.UI.ColorBlock>? colors = null,
+            Value<global::UnityEngine.UI.SpriteState>? spriteState = null,
+            Value<global::UnityEngine.UI.AnimationTriggers>? animationTriggers = null,
+            Part<global::UnityEngine.UI.Graphic>? targetGraphic = null,
+            Value<bool>? interactable = null,
+            Part<global::UnityEngine.UI.Image>? image = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            Part<global::UnityEngine.UI.Toggle>? item = null,
+            Value<int>? value = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.Dropdown> configure = null,
+            Action<global::UnityEngine.UI.Dropdown> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.Dropdown>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, options, (t, v) => t.options = v);
+                    Prop(target, alphaFadeSpeed, (t, v) => t.alphaFadeSpeed = v);
+                    Prop(target, navigation, (t, v) => t.navigation = v);
+                    Prop(target, transition, (t, v) => t.transition = v);
+                    Prop(target, colors, (t, v) => t.colors = v);
+                    Prop(target, spriteState, (t, v) => t.spriteState = v);
+                    Prop(target, animationTriggers, (t, v) => t.animationTriggers = v);
+                    Prop(target, interactable, (t, v) => t.interactable = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    InputProp(
+                        target,
+                        value,
+                        t => t.value,
+                        (t, v) => t.SetValueWithoutNotify(v),
+                        t => t.onValueChanged
+                    );
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.RectTransform>(
+                        "template",
+                        template,
+                        (t, v) => t.template = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Text>(
+                        "captionText",
+                        captionText,
+                        (t, v) => t.captionText = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Image>(
+                        "captionImage",
+                        captionImage,
+                        (t, v) => t.captionImage = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Text>(
+                        "itemText",
+                        itemText,
+                        (t, v) => t.itemText = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Image>(
+                        "itemImage",
+                        itemImage,
+                        (t, v) => t.itemImage = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Graphic>(
+                        "targetGraphic",
+                        targetGraphic,
+                        (t, v) => t.targetGraphic = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Image>(
+                        "image",
+                        image,
+                        (t, v) => t.image = v
+                    ),
+                    NativePart<global::UnityEngine.UI.Dropdown, global::UnityEngine.UI.Toggle>(
+                        "item",
+                        item,
+                        null
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.ScrollRect view; omitted props keep native defaults.</summary>
         public static View ScrollRect(
-            Value<global::UnityEngine.RectTransform>? content = null,
+            Part<global::UnityEngine.RectTransform>? content = null,
             Value<bool>? horizontal = null,
             Value<bool>? vertical = null,
             Value<global::UnityEngine.UI.ScrollRect.MovementType>? movementType = null,
@@ -2875,9 +6492,9 @@ namespace Pine
             Value<bool>? inertia = null,
             Value<float>? decelerationRate = null,
             Value<float>? scrollSensitivity = null,
-            Value<global::UnityEngine.RectTransform>? viewport = null,
-            Value<global::UnityEngine.UI.Scrollbar>? horizontalScrollbar = null,
-            Value<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
+            Part<global::UnityEngine.RectTransform>? viewport = null,
+            Part<global::UnityEngine.UI.Scrollbar>? horizontalScrollbar = null,
+            Part<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
             Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? horizontalScrollbarVisibility =
                 null,
             Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? verticalScrollbarVisibility =
@@ -2908,15 +6525,16 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.ScrollRect> configure = null,
             Action<global::UnityEngine.UI.ScrollRect> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.ScrollRect>(
+            DeclareNative<global::UnityEngine.UI.ScrollRect>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
-                    Prop(target, content, (t, v) => t.content = v);
                     Prop(target, horizontal, (t, v) => t.horizontal = v);
                     Prop(target, vertical, (t, v) => t.vertical = v);
                     Prop(target, movementType, (t, v) => t.movementType = v);
@@ -2924,9 +6542,6 @@ namespace Pine
                     Prop(target, inertia, (t, v) => t.inertia = v);
                     Prop(target, decelerationRate, (t, v) => t.decelerationRate = v);
                     Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
-                    Prop(target, viewport, (t, v) => t.viewport = v);
-                    Prop(target, horizontalScrollbar, (t, v) => t.horizontalScrollbar = v);
-                    Prop(target, verticalScrollbar, (t, v) => t.verticalScrollbar = v);
                     Prop(
                         target,
                         horizontalScrollbarVisibility,
@@ -3028,7 +6643,219 @@ namespace Pine
                     Listen(target.onValueChanged, onValueChanged);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.UI.ScrollRect,
+                        global::UnityEngine.RectTransform
+                    >("content", content, (t, v) => t.content = v),
+                    NativePart<
+                        global::UnityEngine.UI.ScrollRect,
+                        global::UnityEngine.RectTransform
+                    >("viewport", viewport, (t, v) => t.viewport = v),
+                    NativePart<global::UnityEngine.UI.ScrollRect, global::UnityEngine.UI.Scrollbar>(
+                        "horizontalScrollbar",
+                        horizontalScrollbar,
+                        (t, v) => t.horizontalScrollbar = v
+                    ),
+                    NativePart<global::UnityEngine.UI.ScrollRect, global::UnityEngine.UI.Scrollbar>(
+                        "verticalScrollbar",
+                        verticalScrollbar,
+                        (t, v) => t.verticalScrollbar = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.ScrollRect view; omitted props keep native defaults.</summary>
+        public static View ScrollRect(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Part<global::UnityEngine.RectTransform>? content = null,
+            Value<bool>? horizontal = null,
+            Value<bool>? vertical = null,
+            Value<global::UnityEngine.UI.ScrollRect.MovementType>? movementType = null,
+            Value<float>? elasticity = null,
+            Value<bool>? inertia = null,
+            Value<float>? decelerationRate = null,
+            Value<float>? scrollSensitivity = null,
+            Part<global::UnityEngine.RectTransform>? viewport = null,
+            Part<global::UnityEngine.UI.Scrollbar>? horizontalScrollbar = null,
+            Part<global::UnityEngine.UI.Scrollbar>? verticalScrollbar = null,
+            Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? horizontalScrollbarVisibility =
+                null,
+            Value<global::UnityEngine.UI.ScrollRect.ScrollbarVisibility>? verticalScrollbarVisibility =
+                null,
+            Value<float>? horizontalScrollbarSpacing = null,
+            Value<float>? verticalScrollbarSpacing = null,
+            Action<global::UnityEngine.Vector2> onValueChanged = null,
+            Value<global::UnityEngine.Vector2>? velocity = null,
+            Value<global::UnityEngine.Vector2>? normalizedPosition = null,
+            Value<float>? horizontalNormalizedPosition = null,
+            Value<float>? verticalNormalizedPosition = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.ScrollRect> configure = null,
+            Action<global::UnityEngine.UI.ScrollRect> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.ScrollRect>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, horizontal, (t, v) => t.horizontal = v);
+                    Prop(target, vertical, (t, v) => t.vertical = v);
+                    Prop(target, movementType, (t, v) => t.movementType = v);
+                    Prop(target, elasticity, (t, v) => t.elasticity = v);
+                    Prop(target, inertia, (t, v) => t.inertia = v);
+                    Prop(target, decelerationRate, (t, v) => t.decelerationRate = v);
+                    Prop(target, scrollSensitivity, (t, v) => t.scrollSensitivity = v);
+                    Prop(
+                        target,
+                        horizontalScrollbarVisibility,
+                        (t, v) => t.horizontalScrollbarVisibility = v
+                    );
+                    Prop(
+                        target,
+                        verticalScrollbarVisibility,
+                        (t, v) => t.verticalScrollbarVisibility = v
+                    );
+                    Prop(
+                        target,
+                        horizontalScrollbarSpacing,
+                        (t, v) => t.horizontalScrollbarSpacing = v
+                    );
+                    Prop(
+                        target,
+                        verticalScrollbarSpacing,
+                        (t, v) => t.verticalScrollbarSpacing = v
+                    );
+                    Prop(target, velocity, (t, v) => t.velocity = v);
+                    Prop(target, normalizedPosition, (t, v) => t.normalizedPosition = v);
+                    Prop(
+                        target,
+                        horizontalNormalizedPosition,
+                        (t, v) => t.horizontalNormalizedPosition = v
+                    );
+                    Prop(
+                        target,
+                        verticalNormalizedPosition,
+                        (t, v) => t.verticalNormalizedPosition = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.onValueChanged, onValueChanged);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.UI.ScrollRect,
+                        global::UnityEngine.RectTransform
+                    >("content", content, (t, v) => t.content = v),
+                    NativePart<
+                        global::UnityEngine.UI.ScrollRect,
+                        global::UnityEngine.RectTransform
+                    >("viewport", viewport, (t, v) => t.viewport = v),
+                    NativePart<global::UnityEngine.UI.ScrollRect, global::UnityEngine.UI.Scrollbar>(
+                        "horizontalScrollbar",
+                        horizontalScrollbar,
+                        (t, v) => t.horizontalScrollbar = v
+                    ),
+                    NativePart<global::UnityEngine.UI.ScrollRect, global::UnityEngine.UI.Scrollbar>(
+                        "verticalScrollbar",
+                        verticalScrollbar,
+                        (t, v) => t.verticalScrollbar = v
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.VerticalLayoutGroup view; omitted props keep native defaults.</summary>
@@ -3062,13 +6889,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.VerticalLayoutGroup> configure = null,
             Action<global::UnityEngine.UI.VerticalLayoutGroup> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.VerticalLayoutGroup>(
+            DeclareNative<global::UnityEngine.UI.VerticalLayoutGroup>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, spacing, (t, v) => t.spacing = v);
                     Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
@@ -3148,7 +6977,137 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.VerticalLayoutGroup view; omitted props keep native defaults.</summary>
+        public static View Vertical(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<float>? spacing = null,
+            Value<bool>? childForceExpandWidth = null,
+            Value<bool>? childForceExpandHeight = null,
+            Value<bool>? childControlWidth = null,
+            Value<bool>? childControlHeight = null,
+            Value<bool>? childScaleWidth = null,
+            Value<bool>? childScaleHeight = null,
+            Value<bool>? reverseArrangement = null,
+            Value<global::UnityEngine.RectOffset>? padding = null,
+            Value<global::UnityEngine.TextAnchor>? childAlignment = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.VerticalLayoutGroup> configure = null,
+            Action<global::UnityEngine.UI.VerticalLayoutGroup> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.VerticalLayoutGroup>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, spacing, (t, v) => t.spacing = v);
+                    Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
+                    Prop(target, childForceExpandHeight, (t, v) => t.childForceExpandHeight = v);
+                    Prop(target, childControlWidth, (t, v) => t.childControlWidth = v);
+                    Prop(target, childControlHeight, (t, v) => t.childControlHeight = v);
+                    Prop(target, childScaleWidth, (t, v) => t.childScaleWidth = v);
+                    Prop(target, childScaleHeight, (t, v) => t.childScaleHeight = v);
+                    Prop(target, reverseArrangement, (t, v) => t.reverseArrangement = v);
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, childAlignment, (t, v) => t.childAlignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.HorizontalLayoutGroup view; omitted props keep native defaults.</summary>
@@ -3182,13 +7141,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.HorizontalLayoutGroup> configure = null,
             Action<global::UnityEngine.UI.HorizontalLayoutGroup> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.HorizontalLayoutGroup>(
+            DeclareNative<global::UnityEngine.UI.HorizontalLayoutGroup>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, spacing, (t, v) => t.spacing = v);
                     Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
@@ -3268,7 +7229,137 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.HorizontalLayoutGroup view; omitted props keep native defaults.</summary>
+        public static View Horizontal(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<float>? spacing = null,
+            Value<bool>? childForceExpandWidth = null,
+            Value<bool>? childForceExpandHeight = null,
+            Value<bool>? childControlWidth = null,
+            Value<bool>? childControlHeight = null,
+            Value<bool>? childScaleWidth = null,
+            Value<bool>? childScaleHeight = null,
+            Value<bool>? reverseArrangement = null,
+            Value<global::UnityEngine.RectOffset>? padding = null,
+            Value<global::UnityEngine.TextAnchor>? childAlignment = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.HorizontalLayoutGroup> configure = null,
+            Action<global::UnityEngine.UI.HorizontalLayoutGroup> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.HorizontalLayoutGroup>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, spacing, (t, v) => t.spacing = v);
+                    Prop(target, childForceExpandWidth, (t, v) => t.childForceExpandWidth = v);
+                    Prop(target, childForceExpandHeight, (t, v) => t.childForceExpandHeight = v);
+                    Prop(target, childControlWidth, (t, v) => t.childControlWidth = v);
+                    Prop(target, childControlHeight, (t, v) => t.childControlHeight = v);
+                    Prop(target, childScaleWidth, (t, v) => t.childScaleWidth = v);
+                    Prop(target, childScaleHeight, (t, v) => t.childScaleHeight = v);
+                    Prop(target, reverseArrangement, (t, v) => t.reverseArrangement = v);
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, childAlignment, (t, v) => t.childAlignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.UI.GridLayoutGroup view; omitted props keep native defaults.</summary>
@@ -3300,13 +7391,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.GridLayoutGroup> configure = null,
             Action<global::UnityEngine.UI.GridLayoutGroup> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.GridLayoutGroup>(
+            DeclareNative<global::UnityEngine.UI.GridLayoutGroup>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, startCorner, (t, v) => t.startCorner = v);
                     Prop(target, startAxis, (t, v) => t.startAxis = v);
@@ -3384,7 +7477,133 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.GridLayoutGroup view; omitted props keep native defaults.</summary>
+        public static View Grid(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.UI.GridLayoutGroup.Corner>? startCorner = null,
+            Value<global::UnityEngine.UI.GridLayoutGroup.Axis>? startAxis = null,
+            Value<global::UnityEngine.Vector2>? cellSize = null,
+            Value<global::UnityEngine.Vector2>? spacing = null,
+            Value<global::UnityEngine.UI.GridLayoutGroup.Constraint>? constraint = null,
+            Value<int>? constraintCount = null,
+            Value<global::UnityEngine.RectOffset>? padding = null,
+            Value<global::UnityEngine.TextAnchor>? childAlignment = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.GridLayoutGroup> configure = null,
+            Action<global::UnityEngine.UI.GridLayoutGroup> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.GridLayoutGroup>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, startCorner, (t, v) => t.startCorner = v);
+                    Prop(target, startAxis, (t, v) => t.startAxis = v);
+                    Prop(target, cellSize, (t, v) => t.cellSize = v);
+                    Prop(target, spacing, (t, v) => t.spacing = v);
+                    Prop(target, constraint, (t, v) => t.constraint = v);
+                    Prop(target, constraintCount, (t, v) => t.constraintCount = v);
+                    Prop(target, padding, (t, v) => t.padding = v);
+                    Prop(target, childAlignment, (t, v) => t.childAlignment = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
 #if UNITY_6000_4_OR_NEWER
@@ -3407,7 +7626,7 @@ namespace Pine
             Value<string>? sortingLayerName = null,
             Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone =
                 null,
-            Value<global::UnityEngine.Camera>? worldCamera = null,
+            Part<global::UnityEngine.Camera>? worldCamera = null,
             Value<float>? normalizedSortingGridSize = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
@@ -3428,13 +7647,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.Canvas> configure = null,
             Action<global::UnityEngine.Canvas> reference = null
         ) =>
-            Declare<global::UnityEngine.Canvas>(
+            DeclareNative<global::UnityEngine.Canvas>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, renderMode, (t, v) => t.renderMode = v);
                     Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
@@ -3463,7 +7684,6 @@ namespace Pine
                         updateRectTransformForStandalone,
                         (t, v) => t.updateRectTransformForStandalone = v
                     );
-                    Prop(target, worldCamera, (t, v) => t.worldCamera = v);
                     Prop(
                         target,
                         normalizedSortingGridSize,
@@ -3537,8 +7757,20 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.Canvas, global::UnityEngine.Camera>(
+                        "worldCamera",
+                        worldCamera,
+                        (t, v) => t.worldCamera = v
+                    ),
+                },
+                components: components
             );
+
 #else
         /// <summary>Creates a UnityEngine.Canvas view; omitted props keep native defaults.</summary>
         public static View Canvas(
@@ -3558,7 +7790,7 @@ namespace Pine
             Value<string>? sortingLayerName = null,
             Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone =
                 null,
-            Value<global::UnityEngine.Camera>? worldCamera = null,
+            Part<global::UnityEngine.Camera>? worldCamera = null,
             Value<float>? normalizedSortingGridSize = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
@@ -3579,13 +7811,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.Canvas> configure = null,
             Action<global::UnityEngine.Canvas> reference = null
         ) =>
-            Declare<global::UnityEngine.Canvas>(
+            DeclareNative<global::UnityEngine.Canvas>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, renderMode, (t, v) => t.renderMode = v);
                     Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
@@ -3613,7 +7847,6 @@ namespace Pine
                         updateRectTransformForStandalone,
                         (t, v) => t.updateRectTransformForStandalone = v
                     );
-                    Prop(target, worldCamera, (t, v) => t.worldCamera = v);
                     Prop(
                         target,
                         normalizedSortingGridSize,
@@ -3687,7 +7920,347 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.Canvas, global::UnityEngine.Camera>(
+                        "worldCamera",
+                        worldCamera,
+                        (t, v) => t.worldCamera = v
+                    ),
+                },
+                components: components
+            );
+
+#endif
+
+#if UNITY_6000_4_OR_NEWER
+        /// <summary>Creates a UnityEngine.Canvas view; omitted props keep native defaults.</summary>
+        public static View Canvas(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.RenderMode>? renderMode = null,
+            Value<float>? scaleFactor = null,
+            Value<float>? referencePixelsPerUnit = null,
+            Value<bool>? overridePixelPerfect = null,
+            Value<bool>? vertexColorAlwaysGammaSpace = null,
+            Value<bool>? useReflectionProbes = null,
+            Value<bool>? pixelPerfect = null,
+            Value<float>? planeDistance = null,
+            Value<bool>? overrideSorting = null,
+            Value<int>? sortingOrder = null,
+            Value<int>? targetDisplay = null,
+            Value<int>? sortingLayerID = null,
+            Value<global::UnityEngine.AdditionalCanvasShaderChannels>? additionalShaderChannels =
+                null,
+            Value<string>? sortingLayerName = null,
+            Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone =
+                null,
+            Part<global::UnityEngine.Camera>? worldCamera = null,
+            Value<float>? normalizedSortingGridSize = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.Canvas> configure = null,
+            Action<global::UnityEngine.Canvas> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.Canvas>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
+                    Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
+                    Prop(target, overridePixelPerfect, (t, v) => t.overridePixelPerfect = v);
+                    Prop(
+                        target,
+                        vertexColorAlwaysGammaSpace,
+                        (t, v) => t.vertexColorAlwaysGammaSpace = v
+                    );
+                    Prop(target, useReflectionProbes, (t, v) => t.useReflectionProbes = v);
+                    Prop(target, pixelPerfect, (t, v) => t.pixelPerfect = v);
+                    Prop(target, planeDistance, (t, v) => t.planeDistance = v);
+                    Prop(target, overrideSorting, (t, v) => t.overrideSorting = v);
+                    Prop(target, sortingOrder, (t, v) => t.sortingOrder = v);
+                    Prop(target, targetDisplay, (t, v) => t.targetDisplay = v);
+                    Prop(target, sortingLayerID, (t, v) => t.sortingLayerID = v);
+                    Prop(
+                        target,
+                        additionalShaderChannels,
+                        (t, v) => t.additionalShaderChannels = v
+                    );
+                    Prop(target, sortingLayerName, (t, v) => t.sortingLayerName = v);
+                    Prop(
+                        target,
+                        updateRectTransformForStandalone,
+                        (t, v) => t.updateRectTransformForStandalone = v
+                    );
+                    Prop(
+                        target,
+                        normalizedSortingGridSize,
+                        (t, v) => t.normalizedSortingGridSize = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.Canvas, global::UnityEngine.Camera>(
+                        "worldCamera",
+                        worldCamera,
+                        (t, v) => t.worldCamera = v
+                    ),
+                },
+                components: components
+            );
+#else
+        /// <summary>Creates a UnityEngine.Canvas view; omitted props keep native defaults.</summary>
+        public static View Canvas(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.RenderMode>? renderMode = null,
+            Value<float>? scaleFactor = null,
+            Value<float>? referencePixelsPerUnit = null,
+            Value<bool>? overridePixelPerfect = null,
+            Value<bool>? vertexColorAlwaysGammaSpace = null,
+            Value<bool>? pixelPerfect = null,
+            Value<float>? planeDistance = null,
+            Value<bool>? overrideSorting = null,
+            Value<int>? sortingOrder = null,
+            Value<int>? targetDisplay = null,
+            Value<int>? sortingLayerID = null,
+            Value<global::UnityEngine.AdditionalCanvasShaderChannels>? additionalShaderChannels =
+                null,
+            Value<string>? sortingLayerName = null,
+            Value<global::UnityEngine.StandaloneRenderResize>? updateRectTransformForStandalone =
+                null,
+            Part<global::UnityEngine.Camera>? worldCamera = null,
+            Value<float>? normalizedSortingGridSize = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.Canvas> configure = null,
+            Action<global::UnityEngine.Canvas> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.Canvas>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, renderMode, (t, v) => t.renderMode = v);
+                    Prop(target, scaleFactor, (t, v) => t.scaleFactor = v);
+                    Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
+                    Prop(target, overridePixelPerfect, (t, v) => t.overridePixelPerfect = v);
+                    Prop(
+                        target,
+                        vertexColorAlwaysGammaSpace,
+                        (t, v) => t.vertexColorAlwaysGammaSpace = v
+                    );
+                    Prop(target, pixelPerfect, (t, v) => t.pixelPerfect = v);
+                    Prop(target, planeDistance, (t, v) => t.planeDistance = v);
+                    Prop(target, overrideSorting, (t, v) => t.overrideSorting = v);
+                    Prop(target, sortingOrder, (t, v) => t.sortingOrder = v);
+                    Prop(target, targetDisplay, (t, v) => t.targetDisplay = v);
+                    Prop(target, sortingLayerID, (t, v) => t.sortingLayerID = v);
+                    Prop(
+                        target,
+                        additionalShaderChannels,
+                        (t, v) => t.additionalShaderChannels = v
+                    );
+                    Prop(target, sortingLayerName, (t, v) => t.sortingLayerName = v);
+                    Prop(
+                        target,
+                        updateRectTransformForStandalone,
+                        (t, v) => t.updateRectTransformForStandalone = v
+                    );
+                    Prop(
+                        target,
+                        normalizedSortingGridSize,
+                        (t, v) => t.normalizedSortingGridSize = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<global::UnityEngine.Canvas, global::UnityEngine.Camera>(
+                        "worldCamera",
+                        worldCamera,
+                        (t, v) => t.worldCamera = v
+                    ),
+                },
+                components: components
             );
 #endif
 
@@ -3716,13 +8289,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.CanvasGroup> configure = null,
             Action<global::UnityEngine.CanvasGroup> reference = null
         ) =>
-            Declare<global::UnityEngine.CanvasGroup>(
+            DeclareNative<global::UnityEngine.CanvasGroup>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, alpha, (t, v) => t.alpha = v);
                     Prop(target, interactable, (t, v) => t.interactable = v);
@@ -3796,7 +8371,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.CanvasScaler on the containing object; omitted props keep native defaults.</summary>
@@ -3830,13 +8409,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.CanvasScaler> configure = null,
             Action<global::UnityEngine.UI.CanvasScaler> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.CanvasScaler>(
+            DeclareNative<global::UnityEngine.UI.CanvasScaler>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, uiScaleMode, (t, v) => t.uiScaleMode = v);
                     Prop(target, referencePixelsPerUnit, (t, v) => t.referencePixelsPerUnit = v);
@@ -3916,7 +8497,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.GraphicRaycaster on the containing object; omitted props keep native defaults.</summary>
@@ -3943,13 +8528,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.GraphicRaycaster> configure = null,
             Action<global::UnityEngine.UI.GraphicRaycaster> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.GraphicRaycaster>(
+            DeclareNative<global::UnityEngine.UI.GraphicRaycaster>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, ignoreReversedGraphics, (t, v) => t.ignoreReversedGraphics = v);
                     Prop(target, blockingObjects, (t, v) => t.blockingObjects = v);
@@ -4022,7 +8609,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
 #if PINE_UGUI_2_6_OR_NEWER
@@ -4057,13 +8648,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.LayoutElement> configure = null,
             Action<global::UnityEngine.UI.LayoutElement> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.LayoutElement>(
+            DeclareNative<global::UnityEngine.UI.LayoutElement>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, ignoreLayout, (t, v) => t.ignoreLayout = v);
                     Prop(target, minWidth, (t, v) => t.minWidth = v);
@@ -4143,7 +8736,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 #else
         /// <summary>Attaches UnityEngine.UI.LayoutElement on the containing object; omitted props keep native defaults.</summary>
@@ -4175,13 +8772,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.LayoutElement> configure = null,
             Action<global::UnityEngine.UI.LayoutElement> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.LayoutElement>(
+            DeclareNative<global::UnityEngine.UI.LayoutElement>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, ignoreLayout, (t, v) => t.ignoreLayout = v);
                     Prop(target, minWidth, (t, v) => t.minWidth = v);
@@ -4259,7 +8858,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 #endif
 
@@ -4286,13 +8889,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.ContentSizeFitter> configure = null,
             Action<global::UnityEngine.UI.ContentSizeFitter> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.ContentSizeFitter>(
+            DeclareNative<global::UnityEngine.UI.ContentSizeFitter>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, horizontalFit, (t, v) => t.horizontalFit = v);
                     Prop(target, verticalFit, (t, v) => t.verticalFit = v);
@@ -4364,7 +8969,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.AspectRatioFitter on the containing object; omitted props keep native defaults.</summary>
@@ -4390,13 +8999,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.AspectRatioFitter> configure = null,
             Action<global::UnityEngine.UI.AspectRatioFitter> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.AspectRatioFitter>(
+            DeclareNative<global::UnityEngine.UI.AspectRatioFitter>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, aspectMode, (t, v) => t.aspectMode = v);
                     Prop(target, aspectRatio, (t, v) => t.aspectRatio = v);
@@ -4468,7 +9079,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.Mask on the containing object; omitted props keep native defaults.</summary>
@@ -4493,13 +9108,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Mask> configure = null,
             Action<global::UnityEngine.UI.Mask> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Mask>(
+            DeclareNative<global::UnityEngine.UI.Mask>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, showMaskGraphic, (t, v) => t.showMaskGraphic = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
@@ -4570,7 +9187,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.RectMask2D on the containing object; omitted props keep native defaults.</summary>
@@ -4596,13 +9217,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.RectMask2D> configure = null,
             Action<global::UnityEngine.UI.RectMask2D> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.RectMask2D>(
+            DeclareNative<global::UnityEngine.UI.RectMask2D>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, padding, (t, v) => t.padding = v);
                     Prop(target, softness, (t, v) => t.softness = v);
@@ -4674,7 +9297,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.Shadow on the containing object; omitted props keep native defaults.</summary>
@@ -4701,13 +9328,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Shadow> configure = null,
             Action<global::UnityEngine.UI.Shadow> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Shadow>(
+            DeclareNative<global::UnityEngine.UI.Shadow>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, effectColor, (t, v) => t.effectColor = v);
                     Prop(target, effectDistance, (t, v) => t.effectDistance = v);
@@ -4780,7 +9409,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.Outline on the containing object; omitted props keep native defaults.</summary>
@@ -4807,13 +9440,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.Outline> configure = null,
             Action<global::UnityEngine.UI.Outline> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.Outline>(
+            DeclareNative<global::UnityEngine.UI.Outline>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, effectColor, (t, v) => t.effectColor = v);
                     Prop(target, effectDistance, (t, v) => t.effectDistance = v);
@@ -4886,7 +9521,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.PositionAsUV1 on the containing object; omitted props keep native defaults.</summary>
@@ -4910,13 +9549,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.PositionAsUV1> configure = null,
             Action<global::UnityEngine.UI.PositionAsUV1> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.PositionAsUV1>(
+            DeclareNative<global::UnityEngine.UI.PositionAsUV1>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
@@ -4986,7 +9627,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.UI.ToggleGroup on the containing object; omitted props keep native defaults.</summary>
@@ -5011,13 +9656,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.ToggleGroup> configure = null,
             Action<global::UnityEngine.UI.ToggleGroup> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.ToggleGroup>(
+            DeclareNative<global::UnityEngine.UI.ToggleGroup>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, allowSwitchOff, (t, v) => t.allowSwitchOff = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
@@ -5088,7 +9735,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.CanvasRenderer on the containing object; omitted props keep native defaults.</summary>
@@ -5117,13 +9768,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.CanvasRenderer> configure = null,
             Action<global::UnityEngine.CanvasRenderer> reference = null
         ) =>
-            Declare<global::UnityEngine.CanvasRenderer>(
+            DeclareNative<global::UnityEngine.CanvasRenderer>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, hasPopInstruction, (t, v) => t.hasPopInstruction = v);
                     Prop(target, materialCount, (t, v) => t.materialCount = v);
@@ -5198,7 +9851,171 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Attaches UnityEngine.Animator on the containing object; omitted props keep native defaults.</summary>
+        public static View Animator(
+            Value<global::UnityEngine.RuntimeAnimatorController>? runtimeAnimatorController = null,
+            Value<global::UnityEngine.Vector3>? rootPosition = null,
+            Value<global::UnityEngine.Quaternion>? rootRotation = null,
+            Value<bool>? applyRootMotion = null,
+            Value<bool>? animatePhysics = null,
+            Value<global::UnityEngine.AnimatorUpdateMode>? updateMode = null,
+            Value<global::UnityEngine.Vector3>? bodyPosition = null,
+            Value<global::UnityEngine.Quaternion>? bodyRotation = null,
+            Value<bool>? stabilizeFeet = null,
+            Value<float>? feetPivotActive = null,
+            Value<float>? speed = null,
+            Value<global::UnityEngine.AnimatorCullingMode>? cullingMode = null,
+            Value<float>? playbackTime = null,
+            Value<float>? recorderStartTime = null,
+            Value<float>? recorderStopTime = null,
+            Value<global::UnityEngine.Avatar>? avatar = null,
+            Value<bool>? layersAffectMassCenter = null,
+            Value<bool>? logWarnings = null,
+            Value<bool>? fireEvents = null,
+            Value<bool>? keepAnimatorStateOnDisable = null,
+            Value<bool>? writeDefaultValuesOnDisable = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
+            Action<global::UnityEngine.Animator> configure = null,
+            Action<global::UnityEngine.Animator> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.Animator>(
+                modifier: true,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(
+                        target,
+                        runtimeAnimatorController,
+                        (t, v) => t.runtimeAnimatorController = v
+                    );
+                    Prop(target, rootPosition, (t, v) => t.rootPosition = v);
+                    Prop(target, rootRotation, (t, v) => t.rootRotation = v);
+                    Prop(target, applyRootMotion, (t, v) => t.applyRootMotion = v);
+                    Prop(target, animatePhysics, (t, v) => t.animatePhysics = v);
+                    Prop(target, updateMode, (t, v) => t.updateMode = v);
+                    Prop(target, bodyPosition, (t, v) => t.bodyPosition = v);
+                    Prop(target, bodyRotation, (t, v) => t.bodyRotation = v);
+                    Prop(target, stabilizeFeet, (t, v) => t.stabilizeFeet = v);
+                    Prop(target, feetPivotActive, (t, v) => t.feetPivotActive = v);
+                    Prop(target, speed, (t, v) => t.speed = v);
+                    Prop(target, cullingMode, (t, v) => t.cullingMode = v);
+                    Prop(target, playbackTime, (t, v) => t.playbackTime = v);
+                    Prop(target, recorderStartTime, (t, v) => t.recorderStartTime = v);
+                    Prop(target, recorderStopTime, (t, v) => t.recorderStopTime = v);
+                    Prop(target, avatar, (t, v) => t.avatar = v);
+                    Prop(target, layersAffectMassCenter, (t, v) => t.layersAffectMassCenter = v);
+                    Prop(target, logWarnings, (t, v) => t.logWarnings = v);
+                    Prop(target, fireEvents, (t, v) => t.fireEvents = v);
+                    Prop(
+                        target,
+                        keepAnimatorStateOnDisable,
+                        (t, v) => t.keepAnimatorStateOnDisable = v
+                    );
+                    Prop(
+                        target,
+                        writeDefaultValuesOnDisable,
+                        (t, v) => t.writeDefaultValuesOnDisable = v
+                    );
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.EventSystems.EventTrigger on the containing object; omitted props keep native defaults.</summary>
@@ -5224,13 +10041,32 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onPointerEnter = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onPointerExit = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onPointerDown = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onPointerUp = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onPointerClick = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onDrag = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onDrop = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onScroll = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onUpdateSelected = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onSelect = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onDeselect = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onMove = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onInitializePotentialDrag = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onBeginDrag = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onEndDrag = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onSubmit = null,
+            Action<global::UnityEngine.EventSystems.BaseEventData> onCancel = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.EventSystems.EventTrigger> configure = null,
             Action<global::UnityEngine.EventSystems.EventTrigger> reference = null
         ) =>
-            Declare<global::UnityEngine.EventSystems.EventTrigger>(
+            DeclareNative<global::UnityEngine.EventSystems.EventTrigger>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, triggers, (t, v) => t.triggers = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
@@ -5299,16 +10135,105 @@ namespace Pine
                     );
                     Prop(target.gameObject, layer, (t, v) => t.layer = v);
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.PointerEnter,
+                        onPointerEnter
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.PointerExit,
+                        onPointerExit
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.PointerDown,
+                        onPointerDown
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.PointerUp,
+                        onPointerUp
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.PointerClick,
+                        onPointerClick
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Drag,
+                        onDrag
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Drop,
+                        onDrop
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Scroll,
+                        onScroll
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.UpdateSelected,
+                        onUpdateSelected
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Select,
+                        onSelect
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Deselect,
+                        onDeselect
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Move,
+                        onMove
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.InitializePotentialDrag,
+                        onInitializePotentialDrag
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.BeginDrag,
+                        onBeginDrag
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.EndDrag,
+                        onEndDrag
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Submit,
+                        onSubmit
+                    );
+                    ListenTrigger(
+                        target,
+                        global::UnityEngine.EventSystems.EventTriggerType.Cancel,
+                        onCancel
+                    );
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Creates a UnityEngine.EventSystems.EventSystem view; omitted props keep native defaults.</summary>
         public static View EventSystem(
             Value<bool>? sendNavigationEvents = null,
             Value<int>? pixelDragThreshold = null,
-            Value<global::UnityEngine.GameObject>? firstSelectedGameObject = null,
+            Part<global::UnityEngine.GameObject>? firstSelectedGameObject = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -5328,17 +10253,18 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.EventSystems.EventSystem> configure = null,
             Action<global::UnityEngine.EventSystems.EventSystem> reference = null
         ) =>
-            Declare<global::UnityEngine.EventSystems.EventSystem>(
+            DeclareNative<global::UnityEngine.EventSystems.EventSystem>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, sendNavigationEvents, (t, v) => t.sendNavigationEvents = v);
                     Prop(target, pixelDragThreshold, (t, v) => t.pixelDragThreshold = v);
-                    Prop(target, firstSelectedGameObject, (t, v) => t.firstSelectedGameObject = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -5407,7 +10333,142 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.EventSystems.EventSystem,
+                        global::UnityEngine.GameObject
+                    >(
+                        "firstSelectedGameObject",
+                        firstSelectedGameObject,
+                        (t, v) => t.firstSelectedGameObject = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.EventSystems.EventSystem view; omitted props keep native defaults.</summary>
+        public static View EventSystem(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<bool>? sendNavigationEvents = null,
+            Value<int>? pixelDragThreshold = null,
+            Part<global::UnityEngine.GameObject>? firstSelectedGameObject = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.EventSystems.EventSystem> configure = null,
+            Action<global::UnityEngine.EventSystems.EventSystem> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.EventSystems.EventSystem>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, sendNavigationEvents, (t, v) => t.sendNavigationEvents = v);
+                    Prop(target, pixelDragThreshold, (t, v) => t.pixelDragThreshold = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.EventSystems.EventSystem,
+                        global::UnityEngine.GameObject
+                    >(
+                        "firstSelectedGameObject",
+                        firstSelectedGameObject,
+                        (t, v) => t.firstSelectedGameObject = v
+                    ),
+                },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.EventSystems.BaseInput on the containing object; omitted props keep native defaults.</summary>
@@ -5433,13 +10494,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.EventSystems.BaseInput> configure = null,
             Action<global::UnityEngine.EventSystems.BaseInput> reference = null
         ) =>
-            Declare<global::UnityEngine.EventSystems.BaseInput>(
+            DeclareNative<global::UnityEngine.EventSystems.BaseInput>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, imeCompositionMode, (t, v) => t.imeCompositionMode = v);
                     Prop(target, compositionCursorPos, (t, v) => t.compositionCursorPos = v);
@@ -5511,8 +10574,735 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
+
+#if ENABLE_INPUT_SYSTEM
+        /// <summary>Attaches UnityEngine.InputSystem.PlayerInput on the containing object; omitted props keep native defaults.</summary>
+        public static View PlayerInput(
+            Value<global::UnityEngine.InputSystem.InputActionAsset>? actions = null,
+            Value<string>? defaultControlScheme = null,
+            Value<bool>? neverAutoSwitchControlSchemes = null,
+            Value<global::UnityEngine.InputSystem.InputActionMap>? currentActionMap = null,
+            Value<string>? defaultActionMap = null,
+            Value<global::UnityEngine.InputSystem.PlayerNotifications>? notificationBehavior = null,
+            Value<global::UnityEngine.InputSystem.Utilities.ReadOnlyArray<global::UnityEngine.InputSystem.PlayerInput.ActionEvent>>? actionEvents =
+                null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> deviceLostEvent = null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> deviceRegainedEvent = null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> controlsChangedEvent = null,
+            Part<global::UnityEngine.Camera>? camera = null,
+            Part<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule>? uiInputModule = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Action<global::UnityEngine.InputSystem.InputAction.CallbackContext> onActionTriggered =
+                null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> onDeviceLost = null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> onDeviceRegained = null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> onControlsChanged = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> configure = null,
+            Action<global::UnityEngine.InputSystem.PlayerInput> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.InputSystem.PlayerInput>(
+                modifier: true,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, actions, (t, v) => t.actions = v);
+                    Prop(target, defaultControlScheme, (t, v) => t.defaultControlScheme = v);
+                    Prop(
+                        target,
+                        neverAutoSwitchControlSchemes,
+                        (t, v) => t.neverAutoSwitchControlSchemes = v
+                    );
+                    Prop(target, currentActionMap, (t, v) => t.currentActionMap = v);
+                    Prop(target, defaultActionMap, (t, v) => t.defaultActionMap = v);
+                    Prop(target, notificationBehavior, (t, v) => t.notificationBehavior = v);
+                    Prop(target, actionEvents, (t, v) => t.actionEvents = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    Listen(target.deviceLostEvent, deviceLostEvent);
+                    Listen(target.deviceRegainedEvent, deviceRegainedEvent);
+                    Listen(target.controlsChangedEvent, controlsChangedEvent);
+                    if (onActionTriggered != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::UnityEngine.InputSystem.InputAction.CallbackContext> handler =
+                            (arg0) =>
+                            {
+                                if (!eventScope.IsDisposed)
+                                    eventScope.Run(() =>
+                                        Batch(() => Untrack(() => onActionTriggered(arg0)))
+                                    );
+                            };
+                        target.onActionTriggered += handler;
+                        Cleanup(() => target.onActionTriggered -= handler);
+                    }
+                    if (onDeviceLost != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::UnityEngine.InputSystem.PlayerInput> handler =
+                            (arg0) =>
+                            {
+                                if (!eventScope.IsDisposed)
+                                    eventScope.Run(() =>
+                                        Batch(() => Untrack(() => onDeviceLost(arg0)))
+                                    );
+                            };
+                        target.onDeviceLost += handler;
+                        Cleanup(() => target.onDeviceLost -= handler);
+                    }
+                    if (onDeviceRegained != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::UnityEngine.InputSystem.PlayerInput> handler =
+                            (arg0) =>
+                            {
+                                if (!eventScope.IsDisposed)
+                                    eventScope.Run(() =>
+                                        Batch(() => Untrack(() => onDeviceRegained(arg0)))
+                                    );
+                            };
+                        target.onDeviceRegained += handler;
+                        Cleanup(() => target.onDeviceRegained -= handler);
+                    }
+                    if (onControlsChanged != null)
+                    {
+                        var eventScope = RequireScope();
+                        global::System.Action<global::UnityEngine.InputSystem.PlayerInput> handler =
+                            (arg0) =>
+                            {
+                                if (!eventScope.IsDisposed)
+                                    eventScope.Run(() =>
+                                        Batch(() => Untrack(() => onControlsChanged(arg0)))
+                                    );
+                            };
+                        target.onControlsChanged += handler;
+                        Cleanup(() => target.onControlsChanged -= handler);
+                    }
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.InputSystem.PlayerInput,
+                        global::UnityEngine.Camera
+                    >("camera", camera, (t, v) => t.camera = v),
+                    NativePart<
+                        global::UnityEngine.InputSystem.PlayerInput,
+                        global::UnityEngine.InputSystem.UI.InputSystemUIInputModule
+                    >("uiInputModule", uiInputModule, (t, v) => t.uiInputModule = v),
+                },
+                components: components
+            );
+
+#endif
+
+#if ENABLE_INPUT_SYSTEM
+        /// <summary>Creates a UnityEngine.InputSystem.UI.MultiplayerEventSystem view; omitted props keep native defaults.</summary>
+        public static View MultiplayerEventSystem(
+            Part<global::UnityEngine.GameObject>? playerRoot = null,
+            Value<bool>? sendNavigationEvents = null,
+            Value<int>? pixelDragThreshold = null,
+            Part<global::UnityEngine.GameObject>? firstSelectedGameObject = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
+            Action<global::UnityEngine.InputSystem.UI.MultiplayerEventSystem> configure = null,
+            Action<global::UnityEngine.InputSystem.UI.MultiplayerEventSystem> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.InputSystem.UI.MultiplayerEventSystem>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, sendNavigationEvents, (t, v) => t.sendNavigationEvents = v);
+                    Prop(target, pixelDragThreshold, (t, v) => t.pixelDragThreshold = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.MultiplayerEventSystem,
+                        global::UnityEngine.GameObject
+                    >("playerRoot", playerRoot, (t, v) => t.playerRoot = v),
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.MultiplayerEventSystem,
+                        global::UnityEngine.GameObject
+                    >(
+                        "firstSelectedGameObject",
+                        firstSelectedGameObject,
+                        (t, v) => t.firstSelectedGameObject = v
+                    ),
+                },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.InputSystem.UI.MultiplayerEventSystem view; omitted props keep native defaults.</summary>
+        public static View MultiplayerEventSystem(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Part<global::UnityEngine.GameObject>? playerRoot = null,
+            Value<bool>? sendNavigationEvents = null,
+            Value<int>? pixelDragThreshold = null,
+            Part<global::UnityEngine.GameObject>? firstSelectedGameObject = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.InputSystem.UI.MultiplayerEventSystem> configure = null,
+            Action<global::UnityEngine.InputSystem.UI.MultiplayerEventSystem> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.InputSystem.UI.MultiplayerEventSystem>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, sendNavigationEvents, (t, v) => t.sendNavigationEvents = v);
+                    Prop(target, pixelDragThreshold, (t, v) => t.pixelDragThreshold = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.MultiplayerEventSystem,
+                        global::UnityEngine.GameObject
+                    >("playerRoot", playerRoot, (t, v) => t.playerRoot = v),
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.MultiplayerEventSystem,
+                        global::UnityEngine.GameObject
+                    >(
+                        "firstSelectedGameObject",
+                        firstSelectedGameObject,
+                        (t, v) => t.firstSelectedGameObject = v
+                    ),
+                },
+                components: components
+            );
+
+#endif
+
+#if ENABLE_INPUT_SYSTEM
+        /// <summary>Attaches UnityEngine.InputSystem.UI.TrackedDeviceRaycaster on the containing object; omitted props keep native defaults.</summary>
+        public static View TrackedDeviceRaycaster(
+            Value<global::UnityEngine.LayerMask>? blockingMask = null,
+            Value<bool>? checkFor3DOcclusion = null,
+            Value<bool>? checkFor2DOcclusion = null,
+            Value<bool>? ignoreReversedGraphics = null,
+            Value<float>? maxDistance = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
+            Action<global::UnityEngine.InputSystem.UI.TrackedDeviceRaycaster> configure = null,
+            Action<global::UnityEngine.InputSystem.UI.TrackedDeviceRaycaster> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.InputSystem.UI.TrackedDeviceRaycaster>(
+                modifier: true,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, blockingMask, (t, v) => t.blockingMask = v);
+                    Prop(target, checkFor3DOcclusion, (t, v) => t.checkFor3DOcclusion = v);
+                    Prop(target, checkFor2DOcclusion, (t, v) => t.checkFor2DOcclusion = v);
+                    Prop(target, ignoreReversedGraphics, (t, v) => t.ignoreReversedGraphics = v);
+                    Prop(target, maxDistance, (t, v) => t.maxDistance = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+#endif
+
+#if ENABLE_INPUT_SYSTEM
+        /// <summary>Attaches UnityEngine.InputSystem.UI.VirtualMouseInput on the containing object; omitted props keep native defaults.</summary>
+        public static View VirtualMouseInput(
+            Part<global::UnityEngine.RectTransform>? cursorTransform = null,
+            Value<float>? cursorSpeed = null,
+            Value<global::UnityEngine.InputSystem.UI.VirtualMouseInput.CursorMode>? cursorMode =
+                null,
+            Part<global::UnityEngine.UI.Graphic>? cursorGraphic = null,
+            Value<float>? scrollSpeed = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? stickAction = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? leftButtonAction = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? rightButtonAction = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? middleButtonAction = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? forwardButtonAction = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? backButtonAction = null,
+            Value<global::UnityEngine.InputSystem.InputActionProperty>? scrollWheelAction = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
+            Action<global::UnityEngine.InputSystem.UI.VirtualMouseInput> configure = null,
+            Action<global::UnityEngine.InputSystem.UI.VirtualMouseInput> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.InputSystem.UI.VirtualMouseInput>(
+                modifier: true,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, cursorSpeed, (t, v) => t.cursorSpeed = v);
+                    Prop(target, cursorMode, (t, v) => t.cursorMode = v);
+                    Prop(target, scrollSpeed, (t, v) => t.scrollSpeed = v);
+                    Prop(target, stickAction, (t, v) => t.stickAction = v);
+                    Prop(target, leftButtonAction, (t, v) => t.leftButtonAction = v);
+                    Prop(target, rightButtonAction, (t, v) => t.rightButtonAction = v);
+                    Prop(target, middleButtonAction, (t, v) => t.middleButtonAction = v);
+                    Prop(target, forwardButtonAction, (t, v) => t.forwardButtonAction = v);
+                    Prop(target, backButtonAction, (t, v) => t.backButtonAction = v);
+                    Prop(target, scrollWheelAction, (t, v) => t.scrollWheelAction = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.VirtualMouseInput,
+                        global::UnityEngine.RectTransform
+                    >("cursorTransform", cursorTransform, (t, v) => t.cursorTransform = v),
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.VirtualMouseInput,
+                        global::UnityEngine.UI.Graphic
+                    >("cursorGraphic", cursorGraphic, (t, v) => t.cursorGraphic = v),
+                },
+                components: components
+            );
+
+#endif
 
 #if ENABLE_LEGACY_INPUT_MANAGER
         /// <summary>Attaches UnityEngine.EventSystems.StandaloneInputModule on the containing object; omitted props keep native defaults.</summary>
@@ -5523,7 +11313,7 @@ namespace Pine
             Value<string>? verticalAxis = null,
             Value<string>? submitButton = null,
             Value<string>? cancelButton = null,
-            Value<global::UnityEngine.EventSystems.BaseInput>? inputOverride = null,
+            Part<global::UnityEngine.EventSystems.BaseInput>? inputOverride = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -5544,13 +11334,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.EventSystems.StandaloneInputModule> configure = null,
             Action<global::UnityEngine.EventSystems.StandaloneInputModule> reference = null
         ) =>
-            Declare<global::UnityEngine.EventSystems.StandaloneInputModule>(
+            DeclareNative<global::UnityEngine.EventSystems.StandaloneInputModule>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, inputActionsPerSecond, (t, v) => t.inputActionsPerSecond = v);
                     Prop(target, repeatDelay, (t, v) => t.repeatDelay = v);
@@ -5558,7 +11350,6 @@ namespace Pine
                     Prop(target, verticalAxis, (t, v) => t.verticalAxis = v);
                     Prop(target, submitButton, (t, v) => t.submitButton = v);
                     Prop(target, cancelButton, (t, v) => t.cancelButton = v);
-                    Prop(target, inputOverride, (t, v) => t.inputOverride = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -5628,7 +11419,17 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.EventSystems.StandaloneInputModule,
+                        global::UnityEngine.EventSystems.BaseInput
+                    >("inputOverride", inputOverride, (t, v) => t.inputOverride = v),
+                },
+                components: components
             );
 
 #endif
@@ -5636,6 +11437,7 @@ namespace Pine
 #if ENABLE_INPUT_SYSTEM
         /// <summary>Attaches UnityEngine.InputSystem.UI.InputSystemUIInputModule on the containing object; omitted props keep native defaults.</summary>
         public static View InputSystemUIInputModule(
+            Value<global::UnityEngine.InputSystem.InputActionAsset>? actionsAsset = null,
             Value<bool>? deselectOnBackgroundClick = null,
             Value<global::UnityEngine.InputSystem.UI.UIPointerBehavior>? pointerBehavior = null,
             Value<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule.CursorLockBehavior>? cursorLockBehavior =
@@ -5643,7 +11445,7 @@ namespace Pine
             Value<float>? scrollDeltaPerTick = null,
             Value<float>? moveRepeatDelay = null,
             Value<float>? moveRepeatRate = null,
-            Value<global::UnityEngine.Transform>? xrTrackingOrigin = null,
+            Part<global::UnityEngine.Transform>? xrTrackingOrigin = null,
             Value<float>? trackedDeviceDragThresholdMultiplier = null,
             Value<global::UnityEngine.InputSystem.InputActionReference>? point = null,
             Value<global::UnityEngine.InputSystem.InputActionReference>? scrollWheel = null,
@@ -5657,8 +11459,7 @@ namespace Pine
                 null,
             Value<global::UnityEngine.InputSystem.InputActionReference>? trackedDevicePosition =
                 null,
-            Value<global::UnityEngine.InputSystem.InputActionAsset>? actionsAsset = null,
-            Value<global::UnityEngine.EventSystems.BaseInput>? inputOverride = null,
+            Part<global::UnityEngine.EventSystems.BaseInput>? inputOverride = null,
             Value<bool>? enabled = null,
             Value<string>? tag = null,
             Value<string>? name = null,
@@ -5679,14 +11480,17 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule> configure = null,
             Action<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule> reference = null
         ) =>
-            Declare<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule>(
+            DeclareNative<global::UnityEngine.InputSystem.UI.InputSystemUIInputModule>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
+                    Prop(target, actionsAsset, (t, v) => t.actionsAsset = v);
                     Prop(
                         target,
                         deselectOnBackgroundClick,
@@ -5697,7 +11501,6 @@ namespace Pine
                     Prop(target, scrollDeltaPerTick, (t, v) => t.scrollDeltaPerTick = v);
                     Prop(target, moveRepeatDelay, (t, v) => t.moveRepeatDelay = v);
                     Prop(target, moveRepeatRate, (t, v) => t.moveRepeatRate = v);
-                    Prop(target, xrTrackingOrigin, (t, v) => t.xrTrackingOrigin = v);
                     Prop(
                         target,
                         trackedDeviceDragThresholdMultiplier,
@@ -5717,8 +11520,6 @@ namespace Pine
                         (t, v) => t.trackedDeviceOrientation = v
                     );
                     Prop(target, trackedDevicePosition, (t, v) => t.trackedDevicePosition = v);
-                    Prop(target, actionsAsset, (t, v) => t.actionsAsset = v);
-                    Prop(target, inputOverride, (t, v) => t.inputOverride = v);
                     Prop(target, enabled, (t, v) => t.enabled = v);
                     Prop(target, tag, (t, v) => t.tag = v);
                     Prop(target, name, (t, v) => t.name = v);
@@ -5788,7 +11589,21 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[]
+                {
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.InputSystemUIInputModule,
+                        global::UnityEngine.Transform
+                    >("xrTrackingOrigin", xrTrackingOrigin, (t, v) => t.xrTrackingOrigin = v),
+                    NativePart<
+                        global::UnityEngine.InputSystem.UI.InputSystemUIInputModule,
+                        global::UnityEngine.EventSystems.BaseInput
+                    >("inputOverride", inputOverride, (t, v) => t.inputOverride = v),
+                },
+                components: components
             );
 #endif
 
@@ -5815,13 +11630,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.EventSystems.PhysicsRaycaster> configure = null,
             Action<global::UnityEngine.EventSystems.PhysicsRaycaster> reference = null
         ) =>
-            Declare<global::UnityEngine.EventSystems.PhysicsRaycaster>(
+            DeclareNative<global::UnityEngine.EventSystems.PhysicsRaycaster>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, eventMask, (t, v) => t.eventMask = v);
                     Prop(target, maxRayIntersections, (t, v) => t.maxRayIntersections = v);
@@ -5893,7 +11710,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
         /// <summary>Attaches UnityEngine.EventSystems.Physics2DRaycaster on the containing object; omitted props keep native defaults.</summary>
@@ -5919,13 +11740,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.EventSystems.Physics2DRaycaster> configure = null,
             Action<global::UnityEngine.EventSystems.Physics2DRaycaster> reference = null
         ) =>
-            Declare<global::UnityEngine.EventSystems.Physics2DRaycaster>(
+            DeclareNative<global::UnityEngine.EventSystems.Physics2DRaycaster>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, eventMask, (t, v) => t.eventMask = v);
                     Prop(target, maxRayIntersections, (t, v) => t.maxRayIntersections = v);
@@ -5997,7 +11820,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
 #if PINE_UGUI_2_5_OR_NEWER
@@ -6026,13 +11853,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.RaycastReceiver> configure = null,
             Action<global::UnityEngine.UI.RaycastReceiver> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.RaycastReceiver>(
+            DeclareNative<global::UnityEngine.UI.RaycastReceiver>(
                 modifier: false,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, material, (t, v) => t.material = v);
                     Prop(target, color, (t, v) => t.color = v);
@@ -6106,7 +11935,125 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
+            );
+
+        /// <summary>Creates a UnityEngine.UI.RaycastReceiver view; omitted props keep native defaults.</summary>
+        public static View RaycastReceiver(
+            Func<global::System.Collections.Generic.IEnumerable<View>> children,
+            Value<global::UnityEngine.Material>? material = null,
+            Value<global::UnityEngine.Color>? color = null,
+            Value<bool>? raycastTarget = null,
+            Value<global::UnityEngine.Vector4>? raycastPadding = null,
+            Value<bool>? enabled = null,
+            Value<string>? tag = null,
+            Value<string>? name = null,
+            Value<global::UnityEngine.HideFlags>? hideFlags = null,
+            Value<global::UnityEngine.Vector2>? anchorMin = null,
+            Value<global::UnityEngine.Vector2>? anchorMax = null,
+            Value<global::UnityEngine.Vector2>? pivot = null,
+            Value<global::UnityEngine.Vector2>? anchoredPosition = null,
+            Value<global::UnityEngine.Vector3>? anchoredPosition3D = null,
+            Value<global::UnityEngine.Vector2>? sizeDelta = null,
+            Value<global::UnityEngine.Vector2>? offsetMin = null,
+            Value<global::UnityEngine.Vector2>? offsetMax = null,
+            Value<global::UnityEngine.Vector3>? localPosition = null,
+            Value<global::UnityEngine.Quaternion>? localRotation = null,
+            Value<global::UnityEngine.Vector3>? localEulerAngles = null,
+            Value<global::UnityEngine.Vector3>? localScale = null,
+            Value<bool>? active = null,
+            Value<int>? layer = null,
+            Value<bool>? isStatic = null,
+            View[] components = null,
+            Action<global::UnityEngine.UI.RaycastReceiver> configure = null,
+            Action<global::UnityEngine.UI.RaycastReceiver> reference = null
+        ) =>
+            DeclareNative<global::UnityEngine.UI.RaycastReceiver>(
+                modifier: false,
+                active: active,
+                configure: (target, partsMap) =>
+                {
+                    Prop(target, material, (t, v) => t.material = v);
+                    Prop(target, color, (t, v) => t.color = v);
+                    Prop(target, raycastTarget, (t, v) => t.raycastTarget = v);
+                    Prop(target, raycastPadding, (t, v) => t.raycastPadding = v);
+                    Prop(target, enabled, (t, v) => t.enabled = v);
+                    Prop(target, tag, (t, v) => t.tag = v);
+                    Prop(target, name, (t, v) => t.name = v);
+                    Prop(target, hideFlags, (t, v) => t.hideFlags = v);
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMin,
+                        (t, v) => t.anchorMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchorMax,
+                        (t, v) => t.anchorMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        pivot,
+                        (t, v) => t.pivot = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition,
+                        (t, v) => t.anchoredPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        anchoredPosition3D,
+                        (t, v) => t.anchoredPosition3D = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        sizeDelta,
+                        (t, v) => t.sizeDelta = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMin,
+                        (t, v) => t.offsetMin = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        offsetMax,
+                        (t, v) => t.offsetMax = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localPosition,
+                        (t, v) => t.localPosition = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localRotation,
+                        (t, v) => t.localRotation = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localEulerAngles,
+                        (t, v) => t.localEulerAngles = v
+                    );
+                    Prop(
+                        (global::UnityEngine.RectTransform)target.transform,
+                        localScale,
+                        (t, v) => t.localScale = v
+                    );
+                    Prop(target.gameObject, layer, (t, v) => t.layer = v);
+                    Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
+                    configure?.Invoke(target);
+                },
+                reference: reference,
+                children: null,
+                readChildren: children ?? throw new ArgumentNullException(nameof(children)),
+                parts: new NativePart[] { },
+                components: components
             );
 
 #endif
@@ -6136,13 +12083,15 @@ namespace Pine
             Value<bool>? active = null,
             Value<int>? layer = null,
             Value<bool>? isStatic = null,
+            View[] children = null,
+            View[] components = null,
             Action<global::UnityEngine.UI.SafeArea> configure = null,
             Action<global::UnityEngine.UI.SafeArea> reference = null
         ) =>
-            Declare<global::UnityEngine.UI.SafeArea>(
+            DeclareNative<global::UnityEngine.UI.SafeArea>(
                 modifier: true,
                 active: active,
-                configure: target =>
+                configure: (target, partsMap) =>
                 {
                     Prop(target, ReferenceOrientation, (t, v) => t.ReferenceOrientation = v);
                     Prop(target, Edges, (t, v) => t.Edges = v);
@@ -6215,7 +12164,11 @@ namespace Pine
                     Prop(target.gameObject, isStatic, (t, v) => t.isStatic = v);
                     configure?.Invoke(target);
                 },
-                reference: reference
+                reference: reference,
+                children: children,
+                readChildren: null,
+                parts: new NativePart[] { },
+                components: components
             );
 
 #endif

@@ -166,22 +166,139 @@ namespace Pine
             Cleanup(() => events.RemoveListener(handler));
         }
 
-        internal static void WireNative(Component target)
+        internal static void ListenTrigger(
+            UnityEngine.EventSystems.EventTrigger target,
+            UnityEngine.EventSystems.EventTriggerType type,
+            Action<UnityEngine.EventSystems.BaseEventData> action
+        )
         {
+            if (action == null)
+                return;
+            var entry = new UnityEngine.EventSystems.EventTrigger.Entry { eventID = type };
+            Listen(entry.callback, action);
+            target.triggers.Add(entry);
+            Cleanup(() =>
+            {
+                if (target != null)
+                    target.triggers.Remove(entry);
+            });
+        }
+
 #if ENABLE_INPUT_SYSTEM
+        internal static void OwnInputDefaults(
+            UnityEngine.InputSystem.UI.InputSystemUIInputModule module
+        )
+        {
+            if (module.actionsAsset != null)
+            {
+                var owned = UnityEngine.Object.Instantiate(module.actionsAsset);
+                module.actionsAsset = owned;
+                var ownedReferences = new[]
+                {
+                    module.point,
+                    module.move,
+                    module.leftClick,
+                    module.rightClick,
+                    module.middleClick,
+                    module.scrollWheel,
+                    module.submit,
+                    module.cancel,
+                    module.trackedDevicePosition,
+                    module.trackedDeviceOrientation,
+                };
+                Cleanup(() =>
+                {
+                    if (module != null)
+                        module.enabled = false;
+                    foreach (var reference in ownedReferences)
+                        if (reference != null && reference.action?.actionMap?.asset == owned)
+                            DestroyObject(reference);
+                    DestroyObject(owned);
+                });
+                return;
+            }
             if (
-                target is UnityEngine.InputSystem.UI.InputSystemUIInputModule inputModule
-                && inputModule.actionsAsset == null
+                module.point != null
+                || module.leftClick != null
+                || module.rightClick != null
+                || module.middleClick != null
+                || module.scrollWheel != null
+                || module.submit != null
+                || module.cancel != null
+                || module.trackedDevicePosition != null
+                || module.trackedDeviceOrientation != null
             )
-                inputModule.AssignDefaultActions();
+                return;
+            var move = module.move;
+            var defaults = new UnityEngine.InputSystem.DefaultInputActions();
+            var references = new List<UnityEngine.InputSystem.InputActionReference>();
+            UnityEngine.InputSystem.InputActionReference Reference(
+                UnityEngine.InputSystem.InputAction action
+            )
+            {
+                var reference = UnityEngine.InputSystem.InputActionReference.Create(action);
+                references.Add(reference);
+                return reference;
+            }
+            module.actionsAsset = defaults.asset;
+            module.point = Reference(defaults.UI.Point);
+            module.leftClick = Reference(defaults.UI.Click);
+            module.rightClick = Reference(defaults.UI.RightClick);
+            module.middleClick = Reference(defaults.UI.MiddleClick);
+            module.scrollWheel = Reference(defaults.UI.ScrollWheel);
+            module.submit = Reference(defaults.UI.Submit);
+            module.cancel = Reference(defaults.UI.Cancel);
+            module.move = move != null ? move : Reference(defaults.UI.Navigate);
+            module.trackedDevicePosition = Reference(defaults.UI.TrackedDevicePosition);
+            module.trackedDeviceOrientation = Reference(defaults.UI.TrackedDeviceOrientation);
+            Cleanup(() =>
+            {
+                if (module != null)
+                    module.enabled = false;
+                foreach (var reference in references)
+                    DestroyObject(reference);
+                defaults.Dispose();
+            });
+        }
+#endif
+
+        internal static void WireNative(
+            Component target,
+            Dictionary<string, Component> parts = null,
+            NativePart[] supplied = null
+        )
+        {
+            bool Missing(string name) =>
+                supplied == null
+                || Array.TrueForAll(supplied, part => part == null || part.Name != name);
+            if (
+                target is UnityEngine.EventSystems.EventSystem system
+                && system.GetComponent<UnityEngine.EventSystems.BaseInputModule>() == null
+            )
+            {
+#if ENABLE_INPUT_SYSTEM
+                WireNative(
+                    GetOrAdd<UnityEngine.InputSystem.UI.InputSystemUIInputModule>(system.gameObject)
+                );
+#elif ENABLE_LEGACY_INPUT_MANAGER
+                GetOrAdd<UnityEngine.EventSystems.StandaloneInputModule>(system.gameObject);
+#endif
+            }
+#if ENABLE_INPUT_SYSTEM
+            if (target is UnityEngine.InputSystem.UI.InputSystemUIInputModule inputModule)
+                OwnInputDefaults(inputModule);
 #endif
             if (target is TMP_Text text && text.font == null)
                 text.font = ResolveFont();
             if (target is UnityEngine.UI.Text legacyText && legacyText.font == null)
                 legacyText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            if (target is Selectable selectable && selectable.targetGraphic == null)
+            if (
+                target is Selectable selectable
+                && selectable.targetGraphic == null
+                && Missing("targetGraphic")
+            )
                 selectable.targetGraphic = GetOrAdd<Image>(target.gameObject);
-            if (target is Toggle toggle && toggle.graphic == null)
+            if (target is Toggle toggle && toggle.graphic == null && Missing("graphic"))
             {
                 var mark = Part<Image>(target.transform, "Checkmark");
                 mark.rectTransform.sizeDelta = new Vector2(20, 20);
@@ -190,52 +307,87 @@ namespace Pine
             }
             if (target is Slider slider)
             {
-                if (slider.fillRect == null)
+                if (slider.fillRect == null && Missing("fill"))
                 {
                     var fill = Part<Image>(target.transform, "Fill");
                     StretchNative(fill.rectTransform);
                     slider.fillRect = fill.rectTransform;
                 }
-                if (slider.handleRect == null)
+                if (slider.handleRect == null && Missing("handle"))
                 {
                     var handle = Part<Image>(target.transform, "Handle");
                     handle.rectTransform.sizeDelta = new Vector2(20, 20);
                     slider.handleRect = handle.rectTransform;
-                    slider.targetGraphic = handle;
+                    if (Missing("targetGraphic"))
+                        slider.targetGraphic = handle;
                 }
             }
-            if (target is Scrollbar bar && bar.handleRect == null)
+            if (target is Scrollbar bar && bar.handleRect == null && Missing("handle"))
             {
                 var handle = Part<Image>(target.transform, "Handle");
                 StretchNative(handle.rectTransform);
                 bar.handleRect = handle.rectTransform;
-                bar.targetGraphic = handle;
+                if (Missing("targetGraphic"))
+                    bar.targetGraphic = handle;
             }
             if (target is TMP_InputField input)
-                WireInput(input);
-            if (target is InputField legacyInput)
-                WireInput(legacyInput);
-            if (target is TMP_Dropdown dropdown)
-                WireDropdown(dropdown);
-            if (target is UnityEngine.UI.Dropdown legacyDropdown)
-                WireDropdown(legacyDropdown);
-            if (target is ScrollRect scroll && scroll.viewport == null)
             {
-                var viewport = Part<RectTransform>(target.transform, "Viewport");
-                StretchNative(viewport);
-                GetOrAdd<RectMask2D>(viewport.gameObject);
-                var surface = GetOrAdd<Image>(viewport.gameObject);
-                surface.color = Color.clear;
-                scroll.viewport = viewport;
-                var content = Part<RectTransform>(viewport, "Content");
-                StretchNative(content);
-                scroll.content = content;
+                WireInput(input, Missing);
+                ReparentPart(parts, "textComponent", input.textViewport, supplied);
+                ReparentPart(parts, "placeholder", input.textViewport, supplied);
+            }
+            if (target is InputField legacyInput)
+                WireInput(legacyInput, Missing);
+            if (target is TMP_Dropdown dropdown)
+                WireDropdown(dropdown, parts, supplied, Missing);
+            if (target is UnityEngine.UI.Dropdown legacyDropdown)
+                WireDropdown(legacyDropdown, parts, supplied, Missing);
+            if (target is ScrollRect scroll)
+            {
+                if (scroll.viewport == null && Missing("viewport"))
+                {
+                    var viewport = Part<RectTransform>(target.transform, "Viewport");
+                    StretchNative(viewport);
+                    GetOrAdd<RectMask2D>(viewport.gameObject);
+                    var surface = GetOrAdd<Image>(viewport.gameObject);
+                    surface.color = Color.clear;
+                    surface.canvasRenderer.cullTransparentMesh = false;
+                    scroll.viewport = viewport;
+                }
+                if (scroll.content == null && Missing("content"))
+                {
+                    var content = Part<RectTransform>(
+                        scroll.viewport != null ? scroll.viewport : target.transform,
+                        "Content"
+                    );
+                    StretchNative(content);
+                    scroll.content = content;
+                }
+                ReparentPart(parts, "content", scroll.viewport, supplied);
             }
             if (target is UnityEngine.Canvas)
             {
                 GetOrAdd<CanvasScaler>(target.gameObject);
                 GetOrAdd<GraphicRaycaster>(target.gameObject);
             }
+        }
+
+        private static void ReparentPart(
+            Dictionary<string, Component> parts,
+            string name,
+            Transform parent,
+            NativePart[] supplied
+        )
+        {
+            if (
+                parent != null
+                && supplied != null
+                && Array.Exists(supplied, part => part?.Name == name && part.Declaration != null)
+                && parts != null
+                && parts.TryGetValue(name, out var part)
+                && part != null
+            )
+                part.transform.SetParent(parent, false);
         }
 
         private static T Part<T>(Transform parent, string name)
@@ -258,19 +410,35 @@ namespace Pine
             rect.offsetMin = rect.offsetMax = Vector2.zero;
         }
 
-        internal static void ControlCaption(Component target, Value<string> text)
+        internal static void ControlCaption(
+            Component target,
+            Value<string> text,
+            Dictionary<string, Component> parts,
+            Part<TMP_Text>? supplied
+        )
         {
-            Text(
-                    text,
-                    color: Color.black,
-                    raycastTarget: false,
-                    alignment: TextAlignmentOptions.Center,
-                    anchorMin: Vector2.zero,
-                    anchorMax: Vector2.one,
-                    sizeDelta: Vector2.zero,
-                    name: "Text"
-                )
-                .Build(target.transform);
+            if (supplied.HasValue && supplied.Value.Declaration == null)
+            {
+                var value = supplied.Value.Value;
+                Effect(() =>
+                {
+                    var caption = value.Read();
+                    var content = text.Read();
+                    if (caption != null)
+                        caption.text = content;
+                });
+                return;
+            }
+            TMP_Text label =
+                parts != null && parts.TryGetValue("caption", out var caption)
+                    ? caption as TMP_Text
+                    : null;
+            if (label == null)
+            {
+                label = TMPPart(target.transform, "Text", "");
+                label.alignment = TextAlignmentOptions.Center;
+            }
+            Prop(label, (Value<string>?)text, (item, value) => item.text = value);
         }
 
         private static TextMeshProUGUI TMPPart(Transform parent, string name, string content)
@@ -293,85 +461,185 @@ namespace Pine
             return label;
         }
 
-        private static void WireInput(TMP_InputField field)
+        private static void WireInput(TMP_InputField field, Func<string, bool> missing)
         {
-            if (field.textViewport == null)
+            if (field.textViewport == null && missing("viewport"))
             {
                 field.textViewport = Part<RectTransform>(field.transform, "Text viewport");
                 StretchNative(field.textViewport);
                 GetOrAdd<RectMask2D>(field.textViewport.gameObject);
             }
-            if (field.textComponent == null)
-                field.textComponent = TMPPart(field.textViewport, "Text", "");
-            if (field.placeholder == null)
-                field.placeholder = TMPPart(field.textViewport, "Placeholder", "Enter text...");
-            if (field.fontAsset == null)
-                field.fontAsset = ResolveFont();
+            if (field.textComponent == null && missing("textComponent"))
+                field.textComponent = TMPPart(
+                    field.textViewport != null ? field.textViewport : field.transform,
+                    "Text",
+                    ""
+                );
+            if (field.placeholder == null && missing("placeholder"))
+                field.placeholder = TMPPart(
+                    field.textViewport != null ? field.textViewport : field.transform,
+                    "Placeholder",
+                    "Enter text..."
+                );
         }
 
-        private static void WireInput(InputField field)
+        private static void WireInput(InputField field, Func<string, bool> missing)
         {
-            if (field.textComponent == null)
+            if (field.textComponent == null && missing("textComponent"))
                 field.textComponent = LegacyPart(field.transform, "Text", "");
-            if (field.placeholder == null)
+            if (field.placeholder == null && missing("placeholder"))
                 field.placeholder = LegacyPart(field.transform, "Placeholder", "Enter text...");
         }
 
-        private static RectTransform DropdownTemplate(
+        private static bool OwnsPart(NativePart[] supplied, string name) =>
+            supplied != null
+            && Array.Exists(supplied, part => part?.Name == name && part.Declaration != null);
+
+        private static (RectTransform Template, Toggle Item, Graphic Text) DropdownTemplate(
             Transform parent,
             bool tmp,
-            out Graphic itemText
+            RectTransform template,
+            Component item,
+            Graphic text,
+            Dictionary<string, Component> parts,
+            NativePart[] supplied,
+            Func<string, bool> missing
         )
         {
-            var template = Part<RectTransform>(parent, "Template");
-            template.anchorMin = new Vector2(0, 0);
-            template.anchorMax = new Vector2(1, 0);
-            template.pivot = new Vector2(0.5f, 1);
-            template.sizeDelta = new Vector2(0, 160);
-            var background = GetOrAdd<Image>(template.gameObject);
-            var scroll = GetOrAdd<ScrollRect>(template.gameObject);
-            var viewport = Part<RectTransform>(template, "Viewport");
-            StretchNative(viewport);
-            GetOrAdd<RectMask2D>(viewport.gameObject);
-            var content = Part<RectTransform>(viewport, "Content");
-            content.anchorMin = new Vector2(0, 1);
-            content.anchorMax = Vector2.one;
-            content.pivot = new Vector2(0.5f, 1);
-            content.sizeDelta = new Vector2(0, 32);
-            var item = Part<Toggle>(content, "Item");
-            var rect = (RectTransform)item.transform;
-            StretchNative(rect);
-            rect.sizeDelta = new Vector2(0, 32);
-            itemText = tmp
-                ? (Graphic)TMPPart(item.transform, "Item label", "")
-                : LegacyPart(item.transform, "Item label", "");
-            scroll.viewport = viewport;
-            scroll.content = content;
-            scroll.horizontal = false;
-            template.gameObject.SetActive(false);
-            return template;
+            bool generated = template == null && missing("template");
+            bool owned = generated || OwnsPart(supplied, "template");
+            if (generated)
+            {
+                template = Part<RectTransform>(parent, "Template");
+                template.anchorMin = new Vector2(0, 0);
+                template.anchorMax = new Vector2(1, 0);
+                template.pivot = new Vector2(0.5f, 1);
+                template.sizeDelta = new Vector2(0, 160);
+            }
+            if (template == null)
+                return (null, item as Toggle, text);
+            Transform content = template;
+            var scroll = template.GetComponentInChildren<ScrollRect>(true);
+            if (generated)
+            {
+                if (template.GetComponent<Graphic>() == null)
+                    GetOrAdd<Image>(template.gameObject);
+                scroll = GetOrAdd<ScrollRect>(template.gameObject);
+                WireNative(scroll);
+                scroll.horizontal = false;
+                scroll.content.anchorMin = new Vector2(0, 1);
+                scroll.content.anchorMax = Vector2.one;
+                scroll.content.pivot = new Vector2(.5f, 1);
+                scroll.content.sizeDelta = new Vector2(0, 32);
+            }
+            if (scroll != null && scroll.content != null)
+                content = scroll.content;
+            var toggle = item as Toggle ?? template.GetComponentInChildren<Toggle>(true);
+            if (toggle == null && owned && missing("item"))
+            {
+                toggle = Part<Toggle>(content, "Item");
+                StretchNative((RectTransform)toggle.transform);
+                ((RectTransform)toggle.transform).anchorMin = new Vector2(0, .5f);
+                ((RectTransform)toggle.transform).anchorMax = new Vector2(1, .5f);
+                ((RectTransform)toggle.transform).sizeDelta = new Vector2(0, 32);
+            }
+            ReparentPart(parts, "item", content, supplied);
+            if (toggle != null)
+            {
+                ReparentPart(parts, "itemText", toggle.transform, supplied);
+                ReparentPart(parts, "itemImage", toggle.transform, supplied);
+                text ??= tmp
+                    ? (Graphic)toggle.GetComponentInChildren<TMP_Text>(true)
+                    : toggle.GetComponentInChildren<UnityEngine.UI.Text>(true);
+                if (text == null && owned && missing("itemText"))
+                    text = tmp
+                        ? (Graphic)TMPPart(toggle.transform, "Item label", "")
+                        : LegacyPart(toggle.transform, "Item label", "");
+            }
+            if (owned)
+                template.gameObject.SetActive(false);
+            return (template, toggle, text);
         }
 
-        private static void WireDropdown(TMP_Dropdown dropdown)
+        private static Image DropdownImage(Transform parent, string name)
         {
-            if (dropdown.captionText == null)
+            var image = Part<Image>(parent, name);
+            image.rectTransform.anchorMin = image.rectTransform.anchorMax = new Vector2(0, 0.5f);
+            image.rectTransform.anchoredPosition = new Vector2(14, 0);
+            image.rectTransform.sizeDelta = new Vector2(20, 20);
+            image.raycastTarget = false;
+            image.enabled = false;
+            return image;
+        }
+
+        private static void WireDropdown(
+            TMP_Dropdown dropdown,
+            Dictionary<string, Component> parts,
+            NativePart[] supplied,
+            Func<string, bool> missing
+        )
+        {
+            if (dropdown.captionText == null && missing("captionText"))
                 dropdown.captionText = TMPPart(dropdown.transform, "Label", "");
-            if (dropdown.template == null)
-            {
-                dropdown.template = DropdownTemplate(dropdown.transform, true, out var label);
-                dropdown.itemText = (TMP_Text)label;
-            }
+            Component item = null;
+            parts?.TryGetValue("item", out item);
+            var built = DropdownTemplate(
+                dropdown.transform,
+                true,
+                dropdown.template,
+                item,
+                dropdown.itemText,
+                parts,
+                supplied,
+                missing
+            );
+            dropdown.template = built.Template;
+            if (dropdown.itemText == null && missing("itemText"))
+                dropdown.itemText = built.Text as TMP_Text;
+            if (
+                dropdown.itemImage == null
+                && missing("itemImage")
+                && built.Item != null
+                && (missing("template") || OwnsPart(supplied, "template"))
+            )
+                dropdown.itemImage = DropdownImage(built.Item.transform, "Item image");
+            if (dropdown.captionImage == null && missing("captionImage"))
+                dropdown.captionImage = DropdownImage(dropdown.transform, "Caption image");
         }
 
-        private static void WireDropdown(UnityEngine.UI.Dropdown dropdown)
+        private static void WireDropdown(
+            UnityEngine.UI.Dropdown dropdown,
+            Dictionary<string, Component> parts,
+            NativePart[] supplied,
+            Func<string, bool> missing
+        )
         {
-            if (dropdown.captionText == null)
+            if (dropdown.captionText == null && missing("captionText"))
                 dropdown.captionText = LegacyPart(dropdown.transform, "Label", "");
-            if (dropdown.template == null)
-            {
-                dropdown.template = DropdownTemplate(dropdown.transform, false, out var label);
-                dropdown.itemText = (UnityEngine.UI.Text)label;
-            }
+            Component item = null;
+            parts?.TryGetValue("item", out item);
+            var built = DropdownTemplate(
+                dropdown.transform,
+                false,
+                dropdown.template,
+                item,
+                dropdown.itemText,
+                parts,
+                supplied,
+                missing
+            );
+            dropdown.template = built.Template;
+            if (dropdown.itemText == null && missing("itemText"))
+                dropdown.itemText = built.Text as UnityEngine.UI.Text;
+            if (
+                dropdown.itemImage == null
+                && missing("itemImage")
+                && built.Item != null
+                && (missing("template") || OwnsPart(supplied, "template"))
+            )
+                dropdown.itemImage = DropdownImage(built.Item.transform, "Item image");
+            if (dropdown.captionImage == null && missing("captionImage"))
+                dropdown.captionImage = DropdownImage(dropdown.transform, "Caption image");
         }
     }
 }

@@ -401,6 +401,6 @@ internal static class Program
             disposed = true;
         }
         Check(disposed, "Spring owned disposal");
-        Check(P.Version == new Version(1, 0, 0), "Pine version");
+        Check(P.Version == new Version(1, 1, 0), "Pine version");
     }
 }

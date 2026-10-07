@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Pine
 {
@@ -9,20 +10,23 @@ namespace Pine
     {
         internal readonly Type Type;
         internal readonly Func<GameObject, Component> Add;
-        internal readonly Action<Component> Configure;
-        internal readonly Action<Component> Reference;
+        internal readonly Action<Component, Dictionary<string, Component>> Configure;
+        internal readonly Action<Component> Reference,
+            Publish;
         internal readonly Func<Transform, (Component Native, Value<bool>? Active)> Factory;
         internal readonly Func<IEnumerable<View>> ReadChildren;
         internal readonly Scope DeclarationScope;
-        internal readonly bool Modifier;
-        internal readonly bool SameObject;
+        internal readonly bool Modifier,
+            SameObject;
         internal readonly Value<bool>? Active;
         internal readonly View[] Entries;
+        internal readonly NativePart[] Parts;
+        private static Construction _construction;
 
         internal View(
             Type type,
             Func<GameObject, Component> add,
-            Action<Component> configure,
+            Action<Component, Dictionary<string, Component>> configure,
             Action<Component> reference,
             bool modifier,
             Value<bool>? active,
@@ -30,87 +34,99 @@ namespace Pine
             bool sameObject = false,
             Func<Transform, (Component Native, Value<bool>? Active)> factory = null,
             Func<IEnumerable<View>> readChildren = null,
-            Scope declarationScope = null
+            Scope declarationScope = null,
+            Action<Component> publish = null,
+            NativePart[] parts = null
         )
         {
             Type = type;
             Add = add;
             Configure = configure;
             Reference = reference;
+            Publish = publish;
             Modifier = modifier;
             Active = active;
-            Entries = entries ?? Array.Empty<View>();
+            Entries = entries == null ? Array.Empty<View>() : (View[])entries.Clone();
+            foreach (var entry in Entries)
+                if (entry == null)
+                    throw new ArgumentNullException(nameof(entries));
             SameObject = sameObject;
             Factory = factory;
             ReadChildren = readChildren;
             DeclarationScope = declarationScope ?? ReactiveRuntime.Scope;
-        }
-
-        /// <summary>Returns a declaration with the supplied entries appended in order.</summary>
-        public View With(params View[] entries)
-        {
-            if (entries == null)
-                throw new ArgumentNullException(nameof(entries));
-            var combined = new View[Entries.Length + entries.Length];
-            Array.Copy(Entries, combined, Entries.Length);
-            for (int i = 0; i < entries.Length; i++)
-                combined[Entries.Length + i] =
-                    entries[i] ?? throw new ArgumentNullException(nameof(entries));
-            return new View(
-                Type,
-                Add,
-                Configure,
-                Reference,
-                Modifier,
-                Active,
-                combined,
-                SameObject,
-                Factory,
-                ReadChildren,
-                DeclarationScope
-            );
-        }
-
-        /// <summary>Appends tracked children.</summary>
-        public View With(Func<IEnumerable<View>> children)
-        {
-            if (children == null)
-                throw new ArgumentNullException(nameof(children));
-            if (Modifier || SameObject || Factory != null)
+            Parts = parts ?? Array.Empty<NativePart>();
+            if (readChildren != null && (modifier || sameObject || factory != null))
                 throw new InvalidOperationException(
-                    "Declare tracked children on the containing visual view, inside Create for owned behaviours."
+                    "Declare reactive children on the containing visual view, inside Create for owned behaviours."
                 );
-            if (ReadChildren != null)
-                throw new InvalidOperationException("Declare tracked children once per view.");
-            return new View(
-                Type,
-                Add,
-                Configure,
-                Reference,
-                Modifier,
-                Active,
-                Entries,
-                SameObject,
-                Factory,
-                children,
-                DeclarationScope
-            );
+        }
+
+        internal static bool IsConstructing => _construction != null;
+
+        internal static void Construct(Action action)
+        {
+            if (_construction != null)
+            {
+                action();
+                return;
+            }
+            var construction = new Construction();
+            _construction = construction;
+            try
+            {
+                P.Batch(() =>
+                {
+                    try
+                    {
+                        action();
+                        construction.Complete();
+                    }
+                    finally
+                    {
+                        _construction = null;
+                    }
+                });
+                construction.Activate();
+            }
+            catch
+            {
+                foreach (var node in construction.Nodes)
+                    node.Scope.Dispose();
+                throw;
+            }
+            finally
+            {
+                _construction = null;
+            }
         }
 
         internal Component Build(Transform parent) => Build(parent, true, out _);
 
         internal Component Build(Transform parent, bool activate, out Value<bool>? resolvedActive)
         {
+            Component result = null;
+            Value<bool>? active = Active;
+            Construct(() => result = BuildCore(parent, activate, out active));
+            resolvedActive = active;
+            return result;
+        }
+
+        private Component BuildCore(
+            Transform parent,
+            bool activate,
+            out Value<bool>? resolvedActive
+        )
+        {
             if (Modifier || SameObject)
                 throw new InvalidOperationException(
-                    "A modifier or P.Self declaration needs a containing visual view."
+                    "A modifier or P.Self needs a containing visual view."
                 );
             Component result = null;
             Value<bool>? active = Active;
+            var nodes = new List<Node>();
             Scope scope = P.OwnedRoot(() =>
             {
                 DeclarationScope?.CopyContextTo(P.RequireScope());
-                GameObject root;
                 if (Factory != null)
                 {
                     var built = Factory(parent);
@@ -118,75 +134,66 @@ namespace Pine
                     if (active.HasValue && built.Active.HasValue)
                         throw new InvalidOperationException("Declare active once per GameObject.");
                     active ??= built.Active;
-                    if (result == null)
-                        throw new InvalidOperationException(
-                            "A view factory must return a live native component."
-                        );
-                    root = result.gameObject;
                 }
                 else
                 {
-                    root = new GameObject(Type.Name, typeof(RectTransform));
+                    var root = new GameObject(Type.Name, typeof(RectTransform));
                     root.SetActive(false);
                     P.Cleanup(root);
                     if (parent != null)
                         root.transform.SetParent(parent, false);
                     result = Add(root);
                 }
-                var parts = new List<(View View, Component Native)>();
-                var types = new HashSet<Type>();
                 if (result == null)
                     throw new InvalidOperationException(
-                        "Unity could not create the declared component."
+                        "A view must create a live native component."
                     );
-                types.Add(result.GetType());
-                Prepare(Entries, root, parts, types, visual: true);
-                Prepare(Entries, root, parts, types, visual: false);
-                P.WireNative(result);
-                foreach (var part in parts)
-                    P.WireNative(part.Native);
-                BuildChildren(Entries, root.transform);
-                BindChildren(ReadChildren, root.transform);
-                foreach (var part in parts)
-                    part.View.Configure?.Invoke(part.Native);
-                Configure?.Invoke(result);
-                foreach (var part in parts)
-                    part.View.Reference?.Invoke(part.Native);
-                Reference?.Invoke(result);
-                foreach (var part in parts)
+                var types = new HashSet<Type> { result.GetType() };
+                Prepare(Entries, result.gameObject, nodes, types, true);
+                Prepare(Entries, result.gameObject, nodes, types, false);
+                foreach (var node in nodes)
                 {
-                    if (!part.View.Active.HasValue)
+                    if (!node.View.Active.HasValue)
                         continue;
                     if (active.HasValue)
                         throw new InvalidOperationException("Declare active once per GameObject.");
-                    active = part.View.Active;
+                    active = node.View.Active;
                 }
-                if (activate)
+                nodes.Add(new Node(this, result, P.RequireScope(), activate, active));
+                foreach (var node in nodes)
                 {
-                    if (active.HasValue)
-                        P.Prop(root, active, (g, value) => g.SetActive(value));
-                    else
-                        root.SetActive(true);
+                    _construction.Nodes.Add(node);
+                    node.View.Publish?.Invoke(node.Native);
+                    foreach (var part in node.View.Parts)
+                        if (part?.Declaration != null)
+                            node.Parts.Add(
+                                part.Name,
+                                part.Declaration.Build(
+                                    result.transform,
+                                    part.Name != "template",
+                                    out _
+                                )
+                            );
                 }
+                BuildChildren(Entries, result.transform);
+                BindChildren(ReadChildren, result.transform);
             });
             resolvedActive = active;
-            try
-            {
-                result.gameObject.AddComponent<MountLifetime>().Scope = scope;
-                RuntimeHost.ObserveView(result.gameObject, scope);
-                return result;
-            }
-            catch
-            {
-                scope.Dispose();
-                throw;
-            }
+            result.gameObject.AddComponent<MountLifetime>().Scope = scope;
+            RuntimeHost.ObserveView(result.gameObject, scope);
+            return result;
         }
+
+        private static bool CanRepeat(Type type) =>
+            !typeof(Transform).IsAssignableFrom(type)
+            && !typeof(Graphic).IsAssignableFrom(type)
+            && !typeof(LayoutGroup).IsAssignableFrom(type)
+            && !Attribute.IsDefined(type, typeof(DisallowMultipleComponent), true);
 
         private static void Prepare(
             View[] entries,
             GameObject root,
-            List<(View View, Component Native)> parts,
+            List<Node> nodes,
             HashSet<Type> types,
             bool visual
         )
@@ -197,51 +204,43 @@ namespace Pine
                     continue;
                 if (entry.Factory != null)
                     throw new InvalidOperationException(
-                        "An owned behaviour view cannot be attached with P.Self."
+                        "An owned behaviour cannot be attached with P.Self."
                     );
                 if (visual != !entry.Modifier)
                 {
-                    Prepare(entry.Entries, root, parts, types, visual);
+                    Prepare(entry.Entries, root, nodes, types, visual);
                     continue;
                 }
-                if (!types.Add(entry.Type))
+                bool repeated = !types.Add(entry.Type);
+                if (repeated && !CanRepeat(entry.Type))
                     throw new InvalidOperationException(
-                        "Only one declaration of "
-                            + entry.Type.Name
-                            + " can configure the same GameObject."
+                        "Unity permits one " + entry.Type.Name + " on this object."
                     );
-                if (typeof(UnityEngine.UI.Graphic).IsAssignableFrom(entry.Type))
+                if (typeof(Graphic).IsAssignableFrom(entry.Type))
                 {
-                    var graphic = root.GetComponent<UnityEngine.UI.Graphic>();
+                    var graphic = root.GetComponent<Graphic>();
                     if (graphic != null && graphic.GetType() != entry.Type)
                         throw new InvalidOperationException(
-                            "Unity permits one Graphic per GameObject. Declare this graphic as a child."
+                            "Unity permits one Graphic per GameObject."
                         );
                 }
-                var component = entry.Add(root);
+                var component = repeated ? root.AddComponent(entry.Type) : entry.Add(root);
                 if (component == null)
                     throw new InvalidOperationException(
-                        "Unity could not attach "
-                            + entry.Type.Name
-                            + ". Check its required components."
+                        "Unity could not attach " + entry.Type.Name + "."
                     );
-                parts.Add((entry, component));
-                Prepare(entry.Entries, root, parts, types, visual);
+                nodes.Add(new Node(entry, component, P.RequireScope(), false, null));
+                Prepare(entry.Entries, root, nodes, types, visual);
             }
         }
 
         private static void BuildChildren(View[] entries, Transform parent)
         {
             foreach (var entry in entries)
-            {
                 if (entry.Modifier || entry.SameObject)
-                {
                     BuildChildren(entry.Entries, parent);
-                    BindChildren(entry.ReadChildren, parent);
-                }
                 else
                     entry.Build(parent);
-            }
         }
 
         private static void BindChildren(Func<IEnumerable<View>> read, Transform parent)
@@ -263,33 +262,123 @@ namespace Pine
                 foreach (var view in next)
                     if (view == null || view.Modifier || view.SameObject || !unique.Add(view))
                         throw new InvalidOperationException(
-                            "Tracked children must be unique visual declarations."
+                            "Reactive children must be unique visual declarations."
                         );
                 P.Untrack(() =>
                     owner.Run(() =>
-                    {
-                        foreach (var old in new List<View>(mounted.Keys))
+                        Construct(() =>
                         {
-                            if (unique.Contains(old))
-                                continue;
-                            var native = mounted[old];
-                            if (native != null)
+                            foreach (var old in new List<View>(mounted.Keys))
                             {
-                                var lifetimes = native.GetComponents<MountLifetime>();
-                                lifetimes[lifetimes.Length - 1].Scope.Dispose();
+                                if (unique.Contains(old))
+                                    continue;
+                                var native = mounted[old];
+                                if (native != null)
+                                {
+                                    var lifetimes = native.GetComponents<MountLifetime>();
+                                    lifetimes[lifetimes.Length - 1].Scope.Dispose();
+                                }
+                                mounted.Remove(old);
                             }
-                            mounted.Remove(old);
-                        }
-                        for (int i = 0; i < next.Count; i++)
-                        {
-                            var view = next[i];
-                            if (!mounted.TryGetValue(view, out var native) || native == null)
-                                mounted[view] = native = view.Build(parent);
-                            native.transform.SetSiblingIndex(offset + i);
-                        }
-                    })
+                            for (int i = 0; i < next.Count; i++)
+                            {
+                                var view = next[i];
+                                if (!mounted.TryGetValue(view, out var native) || native == null)
+                                    mounted[view] = native = view.Build(parent);
+                                native.transform.SetSiblingIndex(offset + i);
+                            }
+                        })
+                    )
                 );
             });
+        }
+
+        private sealed class Node
+        {
+            internal readonly View View;
+            internal readonly Component Native;
+            internal readonly Scope Scope;
+            internal readonly bool Activate;
+            internal readonly Value<bool>? Active;
+            internal readonly Dictionary<string, Component> Parts = new();
+
+            internal Node(
+                View view,
+                Component native,
+                Scope scope,
+                bool activate,
+                Value<bool>? active
+            )
+            {
+                View = view;
+                Native = native;
+                Scope = scope;
+                Activate = activate;
+                Active = active;
+            }
+        }
+
+        private sealed class Construction
+        {
+            internal readonly List<Node> Nodes = new();
+
+            internal void Complete()
+            {
+                for (int i = 0; i < Nodes.Count; i++)
+                {
+                    var node = Nodes[i];
+                    node.Scope.Run(() =>
+                    {
+                        foreach (var part in node.View.Parts)
+                            if (part != null)
+                                if (part.Declaration != null)
+                                    part.Assign?.Invoke(
+                                        node.Native,
+                                        node.Parts[part.Name],
+                                        node.Parts
+                                    );
+                                else
+                                    part.Bind?.Invoke(node.Native, node.Parts);
+                    });
+                }
+                for (int i = Nodes.Count - 1; i >= 0; i--)
+                {
+                    var node = Nodes[i];
+                    node.Scope.Run(() => P.WireNative(node.Native, node.Parts, node.View.Parts));
+                }
+                for (int i = Nodes.Count - 1; i >= 0; i--)
+                {
+                    var node = Nodes[i];
+                    node.Scope.Run(() => node.View.Configure?.Invoke(node.Native, node.Parts));
+                }
+
+                for (int i = 0; i < Nodes.Count; i++)
+                {
+                    var node = Nodes[i];
+                    node.Scope.Run(() => node.View.Reference?.Invoke(node.Native));
+                }
+            }
+
+            internal void Activate()
+            {
+                for (int i = Nodes.Count - 1; i >= 0; i--)
+                {
+                    var node = Nodes[i];
+                    if (!node.Activate || node.Scope.IsDisposed || node.Native == null)
+                        continue;
+                    node.Scope.Run(() =>
+                    {
+                        if (node.Active.HasValue)
+                            P.Prop(
+                                node.Native.gameObject,
+                                node.Active,
+                                (g, value) => g.SetActive(value)
+                            );
+                        else
+                            node.Native.gameObject.SetActive(true);
+                    });
+                }
+            }
         }
     }
 
@@ -300,10 +389,6 @@ namespace Pine
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
-            if (view.ReadChildren != null)
-                throw new InvalidOperationException(
-                    "Declare tracked children on the containing visual view, not P.Self."
-                );
             return new View(
                 view.Type,
                 view.Add,
@@ -312,31 +397,99 @@ namespace Pine
                 view.Modifier,
                 view.Active,
                 view.Entries,
-                sameObject: true,
-                factory: view.Factory,
-                readChildren: view.ReadChildren,
-                declarationScope: view.DeclarationScope
+                true,
+                view.Factory,
+                view.ReadChildren,
+                view.DeclarationScope,
+                view.Publish,
+                view.Parts
             );
         }
 
-        /// <summary>Declares a custom native component using the same ownership and composition rules as built-in factories.</summary>
+        /// <summary>Declares a custom native component with owned children and optional reference capture.</summary>
         public static View Declare<T>(
             Action<T> configure = null,
             Action<T> reference = null,
             bool modifier = false,
-            Value<bool>? active = null
+            Value<bool>? active = null,
+            View[] children = null,
+            View[] components = null
         )
             where T : Component =>
-            new View(
-                typeof(T),
-                root => GetOrAdd<T>(root),
-                target => configure?.Invoke((T)target),
-                target => reference?.Invoke((T)target),
+            DeclareNative<T>(
+                (target, _) => configure?.Invoke(target),
+                reference,
                 modifier,
-                active
+                active,
+                children,
+                null,
+                null,
+                components
             );
 
-        /// <summary>Builds and mounts a deferred view once.</summary>
+        /// <summary>Declares a custom native component with retained reactive children.</summary>
+        public static View Declare<T>(
+            Func<IEnumerable<View>> children,
+            Action<T> configure = null,
+            Action<T> reference = null,
+            Value<bool>? active = null,
+            View[] components = null
+        )
+            where T : Component =>
+            DeclareNative<T>(
+                (target, _) => configure?.Invoke(target),
+                reference,
+                false,
+                active,
+                null,
+                children ?? throw new ArgumentNullException(nameof(children)),
+                null,
+                components
+            );
+
+        private static View[] ComposeEntries(View[] children, View[] components)
+        {
+            if (components == null)
+                return children;
+            foreach (var component in components)
+                if (component == null || (!component.Modifier && !component.SameObject))
+                    throw new InvalidOperationException(
+                        "components accepts only modifiers and P.Self declarations."
+                    );
+            var entries = new View[(children?.Length ?? 0) + components.Length];
+            components.CopyTo(entries, 0);
+            children?.CopyTo(entries, components.Length);
+            return entries;
+        }
+
+        internal static View DeclareNative<T>(
+            Action<T, Dictionary<string, Component>> configure,
+            Action<T> reference,
+            bool modifier,
+            Value<bool>? active,
+            View[] children,
+            Func<IEnumerable<View>> readChildren,
+            NativePart[] parts,
+            View[] components = null
+        )
+            where T : Component
+        {
+            var owned = reference?.Target as INativeReference;
+            return new View(
+                typeof(T),
+                root => GetOrAdd<T>(root),
+                (target, partsMap) => configure?.Invoke((T)target, partsMap),
+                owned != null ? null : target => reference?.Invoke((T)target),
+                modifier,
+                active,
+                ComposeEntries(children, components),
+                readChildren: readChildren,
+                publish: owned == null ? null : target => owned.Bind(target),
+                parts: parts
+            );
+        }
+
+        /// <summary>Builds, wires and mounts a tree before activating its native objects.</summary>
         public static Mount Mount(
             Func<View> component,
             Transform parent = null,
@@ -345,32 +498,39 @@ namespace Pine
         {
             if (component == null)
                 throw new ArgumentNullException(nameof(component));
-            return Mount(
-                (Func<Component>)(
-                    () =>
-                        (
-                            component()
-                            ?? throw new InvalidOperationException("A mount must return a view.")
-                        ).Build(null)
-                ),
-                parent,
-                options
-            );
+            Mount mount = null;
+            try
+            {
+                View.Construct(() =>
+                    mount = Mount(
+                        (Func<Component>)(
+                            () =>
+                                (
+                                    component()
+                                    ?? throw new InvalidOperationException(
+                                        "A mount must return a view."
+                                    )
+                                ).Build(null)
+                        ),
+                        parent,
+                        options
+                    )
+                );
+                RuntimeHost.Ensure();
+                return mount;
+            }
+            catch
+            {
+                mount?.Dispose();
+                throw;
+            }
         }
 
-        /// <summary>Builds and mounts an existing reusable declaration once.</summary>
+        /// <summary>Builds and mounts a reusable declaration once.</summary>
         public static Mount Mount(
             View view,
             Transform parent = null,
             CanvasOptions options = null
         ) => Mount(() => view ?? throw new ArgumentNullException(nameof(view)), parent, options);
-
-        /// <summary>Composes vertical children without a settings block.</summary>
-        public static View Vertical(View first, params View[] rest) =>
-            Vertical().With(first).With(rest);
-
-        /// <summary>Composes horizontal children without a settings block.</summary>
-        public static View Horizontal(View first, params View[] rest) =>
-            Horizontal().With(first).With(rest);
     }
 }

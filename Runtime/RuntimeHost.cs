@@ -12,6 +12,7 @@ namespace Pine
     {
         private static RuntimeHost _instance;
         private GameObject _input;
+        private Scope _inputScope;
         private readonly List<Mount> _mounts = new();
         private readonly HashSet<Scope> _observedScopes = new();
 
@@ -38,6 +39,8 @@ namespace Pine
                 if (Application.isPlaying)
                     DontDestroyOnLoad(host);
             }
+            if (View.IsConstructing)
+                return;
 #if UNITY_6000_7_OR_NEWER
             var existing = FindObjectsByType<EventSystem>(FindObjectsInactive.Exclude);
 #else
@@ -77,14 +80,16 @@ namespace Pine
             }
             if (_instance._input != null)
                 return;
-            _instance._input = new GameObject("Pine Input", typeof(EventSystem));
+            _instance._input = new GameObject("Pine Input");
+            _instance._input.SetActive(false);
+            _instance._input.AddComponent<EventSystem>();
             _instance._input.transform.SetParent(_instance.transform, false);
 #if ENABLE_INPUT_SYSTEM
 #if UNITY_ANDROID && ENABLE_LEGACY_INPUT_MANAGER
             _instance._input.AddComponent<StandaloneInputModule>();
 #else
             var module = _instance._input.AddComponent<InputSystemUIInputModule>();
-            module.AssignDefaultActions();
+            _instance._inputScope = P.Root(() => P.OwnInputDefaults(module));
 #endif
 #elif ENABLE_LEGACY_INPUT_MANAGER
             _instance._input.AddComponent<StandaloneInputModule>();
@@ -93,6 +98,7 @@ namespace Pine
                 "No supported input backend is enabled. Pine's Editor setup must complete before running the P."
             );
 #endif
+            _instance._input.SetActive(true);
         }
 
         private static void ReleaseOwnedInput()
@@ -100,6 +106,8 @@ namespace Pine
             if (_instance._input == null)
                 return;
             _instance._input.SetActive(false);
+            _instance._inputScope?.Dispose();
+            _instance._inputScope = null;
             P.DestroyObject(_instance._input);
             _instance._input = null;
         }
@@ -189,6 +197,7 @@ namespace Pine
             }
             if (_instance != this)
                 return;
+            _inputScope?.Dispose();
             _instance = null;
             Clock.Reset();
         }

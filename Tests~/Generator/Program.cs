@@ -110,6 +110,21 @@ Check(
     views.Result.GeneratedTrees.Any(t => t.ToString().Contains("P.Mount(component:")),
     "View apps are mounted automatically"
 );
+var childFactories = Generate(
+    (
+        "Assets/App.cs",
+        "using Pine; public static class App { public static View Mount() => Components.Container(children: new[] { Components.Rows(children: () => new[] { new View() }) }); }"
+    ),
+    (
+        "Assets/Container.cs",
+        "using Pine; public sealed class Container:UnityEngine.MonoBehaviour { public View Create(View[] children = null)=>new View(); }"
+    ),
+    (
+        "Assets/Rows.cs",
+        "using Pine; public sealed class Rows:UnityEngine.MonoBehaviour { public View Create(System.Func<System.Collections.Generic.IEnumerable<View>> children)=>new View(); }"
+    )
+);
+Compiles(childFactories.Output);
 var advanced = Generate(
     (
         "Assets/App.cs",

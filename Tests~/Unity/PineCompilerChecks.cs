@@ -11,10 +11,10 @@ namespace Pine.Tests
     {
         private static readonly string[] Cases =
         {
-            "P.Vertical(P.Text(\"Typed\", color: UnityEngine.Color.white), P.Button(\"Click\", onClick: () => {})).With(P.Outline()); P.Button().With(P.Self(P.Image(color: UnityEngine.Color.black)), P.Text(\"Child\").With(P.Outline()));",
+            "P.Vertical(children: new[] { P.Text(\"Typed\", color: UnityEngine.Color.white), P.Button(\"Click\", onClick: () => {}) }); P.Frame(children: () => new[] { P.Text(\"Reactive\") }, components: new[] { P.LayoutElement(preferredHeight: 40) }); var handle = P.Ref<UnityEngine.UI.Graphic>(); P.Slider(fill: P.Image(), handle: P.Image(reference: handle), targetGraphic: handle); P.ScrollRect(content: P.Vertical(children: new[] { P.Text(\"Row\") }), viewport: P.Frame());",
             "P.Text(color: true);",
             "P.Button(colors: UnityEngine.Color.white);",
-            "P.Button().With(P.Size(80, 20));",
+            "P.Button(children: new[] { P.Size(80, 20) });",
             "P.Text(reference: (UnityEngine.UI.Button b) => {});",
             "P.InputField(text: P.Source(1));",
             "P.Show(() => true, () => 1).Value = new[] { 2 };",
@@ -43,6 +43,7 @@ namespace Pine.Tests
                     EditorApplication.Exit(0);
                 return;
             }
+
             string source = DirectoryPath + "/Case.cs";
             File.WriteAllText(
                 source,
@@ -97,6 +98,7 @@ namespace Pine.Tests
                         EditorApplication.Exit(1);
                     return;
                 }
+
                 _index++;
                 EditorApplication.delayCall += BuildNext;
             };
